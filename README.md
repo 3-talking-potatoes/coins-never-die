@@ -9,10 +9,10 @@
 <table>
   <tbody> 
     <tr>
-      <td align="center"><a href="https://github.com/ichenny"><img src="https://user-images.githubusercontent.com/93918946/211472099-7d5ce10e-6021-4a52-833d-eaa132e9cc5a.png" width="200px;" alt=""/><br /><sub><b>이채은</b></sub></a><br /><a href="https://github.com/github.com/3-talking-potatoes/commits?author=ichenny" title="Documentation">🐬</a> <a href="https://github.com/github.com/3-talking-potatoes/pulls?q=is%3Apr+author%3Aichenny" title="Pull Requests">🥔</a></td>      
-      <td align="center"><a href="https://github.com/z1zonemoi"><img src="https://user-images.githubusercontent.com/93918946/211472095-0bd46475-5940-4922-b8d2-797e72da2c9d.png" width="200px;" alt=""/><br /><sub><b>
+      <td align="center"><a href="https://github.com/ichenny"><img src="https://user-images.githubusercontent.com/102204957/214783122-96b24bab-b372-4ecf-9d5f-38d9ae4ce9cb.png" width="200px;" alt=""/><br /><sub><b>이채은</b></sub></a><br /><a href="https://github.com/github.com/3-talking-potatoes/commits?author=ichenny" title="Documentation">🐬</a> <a href="https://github.com/github.com/3-talking-potatoes/pulls?q=is%3Apr+author%3Aichenny" title="Pull Requests">🥔</a></td>      
+      <td align="center"><a href="https://github.com/z1zonemoi"><img src="https://user-images.githubusercontent.com/102204957/214783336-81c6dbe9-8029-4db2-855f-64cb4371c60e.png" width="200px;" alt=""/><br /><sub><b>
 최유정</b></sub></a><br /><a href="https://github.com/github.com/3-talking-potatoes/commits?author=z1zonemoi" title="Documentation">🐬</a> <a href="https://github.com/github.com/3-talking-potatoes/pulls?q=is%3Apr+author%3Az1zonemoi" title="Pull Requests">🥔</a></td>
-      <td align="center"><a href="https://github.com/94sssh"><img src="https://user-images.githubusercontent.com/93918946/211472098-7699059d-f9ab-4be8-aa83-3f6c4c5bbbf0.png" width="200px;" alt=""/><br /><sub><b>한승호</b></sub></a><br /><a href="https://github.com/github.com/3-talking-potatoes/commits?author=94sssh" title="Documentation">🐬</a> <a href="https://github.com/github.com/3-talking-potatoes/pulls?q=is%3Apr+author%3A94sssh" title="Pull Requests">🥔</a></td>
+      <td align="center"><a href="https://github.com/94sssh"><img src="https://user-images.githubusercontent.com/102204957/214783258-2e8388ec-eda1-4191-bf22-312233bef727.png" width="200px;" alt=""/><br /><sub><b>한승호</b></sub></a><br /><a href="https://github.com/github.com/3-talking-potatoes/commits?author=94sssh" title="Documentation">🐬</a> <a href="https://github.com/github.com/3-talking-potatoes/pulls?q=is%3Apr+author%3A94sssh" title="Pull Requests">🥔</a></td>
     </tr>
   </tbody>
 </table>
@@ -42,3 +42,5 @@
  feat/Issue#[이슈번호]
  ex) feat/Issue#1
 ```
+
+
