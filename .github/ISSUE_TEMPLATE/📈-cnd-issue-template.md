@@ -7,12 +7,9 @@ assignees: ''
 
 ---
 
-## 📝 Github Issue
-Issue 설명
+## 요약
 
-
-## ✔️ Check List
-> 이슈 체크리스트
+## 내용
 
 - [ ] 체크 사항 1
 - [ ] 체크 사항 2
