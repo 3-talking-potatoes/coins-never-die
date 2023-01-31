@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase";
 
 export default function SignUp() {
   const [form, setForm] = useState({
@@ -13,9 +15,18 @@ export default function SignUp() {
     setForm({ ...form, [name]: value });
   };
 
-  const onSubmitSignUp = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(form);
+    try {
+      await createUserWithEmailAndPassword(auth, form.email, form.password);
+      await setForm({
+        email: "",
+        password: "",
+        verifyPassword: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
