@@ -13,7 +13,12 @@ export default function RootLayout({
   return (
     <RecoilRoot>
       <html lang="en">
-        <head />
+        <head>
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css"
+          />
+        </head>
         <QueryClientProvider client={queryClient}>
           <body>{children}</body>
         </QueryClientProvider>
