@@ -18,6 +18,7 @@ module.exports = {
       yellow: {
         100: "#FFE492",
         200: "#FECB35",
+        coin: "#FFCA49",
       },
       black: {
         100: "#1b1c1e",

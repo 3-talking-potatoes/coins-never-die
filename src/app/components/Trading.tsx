@@ -1,11 +1,11 @@
 const Trading = () => {
   return (
-    <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8">
+    <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center">
       <article className="border-black-100 flex items-center justify-between mb-4">
-        <button className="bg-yellow-200 w-[10.3rem] h-[2.8rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold">
+        <button className="bg-yellow-200 w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold">
           매수
         </button>
-        <button className="bg-grey w-[10.3rem] h-[2.8rem] rounded-xl border-black-100 border-[3px]  text-black text-lg font-semibold">
+        <button className="bg-grey w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-100 text-lg font-semibold">
           매도
         </button>
       </article>
@@ -30,17 +30,17 @@ const Trading = () => {
           <p>1000</p>
         </figure>
       </article>
-      <article className="bg-yellow-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-6 pt-1.5 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
+      <article className="bg-yellow-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-1.5 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
         <button>10%</button>
         <button>25%</button>
         <button>50%</button>
         <button>100%</button>
       </article>
       <article className="border-black flex justify-between">
-        <button className="bg-yellow-100 w-[7.3rem] h-[2.8rem] rounded-xl border-black-100 border-[3px] text-black-200 text-base font-[Galmuri11]">
+        <button className="bg-yellow-100 w-[7.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-200 text-base font-[Galmuri11]">
           초기화
         </button>
-        <button className="bg-yellow-200 w-[13.3rem] h-[2.8rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold">
+        <button className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold">
           매수
         </button>
       </article>
