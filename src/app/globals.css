@@ -3,12 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-family: "Galmuri9";
-  }
-}
-
-@layer base {
   .font-outline-2 {
     -webkit-text-stroke: 2px #fecb35;
   }
