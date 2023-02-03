@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { getCoinData } from "@/api/getCoinData";
 import Search from "@/components/Search";
-import { coinResultAtom, searchState, searchInputValue } from "@/atoms/atom";
+import { coinResultAtom, searchInputValue, searchedList } from "@/atoms/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 const page = () => {
@@ -15,24 +15,8 @@ const page = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
   const coinResult = useRecoilValue(coinResultAtom);
-  const [searchCoinState, setSearchCoinState] = useRecoilState(searchState);
   const inputValue = useRecoilValue(searchInputValue);
-
-  // data 가공 함수, 가공 후 상태를 다시 false로
-  const coinListSort = data => {
-    setSearchCoinState(false);
-    console.log("ori data", data);
-    data = data.filter(el => coinResult.includes(el.korean_name));
-    console.log("new data", data);
-    return data;
-  };
-
-  // dependency에는 새로운 상태를 넣어주고, 바뀔 때마다 data를 가공하는 함수 호출
-  useEffect(() => {
-    if (searchCoinState) {
-      coinListSort(data);
-    }
-  }, [searchCoinState]);
+  const [searchedCoinList, setSearchedCoinList] = useRecoilState(searchedList);
 
   // 리액트 쿼리
   const { status, data, error } = useQuery({
@@ -84,33 +68,61 @@ const page = () => {
               그래프
             </p>
           </div>
-          {data.slice(offset, offset + limit).map(coin => (
-            <Link href={`/buy/${coin.market}`}>
-              <div
-                className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
-                key={coin.market}
-              >
-                <p className="w-12 flex items-center justify-center group-hover:font-semibold">
-                  {data.indexOf(coin) + 1}
-                </p>
-                <p className="w-44 flex items-center justify-center group-hover:font-semibold">
-                  {coin.korean_name}
-                </p>
-                <p className="w-32 flex items-center justify-center group-hover:font-semibold">
-                  {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
-                </p>
-                <p className="w-32 flex items-center justify-center group-hover:font-semibold">
-                  {(coin.signed_change_rate * 100).toFixed(2)}%
-                </p>
-                <p className="w-40 flex items-center justify-center group-hover:font-semibold">
-                  {coin.acc_trade_price_24h}
-                </p>
-                <p className="w-16 flex items-center justify-center group-hover:font-semibold">
-                  {coin.change}
-                </p>
-              </div>
-            </Link>
-          ))}
+          {searchedCoinList.length > 0
+            ? searchedCoinList.slice(offset, offset + limit).map(coin => (
+                <Link href={`/buy/${coin.market}`}>
+                  <div
+                    className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
+                    key={coin.market}
+                  >
+                    <p className="w-12 flex items-center justify-center group-hover:font-semibold">
+                      {searchedCoinList.indexOf(coin) + 1}
+                    </p>
+                    <p className="w-44 flex items-center justify-center group-hover:font-semibold">
+                      {coin.korean_name}
+                    </p>
+                    <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                      {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
+                    </p>
+                    <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                      {(coin.signed_change_rate * 100).toFixed(2)}%
+                    </p>
+                    <p className="w-40 flex items-center justify-center group-hover:font-semibold">
+                      {coin.acc_trade_price_24h}
+                    </p>
+                    <p className="w-16 flex items-center justify-center group-hover:font-semibold">
+                      {coin.change}
+                    </p>
+                  </div>
+                </Link>
+              ))
+            : data.slice(offset, offset + limit).map(coin => (
+                <Link href={`/buy/${coin.market}`}>
+                  <div
+                    className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
+                    key={coin.market}
+                  >
+                    <p className="w-12 flex items-center justify-center group-hover:font-semibold">
+                      {data.indexOf(coin) + 1}
+                    </p>
+                    <p className="w-44 flex items-center justify-center group-hover:font-semibold">
+                      {coin.korean_name}
+                    </p>
+                    <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                      {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
+                    </p>
+                    <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                      {(coin.signed_change_rate * 100).toFixed(2)}%
+                    </p>
+                    <p className="w-40 flex items-center justify-center group-hover:font-semibold">
+                      {coin.acc_trade_price_24h}
+                    </p>
+                    <p className="w-16 flex items-center justify-center group-hover:font-semibold">
+                      {coin.change}
+                    </p>
+                  </div>
+                </Link>
+              ))}
         </div>
       </div>
       <button

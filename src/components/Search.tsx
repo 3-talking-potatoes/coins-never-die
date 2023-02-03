@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { coinList } from "@/interface/interface";
+import { getCoinData } from "@/api/getCoinData";
 import {
   coinResultAtom,
   coinListArrAtom,
-  searchState,
   searchInputValue,
+  searchedList,
 } from "@/atoms/atom";
 
 const Search = () => {
@@ -15,7 +16,7 @@ const Search = () => {
   const [inputValue, setInputValue] = useRecoilState(searchInputValue);
   const [coinResult, setCoinResult] = useRecoilState(coinResultAtom);
   const [coinListArr, setCoinListArr] = useRecoilState(coinListArrAtom);
-  const [searchCoinState, setSearchCoinState] = useRecoilState(searchState);
+  const [searchedCoinList, setSearchedCoinList] = useRecoilState(searchedList);
 
   useEffect(() => {
     if (inputValue === "") {
@@ -52,11 +53,26 @@ const Search = () => {
     setCoinResult(coinListArr.filter(value => value.includes(e.target.value)));
   };
 
+  // 검색결과 클릭시 해당 내용으로 검색
   const nameClick = (clickedOption: React.SetStateAction<string>) => {
-    setInputValue(clickedOption);
     setCoinResult([...coinListArr.filter(el => el.includes(clickedOption))]);
-    setSearchCoinState(true);
+    setInputValue(clickedOption);
     setHasText(false);
+    coinListSort();
+  };
+
+  // 검색창에서 엔터 눌렀을 때 동작하는 함수
+  const searchFunction = (e: React.KeyboardEvent<HTMLLIElement>) => {
+    if (e.key === "Enter") {
+      nameClick(inputValue);
+    }
+  };
+
+  // data 가공 함수, 가공 후 상태를 다시 false로
+  const coinListSort = async () => {
+    let data = await getCoinData();
+    data = data.filter(el => coinResult.includes(el.korean_name));
+    setSearchedCoinList(data);
   };
 
   return (
@@ -67,13 +83,16 @@ const Search = () => {
           placeholder="찾고 싶은 코인을 입력하세요"
           onChange={handleInputChange}
           value={inputValue}
+          onKeyDown={e => {
+            searchFunction(e);
+          }}
         ></input>
       </div>
       {hasText ? (
         <ul className="z-10 absolute w-[72rem] items-center justify-start border-2 border-yellow-200 rounded-lg bg-white">
           {coinResult.map((el, index) => (
             <li
-              className="flex list-none h-8 px-4 ml-6 items-center hover:bg-grey"
+              className="flex list-none h-8 px-10 items-center hover:bg-grey"
               role="presentation"
               key={index}
               onClick={() => nameClick(el)}

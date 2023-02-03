@@ -15,15 +15,15 @@ export const coinListArrAtom = atom({
   default: [],
 });
 
-export const searchState = atom<boolean>({
-  key: "searchState",
-  default: false,
-});
-
 export const searchInputValue = atom({
   key: "searchInputValue",
   default: "",
 });
+
+export const searchedList = atom({
+  key: "searchedList",
+  default: [],
+})
 
 export const userId = atom({
   key: "userId",
