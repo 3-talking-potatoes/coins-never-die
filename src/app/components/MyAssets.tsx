@@ -7,7 +7,7 @@ const MyAssets = () => {
         <article className="bg-white h-[3.1rem] rounded-xl border-black-100 border-[3px] flex justify-around items-center pt-1.5 pb-2 text-black-100 text-lg font-semibold mb-7">
           보유자산
         </article>
-        <article className="bg-white h-[6rem] rounded-xl border-black-100 border-[3px] flex-col justify-center mb-6">
+        <article className="bg-white h-[6rem] rounded-xl border-black-100 border-[3px] flex-col justify-center mb-4">
           <figure className="h-1/2 px-2.5 pt-1 border-b border-grey">
             <div className="flex items-center">
               <RiBitCoinFill className="text-4xl text-white w-[10%]" />
@@ -25,13 +25,23 @@ const MyAssets = () => {
             </div>
           </figure>
         </article>
-        <article className="bg-white h-[6rem] rounded-xl border-black-100 border-[3px] flex-col justify-center">
-          <figure className="flex justify-around py-2.5 border-b border-grey ">
-            <p>코인</p>
-            <p>보유(평가금)</p>
-            <p>수익률</p>
+        <article className="bg-white h-[13.9rem] rounded-xl border-black-100 border-[3px] flex-col justify-center">
+          <figure className="h-12 px-2.5 pt-1 border-b border-grey">
+            <div className="flex items-center">
+              <RiBitCoinFill className="text-4xl text-white w-[10%]" />
+              <p className="w-[30%] flex justify-center">코인</p>
+              <p className="w-[30%] flex justify-center">평가손익</p>
+              <p className="w-[30%] flex justify-center">수익률</p>
+            </div>
           </figure>
-          <figure></figure>
+          <figure className="h-12 px-2.5 pt-1">
+            <div className="flex items-center">
+              <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
+              <p className="w-[30%] flex justify-center">BTC</p>
+              <p className="w-[30%] flex justify-center">1,000,000</p>
+              <p className="w-[30%] flex justify-center">100%</p>
+            </div>
+          </figure>
         </article>
       </section>
     </div>
