@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -20,7 +20,6 @@ export default function LogIn() {
     password: "",
   });
   const [userUid, setUserUid] = useRecoilState(userId);
-  console.log(userUid);
 
   const onChangeForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -35,7 +34,6 @@ export default function LogIn() {
         form.email,
         form.password,
       );
-      console.log(data.operationType);
       setUserUid(data.user.uid);
       if (data.operationType === "signIn") {
         router.push("/");
@@ -49,7 +47,6 @@ export default function LogIn() {
     event: React.MouseEvent<HTMLButtonElement> | undefined,
   ) => {
     const { name } = event?.target;
-    console.log(name);
 
     let provider;
     if (name === "google") {
@@ -90,7 +87,6 @@ export default function LogIn() {
           data.forEach(doc => {
             console.log(doc.id, "=>", doc.data());
           });
-          // console.log(data);
         };
         setUsers();
         getUsers();

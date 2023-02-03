@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import { auth } from "../../Firebase";
 import Link from "next/link";
 
 export default function SignUp() {
+  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -19,12 +21,19 @@ export default function SignUp() {
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, form.email, form.password);
+      const data = await createUserWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password,
+      );
       await setForm({
         email: "",
         password: "",
         verifyPassword: "",
       });
+      if (data.operationType === "signIn") {
+        router.push("/log-in");
+      }
     } catch (error) {
       console.log(error);
     }
