@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { coinList } from "@/interface/interface";
 import {
@@ -100,4 +100,4 @@ export default Search;
 // data를 렌더링 단계에서 filter를 걸지 말고
 // 이름, 현재가, 변동률 정렬 기능이나 검색어 입력 후 데이터 자체를 filter해서 저장 한뒤 그것을 항상 같은 로직으로 map 해주기
 
-// https://velog.io/@jjburi/TypeScript-useState%EC%97%90%EC%84%9C-type-%EC%A7%80%EC%A0%95
+// 검색 엔터하면 상태를 true로 바꾸고, 상태를 useEffect 로 psge.tsx에서 관리해서 상태가 변한것을 감지하면 data를 가공 후 다시 상태를 false로 변경
