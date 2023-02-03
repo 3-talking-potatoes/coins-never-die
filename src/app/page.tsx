@@ -3,16 +3,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { getCoinData } from "@/api/getCoinData";
 import Search from "@/components/Search";
-import {
-  coinResultAtom,
-  searchState,
-  searchInputValue,
-  allCoinList,
-} from "@/atoms/atom";
+import { coinResultAtom, searchState, searchInputValue } from "@/atoms/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 const page = () => {
@@ -20,11 +15,26 @@ const page = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
   const coinResult = useRecoilValue(coinResultAtom);
-  const searchCoinState = useRecoilValue(searchState);
+  const [searchCoinState, setSearchCoinState] = useRecoilState(searchState);
   const inputValue = useRecoilValue(searchInputValue);
 
-  const router = useRouter();
+  // data 가공 함수, 가공 후 상태를 다시 false로
+  const coinListSort = data => {
+    setSearchCoinState(false);
+    console.log("ori data", data);
+    data = data.filter(el => coinResult.includes(el.korean_name));
+    console.log("new data", data);
+    return data;
+  };
 
+  // dependency에는 새로운 상태를 넣어주고, 바뀔 때마다 data를 가공하는 함수 호출
+  useEffect(() => {
+    if (searchCoinState) {
+      coinListSort(data);
+    }
+  }, [searchCoinState]);
+
+  // 리액트 쿼리
   const { status, data, error } = useQuery({
     queryKey: ["coins"],
     queryFn: getCoinData,
@@ -39,11 +49,8 @@ const page = () => {
     return <span>Error: {(error as Error).message}</span>;
   }
 
+  // 페이지네이션용
   const numPages = Math.ceil(data.length / limit);
-
-  const pageRouter = e => {
-    router.push("/buy");
-  };
 
   return (
     <main className="bg-yellow-100 w-screen h-screen flex justify-center items-center">
@@ -78,29 +85,31 @@ const page = () => {
             </p>
           </div>
           {data.slice(offset, offset + limit).map(coin => (
-            <div
-              className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
-              onClick={() => pageRouter()}
-            >
-              <p className="w-12 flex items-center justify-center group-hover:font-semibold">
-                {data.indexOf(coin) + 1}
-              </p>
-              <p className="w-44 flex items-center justify-center group-hover:font-semibold">
-                {coin.korean_name}
-              </p>
-              <p className="w-32 flex items-center justify-center group-hover:font-semibold">
-                {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
-              </p>
-              <p className="w-32 flex items-center justify-center group-hover:font-semibold">
-                {(coin.signed_change_rate * 100).toFixed(2)}%
-              </p>
-              <p className="w-40 flex items-center justify-center group-hover:font-semibold">
-                {coin.acc_trade_price_24h}
-              </p>
-              <p className="w-16 flex items-center justify-center group-hover:font-semibold">
-                {coin.change}
-              </p>
-            </div>
+            <Link href={`/buy/${coin.market}`}>
+              <div
+                className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
+                key={coin.market}
+              >
+                <p className="w-12 flex items-center justify-center group-hover:font-semibold">
+                  {data.indexOf(coin) + 1}
+                </p>
+                <p className="w-44 flex items-center justify-center group-hover:font-semibold">
+                  {coin.korean_name}
+                </p>
+                <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                  {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
+                </p>
+                <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                  {(coin.signed_change_rate * 100).toFixed(2)}%
+                </p>
+                <p className="w-40 flex items-center justify-center group-hover:font-semibold">
+                  {coin.acc_trade_price_24h}
+                </p>
+                <p className="w-16 flex items-center justify-center group-hover:font-semibold">
+                  {coin.change}
+                </p>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

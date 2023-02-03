@@ -1,5 +1,5 @@
-import Trading from "../components/Trading";
-import MyAssets from "../components/MyAssets";
+import Trading from "../../components/Trading";
+import MyAssets from "../../components/MyAssets";
 
 const page = () => {
   return (
