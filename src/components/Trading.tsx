@@ -1,4 +1,31 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
+import { useQuery } from "@tanstack/react-query";
+
+import axios from "axios";
+
 const Trading = () => {
+  const searchParams = useSearchParams();
+
+  const market_code = searchParams.get("market_code");
+  const abbreviatedEnglishName = market_code?.split("-")[0];
+  const korean_name = searchParams.get("korean_name");
+
+  const market = `${abbreviatedEnglishName}/KRW`;
+
+  const { data } = useQuery({
+    queryKey: ["currentPrice"],
+    queryFn: () =>
+      axios(`https://api.upbit.com/v1/ticker?markets=${market_code}`),
+  });
+
+  const currentPrice = data?.data[0].trade_price;
+  const currentPriceFormat = `${new Intl.NumberFormat("ko-KR").format(
+    currentPrice,
+  )} KRW`;
+
   return (
     <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center">
       <article className="border-black-100 flex items-center justify-between mb-4">
@@ -12,10 +39,10 @@ const Trading = () => {
       <article className="mb-4">
         <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-2.5 flex justify-between">
           <div className="flex items-baseline">
-            <p>비트코인</p>
-            <p className="text-black-200 text-xs pl-1">BTC/KRW</p>
+            <p>{korean_name}</p>
+            <p className="text-black-200 text-xs pl-1">{market}</p>
           </div>
-          <div>{new Intl.NumberFormat("ko-KR").format(23000000)} KRW</div>
+          <div>{currentPriceFormat}</div>
         </figure>
         <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-2.5 flex justify-between">
           <p>가격</p>
