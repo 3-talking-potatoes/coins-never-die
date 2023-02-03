@@ -1,14 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
 } from "firebase/auth";
-import { auth } from "../../Firebase";
+import { auth, db } from "../../Firebase";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { userId } from "../../atoms/atom";
 
 export default function LogIn() {
   const router = useRouter();
@@ -16,6 +19,8 @@ export default function LogIn() {
     email: "",
     password: "",
   });
+  const [userUid, setUserUid] = useRecoilState(userId);
+  console.log(userUid);
 
   const onChangeForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -31,6 +36,7 @@ export default function LogIn() {
         form.password,
       );
       console.log(data.operationType);
+      setUserUid(data.user.uid);
       if (data.operationType === "signIn") {
         router.push("/");
       }
@@ -53,9 +59,41 @@ export default function LogIn() {
       provider = new GithubAuthProvider();
     }
     try {
-      const result = await signInWithPopup(auth, provider);
-      console.log(result.operationType);
-      if (result.operationType === "signIn") {
+      const data = await signInWithPopup(auth, provider);
+      console.log(data);
+      setUserUid(data.user.uid);
+
+      if (data.operationType === "signIn") {
+        const usersCollectionRef = collection(db, "user");
+
+        const setUsers = async () => {
+          const data = await updateDoc(
+            doc(db, "user", "PWDf6EHBt14mhnNhfqG6"),
+            {
+              asset: {
+                cash: 100000,
+                ttc: {
+                  numberOfShares: 9,
+                  buyPrice: 90,
+                },
+                etc: {
+                  numberOfShares: 8,
+                  buyPrice: 80,
+                },
+              },
+            },
+          );
+        };
+
+        const getUsers = async () => {
+          const data = await getDocs(usersCollectionRef);
+          data.forEach(doc => {
+            console.log(doc.id, "=>", doc.data());
+          });
+          // console.log(data);
+        };
+        setUsers();
+        getUsers();
         router.push("/");
       }
     } catch (error) {

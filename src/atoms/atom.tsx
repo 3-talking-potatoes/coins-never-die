@@ -24,3 +24,8 @@ export const searchInputValue = atom({
   key: "searchInputValue",
   default: "",
 });
+
+export const userId = atom({
+  key: "userId",
+  default: "",
+});
