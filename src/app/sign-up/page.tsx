@@ -2,8 +2,15 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { auth } from "../../Firebase";
+import { auth, db } from "../../Firebase";
 import Link from "next/link";
+import {
+  collection,
+  doc,
+  // getDocs,
+  setDoc,
+  // updateDoc,
+} from "firebase/firestore/lite";
 
 export default function SignUp() {
   const router = useRouter();
@@ -32,6 +39,16 @@ export default function SignUp() {
         verifyPassword: "",
       });
       if (data.operationType === "signIn") {
+        const usersCollectionRef = collection(db, "user");
+
+        const setUsers = async () => {
+          const result = await setDoc(doc(db, "user", data.user.uid), {
+            asset: {
+              cash: 100000,
+            },
+          });
+        };
+        await setUsers();
         router.push("/log-in");
       }
     } catch (error) {

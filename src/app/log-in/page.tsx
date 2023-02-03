@@ -6,8 +6,8 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
 } from "firebase/auth";
-import { auth, db } from "../../Firebase";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
+import { auth } from "../../Firebase";
+
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
@@ -36,6 +36,24 @@ export default function LogIn() {
       );
       setUserUid(data.user.uid);
       if (data.operationType === "signIn") {
+        // const usersCollectionRef = collection(db, "user");
+
+        // const setUsers = async () => {
+        //   const result = await setDoc(doc(db, "user", data.user.uid), {
+        //     asset: {
+        //       cash: 100000,
+        //     },
+        //   });
+        // };
+
+        // const getUsers = async () => {
+        //   const data = await getDocs(usersCollectionRef);
+        //   data.forEach(doc => {
+        //     console.log(doc.id, "=>", doc.data());
+        //   });
+        // };
+        // await setUsers();
+        // await getUsers();
         router.push("/");
       }
     } catch (error) {
@@ -46,7 +64,7 @@ export default function LogIn() {
   const onClickSocialLogIn = async (
     event: React.MouseEvent<HTMLButtonElement> | undefined,
   ) => {
-    const { name } = event?.target;
+    const { name } = event.target;
 
     let provider;
     if (name === "google") {
@@ -58,38 +76,17 @@ export default function LogIn() {
     try {
       const data = await signInWithPopup(auth, provider);
       console.log(data);
-      setUserUid(data.user.uid);
+      await setUserUid(data.user.uid);
 
       if (data.operationType === "signIn") {
-        const usersCollectionRef = collection(db, "user");
+        // const getUsers = async () => {
+        //   const data = await getDocs(usersCollectionRef);
+        //   data.forEach(doc => {
+        //     console.log(doc.id, "=>", doc.data());
+        //   });
+        // };
 
-        const setUsers = async () => {
-          const data = await updateDoc(
-            doc(db, "user", "PWDf6EHBt14mhnNhfqG6"),
-            {
-              asset: {
-                cash: 100000,
-                ttc: {
-                  numberOfShares: 9,
-                  buyPrice: 90,
-                },
-                etc: {
-                  numberOfShares: 8,
-                  buyPrice: 80,
-                },
-              },
-            },
-          );
-        };
-
-        const getUsers = async () => {
-          const data = await getDocs(usersCollectionRef);
-          data.forEach(doc => {
-            console.log(doc.id, "=>", doc.data());
-          });
-        };
-        setUsers();
-        getUsers();
+        // await getUsers();
         router.push("/");
       }
     } catch (error) {
