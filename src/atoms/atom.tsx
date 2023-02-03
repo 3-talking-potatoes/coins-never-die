@@ -15,7 +15,7 @@ export const coinListArrAtom = atom({
   default: [],
 });
 
-export const searchState = atom({
+export const searchState = atom<boolean>({
   key: "searchState",
   default: false,
 });
