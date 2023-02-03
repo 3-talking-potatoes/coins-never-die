@@ -69,7 +69,15 @@ const CoinList = () => {
           </div>
           {searchedCoinList.length > 0
             ? searchedCoinList.slice(offset, offset + limit).map(coin => (
-                <Link href={`/buy/${coin.market}`}>
+                <Link
+                  href={{
+                    pathname: "/buy",
+                    query: {
+                      market_code: `${coin.market}`,
+                      korean_name: `${coin.korean_name}`,
+                    },
+                  }}
+                >
                   <div
                     className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
                     key={coin.market}
@@ -96,7 +104,15 @@ const CoinList = () => {
                 </Link>
               ))
             : data.slice(offset, offset + limit).map(coin => (
-                <Link href={`/buy/${coin.market}`}>
+                <Link
+                  href={{
+                    pathname: "/buy",
+                    query: {
+                      market_code: `${coin.market}`,
+                      korean_name: `${coin.korean_name}`,
+                    },
+                  }}
+                >
                   <div
                     className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
                     key={coin.market}
