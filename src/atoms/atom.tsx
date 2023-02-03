@@ -23,4 +23,9 @@ export const searchInputValue = atom({
 export const searchedList = atom({
   key: "searchedList",
   default: [],
+})
+
+export const userId = atom({
+  key: "userId",
+  default: "",
 });
