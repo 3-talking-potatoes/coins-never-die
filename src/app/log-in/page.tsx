@@ -50,9 +50,11 @@ export default function LogIn() {
   const onClickSocialLogIn = async (
     event: React.MouseEvent<HTMLButtonElement> | undefined,
   ) => {
-    const { name } = event.target;
+    const { name } = event?.target as HTMLButtonElement;
 
-    let provider;
+    let provider: GoogleAuthProvider | GithubAuthProvider =
+      new GoogleAuthProvider();
+
     if (name === "google") {
       provider = new GoogleAuthProvider();
     }
