@@ -44,32 +44,37 @@ const Trading = () => {
   setPurchasePrice(currentPrice);
 
   const handlePurchasePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPurchasePrice(event.target.value);
+    setPurchasePrice(event.target.value.replace(/\D/g, ""));
   };
 
   const handleOrderQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOrderQuantity(+event.target.value);
+    setOrderQuantity(+event.target.value.replace(/\D/g, ""));
   };
 
   const handleTotalOrderAmount = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setTotalOrderAmount(+event.target.value);
+    setTotalOrderAmount(+event.target.value.replace(/\D/g, ""));
   };
 
   useEffect(() => {
     if (orderQuantity !== 0) {
-      const totalOrderAmountString = orderQuantity * +purchasePrice;
+      const totalOrderAmountString = +orderQuantity * +purchasePrice;
       setTotalOrderAmount(totalOrderAmountString);
-    }
+    } else setTotalOrderAmount(0);
   }, [orderQuantity]);
 
   useEffect(() => {
     if (totalOrderAmount !== 0) {
-      const orderQuantityString = totalOrderAmount / +purchasePrice;
-      setOrderQuantity(+orderQuantityString);
-    }
+      const orderQuantityString = +totalOrderAmount / +purchasePrice;
+      setOrderQuantity(orderQuantityString);
+    } else setOrderQuantity(0);
   }, [totalOrderAmount]);
+
+  useEffect(() => {
+    setTotalOrderAmount(0);
+    setOrderQuantity(0);
+  }, []);
 
   return (
     <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center">
@@ -101,7 +106,7 @@ const Trading = () => {
           <div className="text-black-200 text-lg">주문수량</div>
           <input
             className="w-36 px-2 pb-0.5 text-right"
-            value={orderQuantity}
+            value={new Intl.NumberFormat("ko-KR").format(orderQuantity)}
             onChange={handleOrderQuantity}
           />
         </figure>
@@ -109,7 +114,7 @@ const Trading = () => {
           <div className="text-black-200 text-lg">주문총액</div>
           <input
             className="w-36 px-2 pb-0.5 text-right"
-            value={totalOrderAmount}
+            value={new Intl.NumberFormat("ko-KR").format(totalOrderAmount)}
             onChange={handleTotalOrderAmount}
           />
         </figure>
