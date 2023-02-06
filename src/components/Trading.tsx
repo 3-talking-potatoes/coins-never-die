@@ -1,16 +1,23 @@
 "use client";
 
+import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { useQuery } from "@tanstack/react-query";
-
+import { useRecoilState } from "recoil";
 import axios from "axios";
+
+import {
+  tradingOrderQuantity,
+  tradingPurchasePrice,
+  tradingTotalOrderAmount,
+} from "@/atoms/atom";
 
 const Trading = () => {
   const searchParams = useSearchParams();
 
   const market_code = searchParams.get("market_code");
-  const abbreviatedEnglishName = market_code?.split("-")[0];
+  const abbreviatedEnglishName = market_code?.split("-")[1];
   const korean_name = searchParams.get("korean_name");
 
   const market = `${abbreviatedEnglishName}/KRW`;
@@ -26,6 +33,49 @@ const Trading = () => {
     currentPrice,
   )} KRW`;
 
+  const [purchasePrice, setPurchasePrice] =
+    useRecoilState(tradingPurchasePrice);
+  const [orderQuantity, setOrderQuantity] =
+    useRecoilState(tradingOrderQuantity);
+  const [totalOrderAmount, setTotalOrderAmount] = useRecoilState(
+    tradingTotalOrderAmount,
+  );
+
+  setPurchasePrice(currentPrice);
+
+  const handlePurchasePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPurchasePrice(event.target.value.replace(/\D/g, ""));
+  };
+
+  const handleOrderQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOrderQuantity(+event.target.value.replace(/\D/g, ""));
+  };
+
+  const handleTotalOrderAmount = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTotalOrderAmount(+event.target.value.replace(/\D/g, ""));
+  };
+
+  useEffect(() => {
+    if (orderQuantity !== 0) {
+      const totalOrderAmountString = +orderQuantity * +purchasePrice;
+      setTotalOrderAmount(totalOrderAmountString);
+    } else setTotalOrderAmount(0);
+  }, [orderQuantity]);
+
+  useEffect(() => {
+    if (totalOrderAmount !== 0) {
+      const orderQuantityString = +totalOrderAmount / +purchasePrice;
+      setOrderQuantity(orderQuantityString);
+    } else setOrderQuantity(0);
+  }, [totalOrderAmount]);
+
+  useEffect(() => {
+    setTotalOrderAmount(0);
+    setOrderQuantity(0);
+  }, []);
+
   return (
     <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center">
       <article className="border-black-100 flex items-center justify-between mb-4">
@@ -37,24 +87,36 @@ const Trading = () => {
         </button>
       </article>
       <article className="mb-4">
-        <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-2.5 flex justify-between">
+        <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between">
           <div className="flex items-baseline">
             <p>{korean_name}</p>
             <p className="text-black-200 text-xs pl-1">{market}</p>
           </div>
           <div>{currentPriceFormat}</div>
         </figure>
-        <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-2.5 flex justify-between">
-          <p>가격</p>
-          <p>1000</p>
+        <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between">
+          <div>매수가격</div>
+          <input
+            className="w-36 px-2 pb-0.5 text-right"
+            value={new Intl.NumberFormat("ko-KR").format(currentPrice)}
+            onChange={handlePurchasePrice}
+          />
         </figure>
-        <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-2.5 flex justify-between">
-          <p>수량</p>
-          <p>1</p>
+        <figure className="py-3.5 border-b border-grey px-1 flex justify-between">
+          <div className="text-black-200 text-lg">주문수량</div>
+          <input
+            className="w-36 px-2 pb-0.5 text-right"
+            value={new Intl.NumberFormat("ko-KR").format(orderQuantity)}
+            onChange={handleOrderQuantity}
+          />
         </figure>
-        <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-2.5 flex justify-between">
-          <p>총액</p>
-          <p>1000</p>
+        <figure className=" py-3.5 border-b border-grey px-1 flex justify-between">
+          <div className="text-black-200 text-lg">주문총액</div>
+          <input
+            className="w-36 px-2 pb-0.5 text-right"
+            value={new Intl.NumberFormat("ko-KR").format(totalOrderAmount)}
+            onChange={handleTotalOrderAmount}
+          />
         </figure>
       </article>
       <article className="bg-yellow-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-1.5 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
