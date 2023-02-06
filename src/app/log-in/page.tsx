@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   signInWithEmailAndPassword,
@@ -6,20 +7,22 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
 } from "firebase/auth";
-import { auth } from "../../Firebase";
-
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
+
+import { auth } from "../../Firebase";
 import { userId } from "../../atoms/atom";
 
 export default function LogIn() {
-  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
   const [userUid, setUserUid] = useRecoilState(userId);
+
+  const router = useRouter();
 
   const onChangeForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -36,24 +39,6 @@ export default function LogIn() {
       );
       setUserUid(data.user.uid);
       if (data.operationType === "signIn") {
-        // const usersCollectionRef = collection(db, "user");
-
-        // const setUsers = async () => {
-        //   const result = await setDoc(doc(db, "user", data.user.uid), {
-        //     asset: {
-        //       cash: 100000,
-        //     },
-        //   });
-        // };
-
-        // const getUsers = async () => {
-        //   const data = await getDocs(usersCollectionRef);
-        //   data.forEach(doc => {
-        //     console.log(doc.id, "=>", doc.data());
-        //   });
-        // };
-        // await setUsers();
-        // await getUsers();
         router.push("/");
       }
     } catch (error) {
@@ -79,14 +64,6 @@ export default function LogIn() {
       await setUserUid(data.user.uid);
 
       if (data.operationType === "signIn") {
-        // const getUsers = async () => {
-        //   const data = await getDocs(usersCollectionRef);
-        //   data.forEach(doc => {
-        //     console.log(doc.id, "=>", doc.data());
-        //   });
-        // };
-
-        // await getUsers();
         router.push("/");
       }
     } catch (error) {
