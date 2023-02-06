@@ -1,26 +1,29 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React, { useState } from "react";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
 } from "firebase/auth";
-import { auth, db } from "../../Firebase";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+
+import { auth, db } from "../../Firebase";
 import { userId } from "../../atoms/atom";
 
 export default function LogIn() {
-  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
   const [userUid, setUserUid] = useRecoilState(userId);
-  console.log(userUid);
+
+  const router = useRouter();
 
   const onChangeForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -35,7 +38,6 @@ export default function LogIn() {
         form.email,
         form.password,
       );
-      console.log(data.operationType);
       setUserUid(data.user.uid);
       if (data.operationType === "signIn") {
         router.push("/");
@@ -48,8 +50,7 @@ export default function LogIn() {
   const onClickSocialLogIn = async (
     event: React.MouseEvent<HTMLButtonElement> | undefined,
   ) => {
-    const { name } = event?.target;
-    console.log(name);
+    const { name } = event.target;
 
     let provider;
     if (name === "google") {
@@ -61,39 +62,23 @@ export default function LogIn() {
     try {
       const data = await signInWithPopup(auth, provider);
       console.log(data);
-      setUserUid(data.user.uid);
+      await setUserUid(data.user.uid);
 
       if (data.operationType === "signIn") {
-        const usersCollectionRef = collection(db, "user");
-
-        const setUsers = async () => {
-          const data = await updateDoc(
-            doc(db, "user", "PWDf6EHBt14mhnNhfqG6"),
-            {
+        const docRef = doc(db, "user", data.user.uid);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+          const setUsers = async () => {
+            const assetData = {
               asset: {
                 cash: 100000,
-                ttc: {
-                  numberOfShares: 9,
-                  buyPrice: 90,
-                },
-                etc: {
-                  numberOfShares: 8,
-                  buyPrice: 80,
-                },
               },
-            },
-          );
-        };
+            };
+            await setDoc(doc(db, "user", data.user.uid), assetData);
+          };
 
-        const getUsers = async () => {
-          const data = await getDocs(usersCollectionRef);
-          data.forEach(doc => {
-            console.log(doc.id, "=>", doc.data());
-          });
-          // console.log(data);
-        };
-        setUsers();
-        getUsers();
+          await setUsers();
+        }
         router.push("/");
       }
     } catch (error) {

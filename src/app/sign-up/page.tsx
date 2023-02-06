@@ -1,10 +1,15 @@
 "use client";
+
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../Firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+
+import { auth, db } from "../../Firebase";
 import Link from "next/link";
 
 export default function SignUp() {
+  const router = useRouter();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -19,12 +24,31 @@ export default function SignUp() {
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, form.email, form.password);
+      const data = await createUserWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password,
+      );
+
       await setForm({
         email: "",
         password: "",
         verifyPassword: "",
       });
+
+      if (data.operationType === "signIn") {
+        const setUsers = async () => {
+          const assetData = {
+            asset: {
+              cash: 100000,
+            },
+          };
+          await setDoc(doc(db, "user", data.user.uid), assetData);
+        };
+
+        await setUsers();
+        router.push("/log-in");
+      }
     } catch (error) {
       console.log(error);
     }
