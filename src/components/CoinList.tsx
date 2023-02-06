@@ -77,11 +77,9 @@ const CoinList = () => {
                       korean_name: `${coin.korean_name}`,
                     },
                   }}
+                  key={coin.market}
                 >
-                  <div
-                    className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
-                    key={coin.market}
-                  >
+                  <div className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group">
                     <p className="w-12 flex items-center justify-center group-hover:font-semibold">
                       {searchedCoinList.indexOf(coin) + 1}
                     </p>
@@ -112,11 +110,9 @@ const CoinList = () => {
                       korean_name: `${coin.korean_name}`,
                     },
                   }}
+                  key={coin.market}
                 >
-                  <div
-                    className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group"
-                    key={coin.market}
-                  >
+                  <div className="bg-white my-2 h-12 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group">
                     <p className="w-12 flex items-center justify-center group-hover:font-semibold">
                       {data.indexOf(coin) + 1}
                     </p>
@@ -150,9 +146,5 @@ const CoinList = () => {
     </>
   );
 };
-
-// 순위 정렬 방식 sort 구현
-// onClick={() => pageRouter()} params로 값 넘겨주기
-// data를 filter해주는 것으로 아래 검색항목 걸러내기
 
 export default CoinList;
