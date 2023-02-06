@@ -23,9 +23,24 @@ export const searchInputValue = atom({
 export const searchedList = atom({
   key: "searchedList",
   default: [],
-})
+});
 
 export const userId = atom({
   key: "userId",
+  default: "",
+});
+
+export const tradingOrderQuantity = atom({
+  key: "tradingOrderQuantity",
+  default: 0,
+});
+
+export const tradingTotalOrderAmount = atom({
+  key: "tradingTotalOrderAmount",
+  default: 0,
+});
+
+export const tradingPurchasePrice = atom<number | string>({
+  key: "tradingPurchasePrice",
   default: "",
 });
