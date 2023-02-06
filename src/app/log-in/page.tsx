@@ -10,8 +10,9 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
-import { auth } from "../../Firebase";
+import { auth, db } from "../../Firebase";
 import { userId } from "../../atoms/atom";
 
 export default function LogIn() {
@@ -64,6 +65,20 @@ export default function LogIn() {
       await setUserUid(data.user.uid);
 
       if (data.operationType === "signIn") {
+        const docRef = doc(db, "user", data.user.uid);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+          const setUsers = async () => {
+            const assetData = {
+              asset: {
+                cash: 100000,
+              },
+            };
+            await setDoc(doc(db, "user", data.user.uid), assetData);
+          };
+
+          await setUsers();
+        }
         router.push("/");
       }
     } catch (error) {

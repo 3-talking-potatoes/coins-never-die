@@ -15,36 +15,10 @@ export default function SignUp() {
     password: "",
     verifyPassword: "",
   });
-  const [emailMessage, setEmailMessage] = useState(true);
-  const [PasswordMessage, setPasswordMessage] = useState(true);
-  const [verifyPasswordMessage, setVerifyPasswordMessage] = useState(true);
-
-  const emailRegex =
-    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-
-  const passwordRegex = "";
 
   const onChangeForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setForm({ ...form, [name]: value });
-    if (!emailRegex.test(form.email)) {
-      setEmailMessage(false);
-    } else {
-      setEmailMessage(true);
-    }
-    if (form.password.length < 6) {
-      setPasswordMessage(false);
-    } else {
-      setPasswordMessage(true);
-    }
-    if (
-      form.verifyPassword.length > 0 &&
-      form.password !== form.verifyPassword
-    ) {
-      setVerifyPasswordMessage(false);
-    } else {
-      setVerifyPasswordMessage(true);
-    }
   };
 
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -96,7 +70,6 @@ export default function SignUp() {
             type="text"
             placeholder="이메일을 입력해주세요"
           />
-          {emailMessage ? null : "유효한 이메일을 입력해주세요"}
           <input
             name="password"
             value={form.password}
@@ -105,7 +78,6 @@ export default function SignUp() {
             type="password"
             placeholder="비밀번호를 입력해주세요"
           />
-          {PasswordMessage ? null : "비밀번호는 6자 이상 입력해주세요"}
           <input
             name="verifyPassword"
             value={form.verifyPassword}
@@ -114,7 +86,6 @@ export default function SignUp() {
             type="password"
             placeholder="비밀번호를 다시 입력해주세요"
           />
-          {verifyPasswordMessage ? null : "비밀번호가 일치하지 않습니다"}
           <button type="submit" className="w-96 h-28">
             회원가입
           </button>
