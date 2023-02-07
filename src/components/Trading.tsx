@@ -4,16 +4,26 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { useQuery } from "@tanstack/react-query";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 
 import {
   tradingOrderQuantity,
   tradingPurchasePrice,
   tradingTotalOrderAmount,
+  myAssetCash,
 } from "@/atoms/atom";
 
 const Trading = () => {
+  const [purchasePrice, setPurchasePrice] =
+    useRecoilState(tradingPurchasePrice);
+  const [orderQuantity, setOrderQuantity] =
+    useRecoilState(tradingOrderQuantity);
+  const [totalOrderAmount, setTotalOrderAmount] = useRecoilState(
+    tradingTotalOrderAmount,
+  );
+  const myCash = useRecoilValue(myAssetCash);
+
   const searchParams = useSearchParams();
 
   const market_code = searchParams.get("market_code");
@@ -33,14 +43,6 @@ const Trading = () => {
     currentPrice,
   )} KRW`;
 
-  const [purchasePrice, setPurchasePrice] =
-    useRecoilState(tradingPurchasePrice);
-  const [orderQuantity, setOrderQuantity] =
-    useRecoilState(tradingOrderQuantity);
-  const [totalOrderAmount, setTotalOrderAmount] = useRecoilState(
-    tradingTotalOrderAmount,
-  );
-
   setPurchasePrice(currentPrice);
 
   const handlePurchasePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +57,21 @@ const Trading = () => {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setTotalOrderAmount(+event.target.value.replace(/\D/g, ""));
+  };
+
+  const initialization = () => {
+    setTotalOrderAmount(0);
+    setOrderQuantity(0);
+  };
+
+  const handleTotalOrderAmountPercent = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    const percent = Number((event.target as HTMLButtonElement).id);
+    if (percent === 10) setTotalOrderAmount(myCash * 0.1);
+    if (percent === 25) setTotalOrderAmount(myCash * 0.25);
+    if (percent === 50) setTotalOrderAmount(myCash * 0.5);
+    if (percent === 100) setTotalOrderAmount(myCash * 1.0);
   };
 
   useEffect(() => {
@@ -72,8 +89,7 @@ const Trading = () => {
   }, [totalOrderAmount]);
 
   useEffect(() => {
-    setTotalOrderAmount(0);
-    setOrderQuantity(0);
+    initialization();
   }, []);
 
   return (
@@ -120,13 +136,24 @@ const Trading = () => {
         </figure>
       </article>
       <article className="bg-yellow-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-1.5 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
-        <button>10%</button>
-        <button>25%</button>
-        <button>50%</button>
-        <button>100%</button>
+        <button onClick={handleTotalOrderAmountPercent} id="10">
+          10%
+        </button>
+        <button onClick={handleTotalOrderAmountPercent} id="25">
+          25%
+        </button>
+        <button onClick={handleTotalOrderAmountPercent} id="50">
+          50%
+        </button>
+        <button onClick={handleTotalOrderAmountPercent} id="100">
+          100%
+        </button>
       </article>
       <article className="border-black flex justify-between">
-        <button className="bg-yellow-100 w-[7.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-200 text-base font-[Galmuri11]">
+        <button
+          className="bg-yellow-100 w-[7.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-200 text-base font-[Galmuri11]"
+          onClick={initialization}
+        >
           초기화
         </button>
         <button className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold">
