@@ -45,3 +45,8 @@ export const tradingPurchasePrice = atom<number | string>({
   key: "tradingPurchasePrice",
   default: "",
 });
+
+export const myAssetCash = atom({
+  key: "myAssetCash",
+  default: 100000,
+});
