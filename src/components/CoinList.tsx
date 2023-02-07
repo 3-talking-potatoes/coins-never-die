@@ -204,7 +204,7 @@ const CoinList = () => {
               id="tradePrice"
               onClick={e => listSort(e)}
             >
-              누적체결량
+              거래대금
             </p>
             <p className="w-16 flex items-center justify-center text-xl font-semibold cursor-pointer">
               그래프
@@ -303,3 +303,6 @@ const CoinList = () => {
 };
 
 export default CoinList;
+
+// data 상태에 저장하기
+// 검색내역이나 정렬 등 하나의 data로 접근 가능해지게

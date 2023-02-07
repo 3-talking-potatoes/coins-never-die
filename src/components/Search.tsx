@@ -21,13 +21,8 @@ const Search = () => {
   //
   const initialState = { selectedIndex: 0 };
 
-  const mouseOver = index => {
-    state.selectedIndex = index;
-  };
-
-  const mouseOut = (index: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+  const mouseOut = () => {
     state.selectedIndex = 0;
-    index = 0;
   };
 
   function reducer(state, action) {
@@ -144,6 +139,7 @@ const Search = () => {
   const searchFunction = (e: React.KeyboardEvent<HTMLLIElement>) => {
     if (e.key === "Enter") {
       nameClick(inputValue);
+      mouseOut();
     }
   };
 
@@ -171,22 +167,19 @@ const Search = () => {
         <ul className="z-10 absolute w-[72rem] items-center justify-start border-2 border-yellow-200 rounded-lg bg-white">
           {coinResult.map((el, index) => (
             <li
+              id={index.toString()}
               className={`flex list-none h-8 px-10 items-center ${
                 index === state.selectedIndex ? "bg-grey" : "bg-white"
-              } hover:bg-grey`}
+              } `}
               role="presentation"
-              onClick={() => nameClick(el)}
-              onMouseOver={index => mouseOver(index)}
-              onMouseOut={index => mouseOut(index)}
-              key={el}
-              aria-pressed={index === state.selectedIndex}
-              tabIndex={0}
-              // onKeyDown 이벤트 엔터 눌렀을 때, li 내용이 검색어로 등록되게 하기
-              onKeyDown={e => {
-                if (e.key === "Enter") {
-                  dispatch({ type: "select", payload: index });
-                }
+              onClick={() => {
+                nameClick(el);
+                mouseOut();
               }}
+              onMouseOver={() => dispatch({ type: "select", payload: index })}
+              onMouseOut={() => mouseOut()}
+              key={index}
+              tabIndex={0}
             >
               {el}
             </li>
@@ -198,7 +191,3 @@ const Search = () => {
 };
 
 export default Search;
-
-// 검색 키보드 엔터로 선택
-
-// 마우스 hover했을때와 키보드로 이동 시 상태를 나누어 관리하기 // hover 마우스가 li 밖으로 나갔을 때 index랑 초기화 시켜주기 0으로
