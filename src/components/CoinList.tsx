@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 const CoinList = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
+  const [sort, setSort] = useState(true);
   const offset = (page - 1) * limit;
   const coinResult = useRecoilValue(coinResultAtom);
   const inputValue = useRecoilValue(searchInputValue);
@@ -35,6 +36,132 @@ const CoinList = () => {
   // 페이지네이션용
   const numPages = Math.ceil(data.length / limit);
 
+  // 정렬 함수
+  const sortOrderChange = () => {
+    setSort(!sort);
+  };
+
+  const listSort = event => {
+    const id = event?.target.id;
+
+    if (searchedCoinList.length === 0) {
+      let tempArr = [...data];
+      console.log(tempArr);
+      switch (id) {
+        case "name":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort((a, b) =>
+                  b.korean_name > a.korean_name ? -1 : 1,
+                ),
+              )
+            : setSearchedCoinList(
+                tempArr.sort((a, b) =>
+                  a.korean_name > b.korean_name ? -1 : 1,
+                ),
+              );
+          sortOrderChange();
+          break;
+        case "currentPrice":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort((a, b) => b.trade_price - a.trade_price),
+              )
+            : setSearchedCoinList(
+                tempArr.sort((a, b) => a.trade_price - b.trade_price),
+              );
+          sortOrderChange();
+          break;
+        case "fluctuationRate":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => b.signed_change_rate - a.signed_change_rate,
+                ),
+              )
+            : setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => a.signed_change_rate - b.signed_change_rate,
+                ),
+              );
+          sortOrderChange();
+          break;
+        case "tradePrice":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => b.acc_trade_price_24h - a.acc_trade_price_24h,
+                ),
+              )
+            : setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => a.acc_trade_price_24h - b.acc_trade_price_24h,
+                ),
+              );
+          sortOrderChange();
+          break;
+      }
+    }
+
+    if (searchedCoinList.length > 0) {
+      let tempArr = [...searchedCoinList];
+      switch (id) {
+        case "name":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort((a, b) =>
+                  b.korean_name > a.korean_name ? -1 : 1,
+                ),
+              )
+            : setSearchedCoinList(
+                tempArr.sort((a, b) =>
+                  a.korean_name > b.korean_name ? -1 : 1,
+                ),
+              );
+          sortOrderChange();
+          break;
+        case "currentPrice":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort((a, b) => b.trade_price - a.trade_price),
+              )
+            : setSearchedCoinList(
+                tempArr.sort((a, b) => a.trade_price - b.trade_price),
+              );
+          sortOrderChange();
+          break;
+        case "fluctuationRate":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => b.signed_change_rate - a.signed_change_rate,
+                ),
+              )
+            : setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => a.signed_change_rate - b.signed_change_rate,
+                ),
+              );
+          sortOrderChange();
+          break;
+        case "tradePrice":
+          sort
+            ? setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => b.acc_trade_price_24h - a.acc_trade_price_24h,
+                ),
+              )
+            : setSearchedCoinList(
+                tempArr.sort(
+                  (a, b) => a.acc_trade_price_24h - b.acc_trade_price_24h,
+                ),
+              );
+          sortOrderChange();
+          break;
+      }
+    }
+  };
+
   return (
     <>
       <button
@@ -51,19 +178,35 @@ const CoinList = () => {
             <p className="w-12 flex items-center justify-center text-xl font-semibold">
               순위
             </p>
-            <p className="w-44 flex items-center justify-center text-xl font-semibold">
+            <p
+              className="w-44 flex items-center justify-center text-xl font-semibold cursor-pointer"
+              id="name"
+              onClick={e => listSort(e)}
+            >
               코인이름
             </p>
-            <p className="w-32 flex items-center justify-center text-xl font-semibold">
+            <p
+              className="w-32 flex items-center justify-center text-xl font-semibold cursor-pointer"
+              id="currentPrice"
+              onClick={e => listSort(e)}
+            >
               현재가
             </p>
-            <p className="w-32 flex items-center justify-center text-xl font-semibold">
+            <p
+              className="w-32 flex items-center justify-center text-xl font-semibold cursor-pointer"
+              id="fluctuationRate"
+              onClick={e => listSort(e)}
+            >
               변동률
             </p>
-            <p className="w-40 flex items-center justify-center text-xl font-semibold">
+            <p
+              className="w-40 flex items-center justify-center text-xl font-semibold cursor-pointer"
+              id="tradePrice"
+              onClick={e => listSort(e)}
+            >
               누적체결량
             </p>
-            <p className="w-16 flex items-center justify-center text-xl font-semibold">
+            <p className="w-16 flex items-center justify-center text-xl font-semibold cursor-pointer">
               그래프
             </p>
           </div>
@@ -89,7 +232,13 @@ const CoinList = () => {
                     <p className="w-32 flex items-center justify-center group-hover:font-semibold">
                       {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
                     </p>
-                    <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                    <p
+                      className={`w-32 flex items-center justify-center group-hover:font-semibold ${
+                        coin.signed_change_rate * 100 > 0
+                          ? `text-red`
+                          : `text-blue`
+                      }`}
+                    >
                       {(coin.signed_change_rate * 100).toFixed(2)}%
                     </p>
                     <p className="w-40 flex items-center justify-center group-hover:font-semibold">
@@ -122,7 +271,13 @@ const CoinList = () => {
                     <p className="w-32 flex items-center justify-center group-hover:font-semibold">
                       {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
                     </p>
-                    <p className="w-32 flex items-center justify-center group-hover:font-semibold">
+                    <p
+                      className={`w-32 flex items-center justify-center group-hover:font-semibold ${
+                        coin.signed_change_rate * 100 > 0
+                          ? `text-red`
+                          : `text-blue`
+                      }`}
+                    >
                       {(coin.signed_change_rate * 100).toFixed(2)}%
                     </p>
                     <p className="w-40 flex items-center justify-center group-hover:font-semibold">

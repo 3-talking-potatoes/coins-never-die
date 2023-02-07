@@ -23,10 +23,9 @@ const Search = () => {
 
   const mouseOver = index => {
     state.selectedIndex = index;
-    index = index;
   };
 
-  const mouseOut = index => {
+  const mouseOut = (index: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     state.selectedIndex = 0;
     index = 0;
   };
@@ -203,5 +202,3 @@ export default Search;
 // 검색 키보드 엔터로 선택
 
 // 마우스 hover했을때와 키보드로 이동 시 상태를 나누어 관리하기 // hover 마우스가 li 밖으로 나갔을 때 index랑 초기화 시켜주기 0으로
-
-// 정렬 기능 구현
