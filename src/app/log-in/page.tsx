@@ -94,7 +94,7 @@ export default function LogIn() {
 
   return (
     <div className="bg-yellow-100 h-screen flex flex-col items-center justify-center justify-items-center ">
-      <div className="bg-white form-wrapper w-[30rem] h-[35rem] overflow-scroll border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
+      <div className="bg-white form-wrapper w-[30rem] h-[35rem] overflow-x-hidden border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
         <form
           onSubmit={onSubmitLogIn}
           className="w-[30rem] h-[24rem] flex flex-col justify-items-center items-center"
