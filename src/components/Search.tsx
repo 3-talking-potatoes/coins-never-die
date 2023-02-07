@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { coinList } from "@/interface/interface";
@@ -17,6 +17,80 @@ const Search = () => {
   const [coinResult, setCoinResult] = useRecoilState(coinResultAtom);
   const [coinListArr, setCoinListArr] = useRecoilState(coinListArrAtom);
   const [searchedCoinList, setSearchedCoinList] = useRecoilState(searchedList);
+
+  //
+  const initialState = { selectedIndex: 0 };
+
+  const mouseOut = () => {
+    state.selectedIndex = 0;
+  };
+
+  function reducer(state, action) {
+    switch (action.type) {
+      case "arrowUp":
+        return {
+          selectedIndex:
+            state.selectedIndex !== 0
+              ? state.selectedIndex - 1
+              : coinResult.length - 1,
+        };
+      case "arrowDown":
+        return {
+          selectedIndex:
+            state.selectedIndex !== coinResult.length - 1
+              ? state.selectedIndex + 1
+              : 0,
+        };
+      case "select":
+        return { selectedIndex: action.payload };
+      default:
+        throw new Error();
+    }
+  }
+
+  const useKeyPress = targetKey => {
+    const [keyPressed, setKeyPressed] = useState(false);
+
+    useEffect(() => {
+      const downHandler = ({ key }) => {
+        if (key === targetKey) {
+          setKeyPressed(true);
+        }
+      };
+      const upHandler = ({ key }) => {
+        if (key === targetKey) {
+          setKeyPressed(false);
+        }
+      };
+
+      window.addEventListener("keydown", downHandler);
+      window.addEventListener("keyup", upHandler);
+
+      return () => {
+        window.removeEventListener("keydown", downHandler);
+        window.removeEventListener("keyup", upHandler);
+      };
+    }, [targetKey]);
+
+    return keyPressed;
+  };
+
+  const arrowUpPressed = useKeyPress("ArrowUp");
+  const arrowDownPressed = useKeyPress("ArrowDown");
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if (arrowUpPressed) {
+      dispatch({ type: "arrowUp" });
+    }
+  }, [arrowUpPressed]);
+
+  useEffect(() => {
+    if (arrowDownPressed) {
+      dispatch({ type: "arrowDown" });
+    }
+  }, [arrowDownPressed]);
+  //
 
   useEffect(() => {
     if (inputValue === "") {
@@ -50,7 +124,7 @@ const Search = () => {
   const handleInputChange = async e => {
     setInputValue(e.target.value);
     setHasText(true);
-    setCoinResult(coinListArr.filter(value => value.includes(e.target.value)));
+    setCoinResult(coinListArr.filter(el => el.includes(e.target.value)));
   };
 
   // 검색결과 클릭시 해당 내용으로 검색
@@ -65,6 +139,7 @@ const Search = () => {
   const searchFunction = (e: React.KeyboardEvent<HTMLLIElement>) => {
     if (e.key === "Enter") {
       nameClick(inputValue);
+      mouseOut();
     }
   };
 
@@ -92,10 +167,19 @@ const Search = () => {
         <ul className="z-10 absolute w-[72rem] items-center justify-start border-2 border-yellow-200 rounded-lg bg-white">
           {coinResult.map((el, index) => (
             <li
-              className="flex list-none h-8 px-10 items-center hover:bg-grey"
+              id={index.toString()}
+              className={`flex list-none h-8 px-10 items-center ${
+                index === state.selectedIndex ? "bg-grey" : "bg-white"
+              } `}
               role="presentation"
+              onClick={() => {
+                nameClick(el);
+                mouseOut();
+              }}
+              onMouseOver={() => dispatch({ type: "select", payload: index })}
+              onMouseOut={() => mouseOut()}
               key={index}
-              onClick={() => nameClick(el)}
+              tabIndex={0}
             >
               {el}
             </li>
@@ -107,16 +191,3 @@ const Search = () => {
 };
 
 export default Search;
-
-// 검색어 완성 안되도 가능하게
-// 검색 키보드로 이동 및 엔터로 선택
-// 선택 완료되면 검색창 비우기
-// 검색하면 하단 목록 수정하기
-
-// 수정할 점
-// 상태가 true가 고정되어서 이후 검색할때마다 하단 바뀌는 점
-
-// data를 렌더링 단계에서 filter를 걸지 말고
-// 이름, 현재가, 변동률 정렬 기능이나 검색어 입력 후 데이터 자체를 filter해서 저장 한뒤 그것을 항상 같은 로직으로 map 해주기
-
-// 검색 엔터하면 상태를 true로 바꾸고, 상태를 useEffect 로 psge.tsx에서 관리해서 상태가 변한것을 감지하면 data를 가공 후 다시 상태를 false로 변경
