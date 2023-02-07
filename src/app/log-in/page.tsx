@@ -96,6 +96,7 @@ export default function LogIn() {
     <div className="bg-yellow-100 h-screen flex flex-col items-center justify-center justify-items-center ">
       <div className="bg-white form-wrapper w-[30rem] h-[35rem] overflow-x-hidden border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
         <form
+          autoComplete="off"
           onSubmit={onSubmitLogIn}
           className="w-[30rem] h-[24rem] flex flex-col justify-items-center items-center"
         >
@@ -148,7 +149,7 @@ export default function LogIn() {
         </div>
         <Link
           href="/sign-up"
-          className="w-fit h-8 mt-12 text-center hover:text-xl"
+          className="w-fit h-8 mt-6 text-center hover:text-xl"
         >
           회원가입
         </Link>
