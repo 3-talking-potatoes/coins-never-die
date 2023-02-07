@@ -31,17 +31,17 @@ export const userId = atom<string>({
   default: "",
 });
 
-// export interface IUser {
-//   id: string;
-//   pwd: string;
-//   name: string;
-// }
+export const tradingOrderQuantity = atom({
+  key: "tradingOrderQuantity",
+  default: 0,
+});
 
-// export const user = atom<IUser>({
-//   key: "user",
-//   default: {
-//     id: "admin",
-//     pwd: "admin",
-//     name: "관리자"
-//   }
-// });
+export const tradingTotalOrderAmount = atom({
+  key: "tradingTotalOrderAmount",
+  default: 0,
+});
+
+export const tradingPurchasePrice = atom<number | string>({
+  key: "tradingPurchasePrice",
+  default: "",
+});
