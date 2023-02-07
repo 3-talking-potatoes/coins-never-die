@@ -12,6 +12,10 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
+import { RiBitCoinFill } from "react-icons/ri";
+import { BsGoogle } from "react-icons/bs";
+import { DiGithubAlt } from "react-icons/di";
+
 import { auth, db } from "../../Firebase";
 import { userId } from "../../atoms/atom";
 
@@ -50,9 +54,11 @@ export default function LogIn() {
   const onClickSocialLogIn = async (
     event: React.MouseEvent<HTMLButtonElement> | undefined,
   ) => {
-    const { name } = event.target;
+    const { name } = event?.target as HTMLButtonElement;
 
-    let provider;
+    let provider: GoogleAuthProvider | GithubAuthProvider =
+      new GoogleAuthProvider();
+
     if (name === "google") {
       provider = new GoogleAuthProvider();
     }
@@ -87,55 +93,68 @@ export default function LogIn() {
   };
 
   return (
-    <div className="border-solid border-2 border-black h-screen flex flex-col items-center justify-center justify-items-center ">
-      <div className="form-wrapper w-[30rem] h-[35rem] overflow-scroll border-solid border-2 border-black rounded-3xl flex flex-col justify-items-center items-center">
+    <div className="bg-yellow-100 h-screen flex flex-col items-center justify-center justify-items-center ">
+      <div className="bg-white form-wrapper w-[30rem] h-[35rem] overflow-x-hidden border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
         <form
+          autoComplete="off"
           onSubmit={onSubmitLogIn}
-          className="w-[30rem] h-[20rem] flex flex-col justify-items-center items-center"
+          className="w-[30rem] h-[24rem] flex flex-col justify-items-center items-center"
         >
-          <div className="w-96 h-24 text-6xl text-center font-[Galmuri9]">
+          <RiBitCoinFill className="w-[4rem] h-[4rem] mt-8 text-yellow-200" />
+          <div className="w-80 h-12 mb-6 text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
             Log In
           </div>
           <input
             name="email"
             value={form.email}
             onChange={onChangeForm}
-            className="w-96 h-14"
+            className="w-80 h-14 p-3 font-[Galmuri7] placeholder:text-black-200 text-black text-xl mb-4 border-solid border-[3px] border-black rounded-lg focus:outline-yellow-200  focus:text-yellow-200"
             type="text"
-            placeholder="이메일을 입력해주세요"
+            placeholder="Email"
           />
           <input
             name="password"
             value={form.password}
             onChange={onChangeForm}
-            className="w-96 h-14"
+            className="w-80 h-14 p-3 font-[Galmuri7] placeholder:text-black-200 text-xl mb-4 border-solid border-[3px] border-black rounded-lg  focus:outline-yellow-200 focus:text-yellow-200"
             type="password"
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="Password"
           />
-          <button type="submit" className="w-96 h-28">
+          <button
+            type="submit"
+            className="w-80 h-20 font-[Galmuri7] text-2xl mt-4 border-solid border-[3px] border-black bg-yellow-200 rounded-lg hover:bg-yellow-100 hover:text-3xl"
+          >
             Log In
           </button>
         </form>
-        <button
-          name="google"
-          onClick={onClickSocialLogIn}
-          type="button"
-          className="w-96 h-12"
+        <div className="w-80 pr-4 pl-4 flex flex-row justify-between items-center mt-6">
+          <button
+            name="google"
+            onClick={onClickSocialLogIn}
+            type="button"
+            className="w-fit h-8 flex flex-row items-center hover:text-yellow-200"
+          >
+            <BsGoogle className="w-6 h-6 pr-1 text-yellow-200" />
+            구글 로그인
+          </button>
+          <button
+            onClick={onClickSocialLogIn}
+            name="github"
+            type="button"
+            className="w-fit h-8 flex flex-row items-center hover:text-yellow-200"
+          >
+            <DiGithubAlt className="w-8 h-8 text-yellow-200" />
+            깃허브 로그인
+          </button>
+        </div>
+        <Link
+          href="/sign-up"
+          className="w-fit h-8 mt-6 text-center hover:text-xl"
         >
-          구글 로그인
-        </button>
-        <button
-          onClick={onClickSocialLogIn}
-          name="github"
-          type="button"
-          className="w-96 h-12"
-        >
-          깃허브 로그인
-        </button>
-        <Link href="/sign-up" className="w-96 h-12 text-center">
           회원가입
         </Link>
       </div>
     </div>
   );
 }
+// border-solid border-[3px] border-black rounded-lg
