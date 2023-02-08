@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { increment } from "firebase/firestore";
 
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -131,8 +132,8 @@ const Trading = () => {
       Math.ceil(Number(totalOrderAmount) * 0.0005);
 
     const data = {
-      [buyPrice]: totalOrderAmount,
-      [numberOfShares]: orderQuantity,
+      [buyPrice]: increment(+totalOrderAmount),
+      [numberOfShares]: increment(+orderQuantity),
       [cash]: myCash,
     };
 
