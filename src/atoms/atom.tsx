@@ -1,31 +1,32 @@
 import { atom } from "recoil";
+import { IsearchedList } from "@/interface/interface";
 
-export const nameState = atom({
+export const nameState = atom<string>({
   key: "nameState",
   default: "",
 });
 
-export const coinResultAtom = atom({
+export const coinResultAtom = atom<string[]>({
   key: "coinResultAtom",
   default: [],
 });
 
-export const coinListArrAtom = atom({
+export const coinListArrAtom = atom<string[]>({
   key: "coinListArrAtom",
   default: [],
 });
 
-export const searchInputValue = atom({
+export const searchInputValue = atom<string>({
   key: "searchInputValue",
   default: "",
 });
 
-export const searchedList = atom({
+export const searchedList = atom<IsearchedList[]>({
   key: "searchedList",
   default: [],
 });
 
-export const userId = atom({
+export const userId = atom<string>({
   key: "userId",
   default: "",
 });
@@ -58,4 +59,9 @@ export const tradingIsOrderQuantityChanged = atom({
 export const tradingIsTotalOderAmountChanged = atom({
   key: "isTotalOderAmount",
   default: false,
+});
+  
+export const userUidAssetData = atom({
+  key: "userUidAssetData",
+  default: {},
 });
