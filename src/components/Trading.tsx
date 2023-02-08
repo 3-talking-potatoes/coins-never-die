@@ -93,6 +93,8 @@ const Trading = () => {
     if (percent === 25) setTotalOrderAmount((myCash * 0.25).toString());
     if (percent === 50) setTotalOrderAmount((myCash * 0.5).toString());
     if (percent === 100) setTotalOrderAmount((myCash * 1.0).toString());
+
+    setIsTotalOderAmountChanged(prev => !prev);
   };
 
   function noEnKo(value: string) {
