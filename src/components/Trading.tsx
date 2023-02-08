@@ -101,7 +101,9 @@ const Trading = () => {
     if (percent === 10) setTotalOrderAmount((myCash * 0.1).toString());
     if (percent === 25) setTotalOrderAmount((myCash * 0.25).toString());
     if (percent === 50) setTotalOrderAmount((myCash * 0.5).toString());
-    if (percent === 100) setTotalOrderAmount((myCash * 1.0).toString());
+    if (percent === 100) {
+      setTotalOrderAmount((myCash * 0.9995).toString());
+    }
 
     setIsTotalOderAmountChanged(prev => !prev);
   };
@@ -125,6 +127,7 @@ const Trading = () => {
     const buyPrice = `asset.${abbreviatedEnglishName}.buyPrice`;
     const numberOfShares = `asset.${abbreviatedEnglishName}.numberOfShares`;
     const cash = `asset.cash`;
+    const isBuyAvailable = myCash >= +totalOrderAmount * 1.0005;
 
     const data = {
       [buyPrice]: increment(+totalOrderAmount),
@@ -132,14 +135,11 @@ const Trading = () => {
       [cash]: myCash,
     };
 
-    updateUserData(userUid, data);
-
-    if (+totalOrderAmount * 1.0005 > myCash)
-      alert("주문가능 금액이 부족합니다");
-    else alert("매수 성공!");
+    if (isBuyAvailable) {
+      alert("매수 성공!");
+      updateUserData(userUid, data);
+    } else alert("주문가능 금액이 부족합니다");
   };
-
-  console.log(myCash);
 
   useEffect(() => {
     if (orderQuantity !== "") {
