@@ -126,11 +126,6 @@ const Trading = () => {
     const numberOfShares = `asset.${abbreviatedEnglishName}.numberOfShares`;
     const cash = `asset.cash`;
 
-    myCash =
-      myCash -
-      Number(totalOrderAmount) -
-      Math.ceil(Number(totalOrderAmount) * 0.0005);
-
     const data = {
       [buyPrice]: increment(+totalOrderAmount),
       [numberOfShares]: increment(+orderQuantity),
@@ -139,8 +134,12 @@ const Trading = () => {
 
     updateUserData(userUid, data);
 
-    alert("매수 성공!");
+    if (+totalOrderAmount * 1.0005 > myCash)
+      alert("주문가능 금액이 부족합니다");
+    else alert("매수 성공!");
   };
+
+  console.log(myCash);
 
   useEffect(() => {
     if (orderQuantity !== "") {
