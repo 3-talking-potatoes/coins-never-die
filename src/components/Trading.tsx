@@ -93,6 +93,8 @@ const Trading = () => {
     if (percent === 25) setTotalOrderAmount((myCash * 0.25).toString());
     if (percent === 50) setTotalOrderAmount((myCash * 0.5).toString());
     if (percent === 100) setTotalOrderAmount((myCash * 1.0).toString());
+
+    setIsTotalOderAmountChanged(prev => !prev);
   };
 
   function noEnKo(value: string) {
@@ -102,12 +104,12 @@ const Trading = () => {
       .replace(/(.)(?=(\d{3})+$)/g, "$1,");
 
     let fmStr = str.join(".");
-    let result = fmStr.replace(
-      /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\|ㄱ-ㅎ|ㅏ-ㅣ-ㅢ|가-힣|a-z|A-Z]/g,
-      "",
-    );
+    // let result = fmStr.replace(
+    //   /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\|ㄱ-ㅎ|ㅏ-ㅣ-ㅢ|가-힣|a-z|A-Z]/g,
+    //   "",
+    // );
 
-    return result;
+    return fmStr;
   }
 
   console.log(orderQuantity);
