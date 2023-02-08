@@ -138,6 +138,8 @@ const Trading = () => {
     };
 
     updateUserData(userUid, data);
+
+    alert("매수 성공!");
   };
 
   useEffect(() => {
