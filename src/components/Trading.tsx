@@ -104,12 +104,12 @@ const Trading = () => {
       .replace(/(.)(?=(\d{3})+$)/g, "$1,");
 
     let fmStr = str.join(".");
-    // let result = fmStr.replace(
-    //   /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\|ㄱ-ㅎ|ㅏ-ㅣ-ㅢ|가-힣|a-z|A-Z]/g,
-    //   "",
-    // );
+    let result = fmStr.replace(
+      /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\|ㄱ-ㅎ|ㅏ-ㅣ-ㅢ|가-힣|a-z|A-Z]/g,
+      "",
+    );
 
-    return fmStr;
+    return result;
   }
 
   console.log(orderQuantity);
