@@ -8,7 +8,6 @@ export const getUserData = (
 ) => {
   if (userUid !== "") {
     onSnapshot(doc(db, "user", userUid), doc => {
-      console.log("Current data: ", doc.data());
       const data = doc.data();
       setUserAssetData({ ...data });
     });

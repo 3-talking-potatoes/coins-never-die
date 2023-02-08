@@ -50,3 +50,8 @@ export const myAssetCash = atom({
   key: "myAssetCash",
   default: 100000,
 });
+
+export const userUidAssetData = atom({
+  key: "userUidAssetData",
+  default: {},
+});
