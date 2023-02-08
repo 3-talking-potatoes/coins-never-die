@@ -112,9 +112,6 @@ const Trading = () => {
     return result;
   }
 
-  console.log(orderQuantity);
-  console.log(totalOrderAmount);
-
   useEffect(() => {
     if (orderQuantity !== "") {
       const totalOrderAmountString = Math.ceil(
@@ -126,11 +123,10 @@ const Trading = () => {
 
   useEffect(() => {
     if (totalOrderAmount !== "") {
-      const orderQuantityString = (
-        +totalOrderAmount / +purchasePrice
-      ).toString();
+      const orderQuantityString = (+totalOrderAmount / +purchasePrice)
+        .toFixed(8)
+        .toString();
       setOrderQuantity(orderQuantityString);
-      console.log("먹히니");
     } else setOrderQuantity("0");
   }, [isTotalOderAmountChanged]);
 
