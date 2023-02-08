@@ -50,11 +50,6 @@ export const tradingPurchasePrice = atom({
   default: "",
 });
 
-export const myAssetCash = atom({
-  key: "myAssetCash",
-  default: 100000,
-});
-
 export const tradingIsOrderQuantityChanged = atom({
   key: "isOrderQuantity",
   default: false,
