@@ -1,5 +1,5 @@
 import { db } from "./../Firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, increment } from "firebase/firestore";
 
 export const updateUserData = async (userUid: string, userAssetData: {}) => {
   if (userUid !== "") {
