@@ -1,6 +1,7 @@
 import { SetterOrUpdater } from "recoil";
-import { db } from "./../Firebase";
 import { doc, onSnapshot } from "firebase/firestore";
+
+import { db } from "@/Firebase";
 
 export const getUserData = (
   userUid: string,
