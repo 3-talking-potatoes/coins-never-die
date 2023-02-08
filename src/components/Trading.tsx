@@ -11,6 +11,8 @@ import {
   tradingOrderQuantity,
   tradingPurchasePrice,
   tradingTotalOrderAmount,
+  tradingIsOrderQuantityChanged,
+  tradingIsTotalOderAmountChanged,
   myAssetCash,
 } from "@/atoms/atom";
 
@@ -22,6 +24,11 @@ const Trading = () => {
   const [totalOrderAmount, setTotalOrderAmount] = useRecoilState(
     tradingTotalOrderAmount,
   );
+  const [isOrderQuantityChanged, setIsOrderQuantityChanged] = useRecoilState(
+    tradingIsOrderQuantityChanged,
+  );
+  const [isTotalOderAmountChanged, setIsTotalOderAmountChanged] =
+    useRecoilState(tradingIsTotalOderAmountChanged);
   const myCash = useRecoilValue(myAssetCash);
 
   const searchParams = useSearchParams();
@@ -46,47 +53,84 @@ const Trading = () => {
   setPurchasePrice(currentPrice);
 
   const handlePurchasePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPurchasePrice(event.target.value.replace(/\D/g, ""));
+    setPurchasePrice(event.target.value.replace(/[^-\.0-9]/g, ""));
   };
 
   const handleOrderQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOrderQuantity(+event.target.value.replace(/\D/g, ""));
+    let value = event.target.value;
+
+    let splitValue = value.split(".");
+    let underDecimal = splitValue[1];
+    let int = splitValue[0];
+
+    setIsOrderQuantityChanged(prev => !prev);
+
+    if (underDecimal && underDecimal.length > 8) {
+      underDecimal = underDecimal.slice(0, 8);
+      value = `${int}.${underDecimal}`;
+      setOrderQuantity(value.replace(/[^0-9.]/g, ""));
+    } else setOrderQuantity(value.replace(/[^0-9.]/g, ""));
   };
 
   const handleTotalOrderAmount = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setTotalOrderAmount(+event.target.value.replace(/\D/g, ""));
+    setIsTotalOderAmountChanged(prev => !prev);
+
+    setTotalOrderAmount(event.target.value.replace(/[^0-9]/g, ""));
   };
 
   const initialization = () => {
-    setTotalOrderAmount(0);
-    setOrderQuantity(0);
+    setTotalOrderAmount("0");
+    setOrderQuantity("0");
   };
 
   const handleTotalOrderAmountPercent = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     const percent = Number((event.target as HTMLButtonElement).id);
-    if (percent === 10) setTotalOrderAmount(myCash * 0.1);
-    if (percent === 25) setTotalOrderAmount(myCash * 0.25);
-    if (percent === 50) setTotalOrderAmount(myCash * 0.5);
-    if (percent === 100) setTotalOrderAmount(myCash * 1.0);
+    if (percent === 10) setTotalOrderAmount((myCash * 0.1).toString());
+    if (percent === 25) setTotalOrderAmount((myCash * 0.25).toString());
+    if (percent === 50) setTotalOrderAmount((myCash * 0.5).toString());
+    if (percent === 100) setTotalOrderAmount((myCash * 1.0).toString());
   };
 
-  useEffect(() => {
-    if (orderQuantity !== 0) {
-      const totalOrderAmountString = +orderQuantity * +purchasePrice;
-      setTotalOrderAmount(totalOrderAmountString);
-    } else setTotalOrderAmount(0);
-  }, [orderQuantity]);
+  function noEnKo(value: string) {
+    let str = value.split(".");
+    str[0] = str[0]
+      .replace(/[^-\.0-9]/g, "")
+      .replace(/(.)(?=(\d{3})+$)/g, "$1,");
+
+    let fmStr = str.join(".");
+    let result = fmStr.replace(
+      /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\|ㄱ-ㅎ|ㅏ-ㅣ-ㅢ|가-힣|a-z|A-Z]/g,
+      "",
+    );
+
+    return result;
+  }
+
+  console.log(orderQuantity);
+  console.log(totalOrderAmount);
 
   useEffect(() => {
-    if (totalOrderAmount !== 0) {
-      const orderQuantityString = +totalOrderAmount / +purchasePrice;
+    if (orderQuantity !== "") {
+      const totalOrderAmountString = Math.ceil(
+        +orderQuantity * +purchasePrice,
+      ).toString();
+      setTotalOrderAmount(totalOrderAmountString);
+    } else setTotalOrderAmount("0");
+  }, [isOrderQuantityChanged]);
+
+  useEffect(() => {
+    if (totalOrderAmount !== "") {
+      const orderQuantityString = (
+        +totalOrderAmount / +purchasePrice
+      ).toString();
       setOrderQuantity(orderQuantityString);
-    } else setOrderQuantity(0);
-  }, [totalOrderAmount]);
+      console.log("먹히니");
+    } else setOrderQuantity("0");
+  }, [isTotalOderAmountChanged]);
 
   useEffect(() => {
     initialization();
@@ -114,7 +158,7 @@ const Trading = () => {
           <div>매수가격</div>
           <input
             className="w-36 px-2 pb-0.5 text-right"
-            value={new Intl.NumberFormat("ko-KR").format(currentPrice)}
+            value={new Intl.NumberFormat("ko-KR").format(Number(currentPrice))}
             onChange={handlePurchasePrice}
           />
         </figure>
@@ -122,7 +166,7 @@ const Trading = () => {
           <div className="text-black-200 text-lg">주문수량</div>
           <input
             className="w-36 px-2 pb-0.5 text-right"
-            value={new Intl.NumberFormat("ko-KR").format(orderQuantity)}
+            value={noEnKo(orderQuantity)}
             onChange={handleOrderQuantity}
           />
         </figure>
@@ -130,7 +174,7 @@ const Trading = () => {
           <div className="text-black-200 text-lg">주문총액</div>
           <input
             className="w-36 px-2 pb-0.5 text-right"
-            value={new Intl.NumberFormat("ko-KR").format(totalOrderAmount)}
+            value={noEnKo(totalOrderAmount)}
             onChange={handleTotalOrderAmount}
           />
         </figure>
