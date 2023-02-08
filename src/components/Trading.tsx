@@ -7,13 +7,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 
+import { updateUserData } from "@/hooks/updateUserData";
+import { getUserData } from "@/hooks/getUserData";
+
 import {
   tradingOrderQuantity,
   tradingPurchasePrice,
   tradingTotalOrderAmount,
   tradingIsOrderQuantityChanged,
   tradingIsTotalOderAmountChanged,
-  myAssetCash,
+  userId,
+  userUidAssetData,
 } from "@/atoms/atom";
 
 const Trading = () => {
@@ -29,7 +33,11 @@ const Trading = () => {
   );
   const [isTotalOderAmountChanged, setIsTotalOderAmountChanged] =
     useRecoilState(tradingIsTotalOderAmountChanged);
-  const myCash = useRecoilValue(myAssetCash);
+  const [userAssetData, setUserAssetData] = useRecoilState(userUidAssetData);
+  const userUid = useRecoilValue(userId);
+
+  let myCash: number;
+  if (userAssetData.asset) myCash = userAssetData.asset.cash;
 
   const searchParams = useSearchParams();
 
@@ -112,6 +120,25 @@ const Trading = () => {
     return result;
   }
 
+  const handleBuy = () => {
+    const buyPrice = `asset.${abbreviatedEnglishName}.buyPrice`;
+    const numberOfShares = `asset.${abbreviatedEnglishName}.numberOfShares`;
+    const cash = `asset.cash`;
+
+    myCash =
+      myCash -
+      Number(totalOrderAmount) -
+      Math.ceil(Number(totalOrderAmount) * 0.0005);
+
+    const data = {
+      [buyPrice]: totalOrderAmount,
+      [numberOfShares]: orderQuantity,
+      [cash]: myCash,
+    };
+
+    updateUserData(userUid, data);
+  };
+
   useEffect(() => {
     if (orderQuantity !== "") {
       const totalOrderAmountString = Math.ceil(
@@ -132,6 +159,7 @@ const Trading = () => {
 
   useEffect(() => {
     initialization();
+    getUserData(userUid, setUserAssetData);
   }, []);
 
   return (
@@ -198,7 +226,10 @@ const Trading = () => {
         >
           초기화
         </button>
-        <button className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold">
+        <button
+          className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
+          onClick={handleBuy}
+        >
           매수
         </button>
       </article>
