@@ -33,15 +33,15 @@ export const userId = atom<string>({
 
 export const tradingOrderQuantity = atom({
   key: "tradingOrderQuantity",
-  default: 0,
+  default: "0",
 });
 
 export const tradingTotalOrderAmount = atom({
   key: "tradingTotalOrderAmount",
-  default: 0,
+  default: "0",
 });
 
-export const tradingPurchasePrice = atom<number | string>({
+export const tradingPurchasePrice = atom({
   key: "tradingPurchasePrice",
   default: "",
 });
@@ -51,6 +51,16 @@ export const myAssetCash = atom({
   default: 100000,
 });
 
+export const tradingIsOrderQuantityChanged = atom({
+  key: "isOrderQuantity",
+  default: false,
+});
+
+export const tradingIsTotalOderAmountChanged = atom({
+  key: "isTotalOderAmount",
+  default: false,
+});
+  
 export const userUidAssetData = atom({
   key: "userUidAssetData",
   default: {},
