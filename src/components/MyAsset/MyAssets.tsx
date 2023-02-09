@@ -1,12 +1,14 @@
-import { useRecoilValue } from "recoil";
+"use client";
 
+import { useRecoilValue } from "recoil";
 import { userUidAssetData } from "@/atoms/atom";
 
 import MyAssetCoinList from "./MyAssetCoinList";
+import { IcurrentPrice } from "@/interface/interface";
 
 import { RiBitCoinFill } from "react-icons/ri";
 
-const MyAssets = () => {
+const MyAssets = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const userAssetData = useRecoilValue(userUidAssetData);
 
   let myCash: number = 0;
@@ -47,7 +49,7 @@ const MyAssets = () => {
               <p className="w-[30%] flex justify-center">수익률</p>
             </div>
           </figure>
-          <MyAssetCoinList />
+          <MyAssetCoinList currentPrice={currentPrice} />
         </article>
       </section>
     </div>

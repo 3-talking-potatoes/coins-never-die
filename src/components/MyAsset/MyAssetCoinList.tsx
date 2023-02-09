@@ -3,10 +3,11 @@
 import { useRecoilValue } from "recoil";
 
 import { userUidAssetData } from "@/atoms/atom";
+import { IcurrentPrice } from "@/interface/interface";
 
 import { RiBitCoinFill } from "react-icons/ri";
 
-const MyAssetCoinList = () => {
+const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const userAssetData = useRecoilValue(userUidAssetData);
   console.log(userAssetData.asset?.data);
 
@@ -14,15 +15,15 @@ const MyAssetCoinList = () => {
     <div>
       {userAssetData.asset?.data &&
         Object.entries(userAssetData.asset.data).map(([name, value]) => {
-          const averagePurchasePrice =
-            Math.round((value.buyAmount / value.numberOfShares) * 10) / 10;
-
+          const averagePurchasePrice = Math.round(
+            value.buyAmount / value.numberOfShares,
+          );
+          const equitiesValue = Math.round(
+            +currentPrice * value.numberOfShares,
+          );
           return (
-            <>
-              <figure
-                className="h-12 px-2.5 pt-1 border-b border-grey"
-                key={name}
-              >
+            <div key={name}>
+              <figure className="h-12 px-2.5 pt-1 border-b border-grey">
                 <div className="flex items-center">
                   <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
                   <p className="w-[30%] flex justify-center">{name}</p>
@@ -47,18 +48,20 @@ const MyAssetCoinList = () => {
                 </div>
                 <div className="flex py-1">
                   <div className="w-1/2 flex flex-col items-end px-2.5">
-                    <p>2,000,000 KRW</p>
+                    <p>{`${new Intl.NumberFormat("ko-KR").format(
+                      equitiesValue,
+                    )} KRW`}</p>
                     <p>평가금액</p>
                   </div>
                   <div className="w-1/2 flex flex-col items-end px-2.5">
                     <p>{`${new Intl.NumberFormat("ko-KR").format(
                       value.buyAmount,
-                    )}KRW`}</p>
+                    )} KRW`}</p>
                     <p>매수금액</p>
                   </div>
                 </div>
               </figure>
-            </>
+            </div>
           );
         })}
     </div>

@@ -6,10 +6,9 @@ import { increment } from "firebase/firestore";
 
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
-import axios from "axios";
+// import axios from "axios";
 
 import { updateUserData } from "@/hooks/updateUserData";
-
 import {
   tradingOrderQuantity,
   tradingPurchasePrice,
@@ -18,9 +17,11 @@ import {
   tradingIsTotalOderAmountChanged,
   userId,
   userUidAssetData,
+  // coinCurrentPrice,
 } from "@/atoms/atom";
+import { IcurrentPrice } from "@/interface/interface";
 
-const Trading = () => {
+const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const [purchasePrice, setPurchasePrice] =
     useRecoilState(tradingPurchasePrice);
   const [orderQuantity, setOrderQuantity] =
@@ -35,9 +36,12 @@ const Trading = () => {
     useRecoilState(tradingIsTotalOderAmountChanged);
   const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
+  // const [currentPrice, setCurrentPrice] = useRecoilState(coinCurrentPrice);
 
   let myCash: number;
   if (userAssetData.asset) myCash = +userAssetData.asset.cash;
+
+  console.log(currentPrice);
 
   const searchParams = useSearchParams();
 
@@ -47,18 +51,18 @@ const Trading = () => {
 
   const market = `${abbreviatedEnglishName}/KRW`;
 
-  const { data } = useQuery({
-    queryKey: ["currentPrice"],
-    queryFn: () =>
-      axios(`https://api.upbit.com/v1/ticker?markets=${market_code}`),
-  });
+  // const { data } = useQuery({
+  //   queryKey: ["currentPrice"],
+  //   queryFn: () =>
+  //     axios(`https://api.upbit.com/v1/ticker?markets=${market_code}`),
+  // });
 
-  const currentPrice = data?.data[0].trade_price;
+  // const currentPrice = data?.data[0].trade_price;
   const currentPriceFormat = `${new Intl.NumberFormat("ko-KR").format(
-    currentPrice,
+    +currentPrice,
   )} KRW`;
 
-  setPurchasePrice(currentPrice);
+  setPurchasePrice(currentPrice?.toString());
 
   const handlePurchasePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPurchasePrice(event.target.value.replace(/[^-\.0-9]/g, ""));
@@ -129,7 +133,7 @@ const Trading = () => {
     const cash = `asset.cash`;
 
     const isBuyAvailable = myCash >= +totalOrderAmount * 1.0005;
-    const purchaseAmount = Math.ceil(currentPrice * +orderQuantity);
+    const purchaseAmount = Math.ceil(+currentPrice * +orderQuantity);
 
     myCash =
       myCash -
@@ -247,12 +251,3 @@ const Trading = () => {
 };
 
 export default Trading;
-
-// 어제                       오늘
-
-// 매수수량 : 1                매수수량: 1
-// 매수가격 : 5000             매수가격: 10000
-// 주문총액 : 5000             주문총액 : 10000
-
-//                             get ()
-//                             매수평균가 : 5000 + 10000 / (1 + 1)

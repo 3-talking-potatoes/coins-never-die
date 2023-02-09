@@ -70,7 +70,14 @@ export interface UserAssetData {
     [key: string]:
       | number
       | {
-          [key: string]: number;
+          [key: string]:
+            | number
+            | {
+                [key: string]: number;
+              };
         };
   };
+}
+export interface IcurrentPrice {
+  currentPrice: number | bigint;
 }

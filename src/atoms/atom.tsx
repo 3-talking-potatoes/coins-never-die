@@ -65,3 +65,8 @@ export const userUidAssetData = atom<UserAssetData>({
   key: "userUidAssetData",
   default: {},
 });
+
+export const coinCurrentPrice = atom({
+  key: "coinCurrentPrice",
+  default: 0,
+});
