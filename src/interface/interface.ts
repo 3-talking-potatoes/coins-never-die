@@ -34,6 +34,7 @@ export interface coinList {
 }
 
 export interface IsearchedList {
+  [index: string]: string | number;
   acc_trade_price: number;
   acc_trade_price_24h: number;
   acc_trade_volume: number;
