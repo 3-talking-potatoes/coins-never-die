@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useRecoilState } from "recoil";
 import { useState, useEffect, useReducer } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { coinList } from "@/interface/interface";
 import { getCoinData } from "@/api/getCoinData";
@@ -16,9 +16,8 @@ const useSearch = () => {
   const [inputValue, setInputValue] = useRecoilState(searchInputValue);
   const [coinResult, setCoinResult] = useRecoilState(coinResultAtom);
   const [coinListArr, setCoinListArr] = useRecoilState(coinListArrAtom);
-  const [searchedCoinList, setSearchedCoinList] = useRecoilState(searchedList);
+  const setSearchedCoinList = useSetRecoilState(searchedList);
 
-  //
   const initialState = { selectedIndex: 0 };
 
   const mouseOut = () => {
@@ -27,7 +26,7 @@ const useSearch = () => {
 
   function reducer(
     state: { selectedIndex: number },
-    action: { type: any; payload: number },
+    action: { type: any; payload: any },
   ) {
     switch (action.type) {
       case "arrowUp":
@@ -55,12 +54,12 @@ const useSearch = () => {
     const [keyPressed, setKeyPressed] = useState(false);
 
     useEffect(() => {
-      const downHandler = ({ key }) => {
+      const downHandler = ({ key }: { key: string }) => {
         if (key === targetKey) {
           setKeyPressed(true);
         }
       };
-      const upHandler = ({ key }) => {
+      const upHandler = ({ key }: { key: string }) => {
         if (key === targetKey) {
           setKeyPressed(false);
         }
@@ -99,7 +98,6 @@ const useSearch = () => {
       });
     }
   }, [arrowDownPressed]);
-  //
 
   useEffect(() => {
     if (inputValue === "") {
@@ -136,7 +134,6 @@ const useSearch = () => {
     setCoinResult(coinListArr.filter(el => el.includes(e.target.value)));
   };
 
-  // 검색결과 클릭시 해당 내용으로 검색
   const nameClick = (clickedOption: string) => {
     setCoinResult([...coinListArr.filter(el => el.includes(clickedOption))]);
     setInputValue(clickedOption);
@@ -144,7 +141,6 @@ const useSearch = () => {
     coinListSort();
   };
 
-  // 검색창에서 엔터 눌렀을 때 동작하는 함수
   const searchFunction = (e: { key: string }) => {
     if (e.key === "Enter") {
       nameClick(inputValue);
@@ -152,7 +148,6 @@ const useSearch = () => {
     }
   };
 
-  // data 가공 함수, 가공 후 상태를 다시 false로
   const coinListSort = async () => {
     let data = await getCoinData();
     data = data?.filter(el => coinResult.includes(el.korean_name));
