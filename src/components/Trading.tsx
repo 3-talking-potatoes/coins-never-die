@@ -123,10 +123,15 @@ const Trading = () => {
   }
 
   const handleBuy = () => {
-    const buyPrice = `asset.${abbreviatedEnglishName}.buyPrice`;
-    const numberOfShares = `asset.${abbreviatedEnglishName}.numberOfShares`;
+    const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
+    const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
     const cash = `asset.cash`;
     const isBuyAvailable = myCash >= +totalOrderAmount * 1.0005;
+
+    myCash =
+      myCash -
+      Number(totalOrderAmount) -
+      Math.ceil(Number(totalOrderAmount) * 0.0005);
 
     const data = {
       [buyPrice]: increment(+totalOrderAmount),
