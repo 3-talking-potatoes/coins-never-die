@@ -1,5 +1,5 @@
-export const errorAlert = error => {
-  switch (error.code) {
+export const errorAlert = (code: string) => {
+  switch (code) {
     case "auth/user-not-found" || "auth/wrong-password":
       return "이메일 혹은 비밀번호가 일치하지 않습니다.";
     case "auth/email-already-in-use":

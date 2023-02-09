@@ -48,8 +48,12 @@ export default function LogInForm() {
         router.push("/");
       }
     } catch (error) {
-      const errorMessage = errorAlert(error);
-      alert(errorMessage);
+      // console.log("code" in error);
+
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const errorMessage = errorAlert(String(error.code));
+        alert(errorMessage);
+      }
     }
   };
 
@@ -89,8 +93,10 @@ export default function LogInForm() {
         router.push("/");
       }
     } catch (error) {
-      const errorMessage = errorAlert(error);
-      alert(errorMessage);
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const errorMessage = errorAlert(String(error.code));
+        alert(errorMessage);
+      }
     }
   };
 

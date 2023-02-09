@@ -98,8 +98,10 @@ export default function SignUpForm() {
         router.push("/log-in");
       }
     } catch (error) {
-      const errorMessage = errorAlert(error);
-      alert(errorMessage);
+      if (typeof error === "object" && error !== null && "code" in error) {
+        const errorMessage = errorAlert(String(error.code));
+        alert(errorMessage);
+      }
       setForm({
         email: "",
         password: "",
