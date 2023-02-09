@@ -9,7 +9,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 
 import { updateUserData } from "@/hooks/updateUserData";
-import { getUserData } from "@/hooks/getUserData";
 
 import {
   tradingOrderQuantity,
@@ -34,7 +33,7 @@ const Trading = () => {
   );
   const [isTotalOderAmountChanged, setIsTotalOderAmountChanged] =
     useRecoilState(tradingIsTotalOderAmountChanged);
-  const [userAssetData, setUserAssetData] = useRecoilState(userUidAssetData);
+  const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
 
   let myCash: number;
@@ -161,7 +160,6 @@ const Trading = () => {
 
   useEffect(() => {
     initialization();
-    getUserData(userUid, setUserAssetData);
   }, []);
 
   return (
