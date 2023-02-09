@@ -9,6 +9,7 @@ import {
   coinListArrAtom,
   searchInputValue,
   searchedList,
+  pageAtom,
 } from "@/atoms/atom";
 
 const useSearch = () => {
@@ -17,6 +18,7 @@ const useSearch = () => {
   const [coinResult, setCoinResult] = useRecoilState(coinResultAtom);
   const [coinListArr, setCoinListArr] = useRecoilState(coinListArrAtom);
   const setSearchedCoinList = useSetRecoilState(searchedList);
+  const [page, setPage] = useRecoilState(pageAtom);
 
   const initialState = { selectedIndex: 0 };
 
@@ -135,10 +137,11 @@ const useSearch = () => {
   };
 
   const nameClick = (clickedOption: string) => {
-    setCoinResult([...coinListArr.filter(el => el.includes(clickedOption))]);
-    setInputValue(clickedOption);
-    setHasText(false);
+    setInputValue(clickedOption); // 검색어 나타내주는것
+    setHasText(false); // 아래 렌더링
+    setCoinResult(coinListArr.filter(el => el.includes(clickedOption))); // 검색 결과 렌더링
     coinListSort();
+    setPage(1);
   };
 
   const searchFunction = (e: { key: string }) => {
