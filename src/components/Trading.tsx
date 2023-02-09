@@ -124,9 +124,12 @@ const Trading = () => {
 
   const handleBuy = () => {
     const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
+    const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
     const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
     const cash = `asset.cash`;
+
     const isBuyAvailable = myCash >= +totalOrderAmount * 1.0005;
+    const purchaseAmount = Math.ceil(currentPrice * +orderQuantity);
 
     myCash =
       myCash -
@@ -134,7 +137,8 @@ const Trading = () => {
       Math.ceil(Number(totalOrderAmount) * 0.0005);
 
     const data = {
-      [buyPrice]: increment(+totalOrderAmount),
+      [buyPrice]: currentPrice,
+      [buyAmount]: increment(+purchaseAmount),
       [numberOfShares]: increment(+orderQuantity),
       [cash]: myCash,
     };
@@ -243,3 +247,12 @@ const Trading = () => {
 };
 
 export default Trading;
+
+// 어제                       오늘
+
+// 매수수량 : 1                매수수량: 1
+// 매수가격 : 5000             매수가격: 10000
+// 주문총액 : 5000             주문총액 : 10000
+
+//                             get ()
+//                             매수평균가 : 5000 + 10000 / (1 + 1)
