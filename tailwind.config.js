@@ -24,6 +24,10 @@ module.exports = {
         100: "#1b1c1e",
         200: "#000000",
       },
+      slate: {
+        100: "#ccd3db",
+        200: "#e2e8f0",
+      },
     },
   },
   plugins: [],
