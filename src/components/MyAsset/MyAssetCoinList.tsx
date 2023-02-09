@@ -21,6 +21,11 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
           const equitiesValue = Math.round(
             +currentPrice * value.numberOfShares,
           );
+          const equitiesProfitOrLoss: number = equitiesValue - value.buyAmount;
+          const earningRate = (equitiesProfitOrLoss / value.buyAmount).toFixed(
+            2,
+          );
+
           return (
             <div key={name}>
               <figure className="h-12 px-2.5 pt-1 border-b border-grey">
@@ -28,11 +33,9 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
                   <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
                   <p className="w-[30%] flex justify-center">{name}</p>
                   <p className="w-[30%] flex justify-center">
-                    {value.buyPrice}
+                    {equitiesProfitOrLoss}
                   </p>
-                  <p className="w-[30%] flex justify-center">
-                    {value.numberOfShares}
-                  </p>
+                  <p className="w-[30%] flex justify-center">{earningRate}%</p>
                 </div>
               </figure>
               <figure>
