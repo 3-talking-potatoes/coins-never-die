@@ -25,7 +25,7 @@ export const searchInputValue = atom<string>({
   default: "",
 });
 
-export const searchedList = atom<IsearchedList[]>({
+export const searchedList = atom<IsearchedList[] | undefined>({
   key: "searchedList",
   default: [],
 });
