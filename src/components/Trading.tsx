@@ -37,7 +37,7 @@ const Trading = () => {
   const userUid = useRecoilValue(userId);
 
   let myCash: number;
-  if (userAssetData.asset) myCash = userAssetData.asset.cash;
+  if (userAssetData.asset) myCash = +userAssetData.asset.cash;
 
   const searchParams = useSearchParams();
 

@@ -11,10 +11,8 @@ const MyAssets = () => {
 
   let myCash: number = 0;
   if (userAssetData.asset) {
-    myCash = userAssetData.asset.cash;
+    myCash = +userAssetData.asset.cash;
   }
-
-  console.log(userAssetData);
 
   return (
     <div>
