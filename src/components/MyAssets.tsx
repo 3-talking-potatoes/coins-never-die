@@ -1,6 +1,17 @@
 import { RiBitCoinFill } from "react-icons/ri";
 
+import { useRecoilValue } from "recoil";
+
+import { userUidAssetData } from "@/atoms/atom";
+
 const MyAssets = () => {
+  const userAssetData = useRecoilValue(userUidAssetData);
+
+  let myCash: number = 0;
+  if (userAssetData.asset) myCash = userAssetData.asset.cash;
+
+  // console.log(userAssetData);
+
   return (
     <div>
       <section className="bg-yellow-200 w-[26rem] h-[30rem] rounded-xl border-white border-[3px] px-8 py-8 flex-col items-center ml-14">
@@ -20,7 +31,7 @@ const MyAssets = () => {
               <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
               <p className="w-[45%] flex justify-center">KRW</p>
               <p className="w-[45%] flex justify-center">
-                {new Intl.NumberFormat("ko-KR").format(100000)}
+                {new Intl.NumberFormat("ko-KR").format(myCash)}
               </p>
             </div>
           </figure>
