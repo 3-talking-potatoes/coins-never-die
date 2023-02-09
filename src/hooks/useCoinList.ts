@@ -3,11 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 
 import { getCoinData } from "@/api/getCoinData";
-import { searchedList } from "@/atoms/atom";
+import { searchedList, pageAtom } from "@/atoms/atom";
 
 const useCoinList = () => {
   const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useRecoilState(pageAtom);
   const [sort, setSort] = useState(true);
   const [searchedCoinList, setSearchedCoinList] = useRecoilState(searchedList);
 
@@ -21,9 +21,13 @@ const useCoinList = () => {
     setSearchedCoinList(data);
   }, [data]);
 
+  useEffect(() => {
+    setPage(1);
+  }, []);
+
   const offset = (page - 1) * limit;
   let numPages;
-  if (data) numPages = Math.ceil(data.length / limit);
+  if (searchedCoinList) numPages = Math.ceil(searchedCoinList.length / limit);
 
   const listSort = (
     event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,

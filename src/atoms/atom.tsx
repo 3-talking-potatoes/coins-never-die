@@ -65,3 +65,8 @@ export const userUidAssetData = atom<UserAssetData>({
   key: "userUidAssetData",
   default: {},
 });
+
+export const pageAtom = atom<number>({
+  key: "pageAtom",
+  default: 1,
+});
