@@ -21,7 +21,6 @@ const useCoinList = () => {
     setSearchedCoinList(data);
   }, [data]);
 
-  // 페이지네이션용
   const offset = (page - 1) * limit;
   let numPages;
   if (data) numPages = Math.ceil(data.length / limit);
@@ -29,11 +28,12 @@ const useCoinList = () => {
   const listSort = (
     event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
   ) => {
-    const { id } = event?.target as HTMLButtonElement;
-    let tempArr = [...searchedCoinList];
+    const { id } = event.currentTarget;
+    let tempArr;
+    if (searchedCoinList) tempArr = [...searchedCoinList];
     sort
-      ? setSearchedCoinList(tempArr.sort((a, b) => (b[id] > a[id] ? -1 : 1)))
-      : setSearchedCoinList(tempArr.sort((a, b) => (a[id] > b[id] ? -1 : 1)));
+      ? setSearchedCoinList(tempArr?.sort((a, b) => (b[id] > a[id] ? -1 : 1)))
+      : setSearchedCoinList(tempArr?.sort((a, b) => (a[id] > b[id] ? -1 : 1)));
     setSort(!sort);
   };
 
