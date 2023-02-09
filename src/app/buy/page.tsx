@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
 import Trading from "../../components/Trading";
-import MyAssets from "../../components/MyAssets";
+import MyAssets from "../../components/MyAsset/MyAssets";
 
 import { getUserData } from "@/hooks/getUserData";
 
