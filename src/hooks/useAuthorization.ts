@@ -6,6 +6,8 @@ export const errorAlert = error => {
       return "이미 사용 중인 이메일입니다.";
     case "auth/weak-password":
       return "비밀번호는 6글자 이상이어야 합니다.";
+    case "auth/account-exists-with-different-credential":
+      return "같은 이메일로 가입한 다른 계정이 있습니다.";
     case "auth/network-request-failed":
       return "네트워크 연결에 실패 하였습니다.";
     case "auth/invalid-email":
