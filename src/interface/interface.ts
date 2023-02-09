@@ -63,3 +63,13 @@ export interface IsearchedList {
   trade_timestamp: number;
   trade_volume: number;
 }
+
+export interface UserAssetData {
+  [key: string]: {
+    [key: string]:
+      | number
+      | {
+          [key: string]: number;
+        };
+  };
+}

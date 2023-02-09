@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { IsearchedList } from "@/interface/interface";
+import { IsearchedList, UserAssetData } from "@/interface/interface";
 import { recoilPersist } from "recoil-persist";
 import { AnyNsRecord } from "dns";
 
@@ -61,7 +61,7 @@ export const tradingIsTotalOderAmountChanged = atom({
   default: false,
 });
 
-export const userUidAssetData = atom<any>({
+export const userUidAssetData = atom<UserAssetData>({
   key: "userUidAssetData",
   default: {},
 });
