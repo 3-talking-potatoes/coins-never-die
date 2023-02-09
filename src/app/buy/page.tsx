@@ -1,13 +1,11 @@
-"use client";
-
-import React from "react";
-
-import CoinList from "@/components/CoinList";
+import Trading from "../../components/Trading";
+import MyAssets from "../../components/MyAssets";
 
 const page = () => {
   return (
     <main className="bg-yellow-100 w-screen h-screen flex justify-center items-center">
-      <CoinList />
+      <Trading></Trading>
+      <MyAssets></MyAssets>
     </main>
   );
 };
