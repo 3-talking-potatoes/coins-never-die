@@ -4,11 +4,11 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { increment } from "firebase/firestore";
 
-import { useQuery } from "@tanstack/react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
-// import axios from "axios";
 
 import { updateUserData } from "@/hooks/updateUserData";
+import handleNumberFormat from "@/utils/NumberFormat";
+
 import {
   tradingOrderQuantity,
   tradingPurchasePrice,
@@ -17,7 +17,6 @@ import {
   tradingIsTotalOderAmountChanged,
   userId,
   userUidAssetData,
-  // coinCurrentPrice,
 } from "@/atoms/atom";
 import { IcurrentPrice } from "@/interface/interface";
 
@@ -36,28 +35,17 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     useRecoilState(tradingIsTotalOderAmountChanged);
   const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
-  // const [currentPrice, setCurrentPrice] = useRecoilState(coinCurrentPrice);
 
   let myCash: number;
   if (userAssetData.asset) myCash = +userAssetData.asset.cash;
-
-  console.log(currentPrice);
 
   const searchParams = useSearchParams();
 
   const market_code = searchParams.get("market_code");
   const abbreviatedEnglishName = market_code?.split("-")[1];
   const korean_name = searchParams.get("korean_name");
-
   const market = `${abbreviatedEnglishName}/KRW`;
 
-  // const { data } = useQuery({
-  //   queryKey: ["currentPrice"],
-  //   queryFn: () =>
-  //     axios(`https://api.upbit.com/v1/ticker?markets=${market_code}`),
-  // });
-
-  // const currentPrice = data?.data[0].trade_price;
   const currentPriceFormat = `${new Intl.NumberFormat("ko-KR").format(
     +currentPrice,
   )} KRW`;
@@ -110,21 +98,6 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
     setIsTotalOderAmountChanged(prev => !prev);
   };
-
-  function noEnKo(value: string) {
-    let str = value.split(".");
-    str[0] = str[0]
-      .replace(/[^-\.0-9]/g, "")
-      .replace(/(.)(?=(\d{3})+$)/g, "$1,");
-
-    let fmStr = str.join(".");
-    let result = fmStr.replace(
-      /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\|ㄱ-ㅎ|ㅏ-ㅣ-ㅢ|가-힣|a-z|A-Z]/g,
-      "",
-    );
-
-    return result;
-  }
 
   const handleBuy = () => {
     const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
@@ -205,7 +178,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
           <div className="text-black-200 text-lg">주문수량</div>
           <input
             className="w-36 px-2 pb-0.5 text-right"
-            value={noEnKo(orderQuantity)}
+            value={handleNumberFormat(orderQuantity)}
             onChange={handleOrderQuantity}
           />
         </figure>
@@ -213,7 +186,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
           <div className="text-black-200 text-lg">주문총액</div>
           <input
             className="w-36 px-2 pb-0.5 text-right"
-            value={noEnKo(totalOrderAmount)}
+            value={handleNumberFormat(totalOrderAmount)}
             onChange={handleTotalOrderAmount}
           />
         </figure>
