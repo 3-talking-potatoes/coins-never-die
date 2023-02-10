@@ -70,3 +70,8 @@ export const pageAtom = atom<number>({
   key: "pageAtom",
   default: 1,
 });
+
+export const myAssetIsCoinListClick = atom({
+  key: "myAssetIsCoinListClick",
+  default: false,
+});
