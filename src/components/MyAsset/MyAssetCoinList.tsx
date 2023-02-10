@@ -33,7 +33,9 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
                   <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
                   <p className="w-[30%] flex justify-center">{name}</p>
                   <p className="w-[30%] flex justify-center">
-                    {equitiesProfitOrLoss}
+                    {new Intl.NumberFormat("ko-KR").format(
+                      equitiesProfitOrLoss,
+                    )}
                   </p>
                   <p className="w-[30%] flex justify-center">{earningRate}%</p>
                 </div>
