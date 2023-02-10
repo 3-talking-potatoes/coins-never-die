@@ -3,7 +3,7 @@ import { RiBitCoinFill } from "react-icons/ri";
 
 const Logo = ({ className }: { className: string }) => {
   return (
-    <>
+    <div className=" bg-yellow-100">
       <Link
         href="/"
         className={`flex flex-row align-middle justify-center w-fit ${className}`}
@@ -13,7 +13,7 @@ const Logo = ({ className }: { className: string }) => {
           Coins Never Die
         </p>
       </Link>
-    </>
+    </div>
   );
 };
 
