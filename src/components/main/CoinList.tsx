@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import Search from "@/components/Search";
+import Search from "@/components/main/Search";
 import useCoinList from "@/hooks/useCoinList";
 
 const CoinList = () => {

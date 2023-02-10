@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import CoinList from "@/components/CoinList";
-import PageArrowKey from "@/components/PageArrowKey";
+import CoinList from "@/components/main/CoinList";
+import PageArrowKey from "@/components/main/PageArrowKey";
 
 const page = () => {
   return (

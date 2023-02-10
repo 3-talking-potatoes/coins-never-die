@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { pageAtom } from "@/atoms/atom";
 import useCoinList from "@/hooks/useCoinList";
 
-const PageArrowKey = ({ arrow }) => {
+const PageArrowKey = ({ arrow }: { arrow: string }) => {
   const [page, setPage] = useRecoilState(pageAtom);
   const { numPages } = useCoinList();
 
