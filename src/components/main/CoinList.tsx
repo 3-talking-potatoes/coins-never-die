@@ -49,7 +49,7 @@ const CoinList = () => {
             searchedCoinList.slice(offset, offset + limit).map(coin => (
               <Link
                 href={{
-                  pathname: "/buy",
+                  pathname: "/exchange",
                   query: {
                     market_code: `${coin.market}`,
                     korean_name: `${coin.korean_name}`,
