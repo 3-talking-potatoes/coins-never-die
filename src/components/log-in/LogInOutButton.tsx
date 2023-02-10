@@ -8,7 +8,7 @@ import { auth } from "@/Firebase";
 import { userId, userUidAssetData } from "@/atoms/atom";
 import { useEffect, useState } from "react";
 
-const LogInOutButton = () => {
+const LogInOutButton = ({ className }: { className: string }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [userUid, setUserUid] = useRecoilState(userId);
@@ -30,7 +30,7 @@ const LogInOutButton = () => {
   }, [userUid]);
 
   return (
-    <>
+    <div className={`bg-yellow-100 ${className}`}>
       {isLoggedIn ? (
         <Link
           href="/log-in"
@@ -47,7 +47,7 @@ const LogInOutButton = () => {
           Log Out
         </Link>
       )}
-    </>
+    </div>
   );
 };
 
