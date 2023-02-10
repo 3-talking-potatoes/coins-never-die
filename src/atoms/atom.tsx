@@ -75,3 +75,8 @@ export const myAssetIsCoinListClick = atom({
   key: "myAssetIsCoinListClick",
   default: false,
 });
+
+export const myAssetClickedCoinListId = atom({
+  key: "myAssetClickedCoinListId",
+  default: 0,
+});
