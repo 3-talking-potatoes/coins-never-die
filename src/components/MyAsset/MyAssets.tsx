@@ -40,7 +40,7 @@ const MyAssets = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
             </div>
           </figure>
         </article>
-        <article className="bg-white h-[13.9rem] rounded-xl border-black-100 border-[3px] flex-col justify-center">
+        <article className="bg-white h-[13.9rem] rounded-xl border-black-100 border-[3px] flex-col justify-center overflow-scroll scrollbar-hide">
           <figure className="h-12 px-2.5 pt-1 border-b border-grey">
             <div className="flex items-center">
               <RiBitCoinFill className="text-4xl text-white w-[10%]" />

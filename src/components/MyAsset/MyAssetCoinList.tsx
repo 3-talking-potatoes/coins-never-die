@@ -2,7 +2,11 @@
 
 import { useRecoilValue, useRecoilState } from "recoil";
 
-import { userUidAssetData, myAssetIsCoinListClick } from "@/atoms/atom";
+import {
+  userUidAssetData,
+  myAssetIsCoinListClick,
+  myAssetClickedCoinListId,
+} from "@/atoms/atom";
 import { IcurrentPrice } from "@/interface/interface";
 
 import { RiBitCoinFill } from "react-icons/ri";
@@ -12,15 +16,19 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const [isCoinListClick, setIsCoinListClick] = useRecoilState(
     myAssetIsCoinListClick,
   );
+  const [clickedCoinListId, setClickedCoinListId] = useRecoilState(
+    myAssetClickedCoinListId,
+  );
 
-  const handleCoinListClick = () => {
+  const handleCoinListClick = (id: number) => {
     setIsCoinListClick(prev => !prev);
+    setClickedCoinListId(id);
   };
 
   return (
     <div>
       {userAssetData.asset?.data &&
-        Object.entries(userAssetData.asset.data).map(([name, value]) => {
+        Object.entries(userAssetData.asset.data).map(([name, value], index) => {
           const averagePurchasePrice = Math.round(
             value.buyAmount / value.numberOfShares,
           );
@@ -36,7 +44,7 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
             <div key={name}>
               <figure
                 className="h-12 px-2.5 pt-1 border-b border-grey"
-                onClick={handleCoinListClick}
+                onClick={() => handleCoinListClick(index)}
               >
                 <div className="flex items-center">
                   <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
@@ -49,7 +57,7 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
                   <p className="w-[30%] flex justify-center">{earningRate}%</p>
                 </div>
               </figure>
-              {isCoinListClick && (
+              {isCoinListClick && clickedCoinListId === index && (
                 <figure>
                   <div className="flex py-1">
                     <div className="w-1/2 flex flex-col items-end px-2.5">
