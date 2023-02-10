@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { RiBitCoinFill } from "react-icons/ri";
 import Link from "next/link";
 
-import { auth, db } from "../Firebase";
-import { errorAlert } from "../hooks/useAuthorization";
+import { auth, db } from "../../Firebase";
+import { errorAlert } from "../../hooks/useAuthorization";
 
 export default function SignUpForm() {
   const router = useRouter();

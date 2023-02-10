@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import SignUpForm from "@/components/SignUpForm";
+import SignUpForm from "@/components/sign-up/SignUpForm";
 import Logo from "@/components/Logo";
 
 export default function SignUp() {

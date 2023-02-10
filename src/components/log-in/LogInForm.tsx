@@ -16,9 +16,9 @@ import { RiBitCoinFill } from "react-icons/ri";
 import { BsGoogle } from "react-icons/bs";
 import { DiGithubAlt } from "react-icons/di";
 
-import { auth, db } from "../Firebase";
-import { userId } from "../atoms/atom";
-import { errorAlert } from "../hooks/useAuthorization";
+import { auth, db } from "../../Firebase";
+import { userId } from "../../atoms/atom";
+import { errorAlert } from "../../hooks/useAuthorization";
 
 export default function LogInForm() {
   const [form, setForm] = useState({

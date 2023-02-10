@@ -7,8 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
-import Trading from "../../components/Trading";
-import MyAssets from "../../components/MyAsset/MyAssets";
+import Trading from "../../components/exchange/Trading";
+import MyAssets from "../../components/exchange/MyAssets";
 
 import { getUserData } from "@/hooks/getUserData";
 import { userId, userUidAssetData } from "@/atoms/atom";
