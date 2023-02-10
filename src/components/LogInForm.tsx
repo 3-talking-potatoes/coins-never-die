@@ -48,8 +48,6 @@ export default function LogInForm() {
         router.push("/");
       }
     } catch (error) {
-      // console.log("code" in error);
-
       if (typeof error === "object" && error !== null && "code" in error) {
         const errorMessage = errorAlert(String(error.code));
         alert(errorMessage);
