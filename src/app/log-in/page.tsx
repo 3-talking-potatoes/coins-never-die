@@ -1,7 +1,7 @@
 "use client";
 
 import Logo from "@/components/Logo";
-import LogInForm from "@/components/LogInForm";
+import LogInForm from "@/components/log-in/LogInForm";
 
 export default function LogIn() {
   return (
