@@ -1,37 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import React from "react";
 
 import Trading from "../../components/exchange/Trading";
 import MyAssets from "../../components/exchange/MyAssets";
 
-import { getUserData } from "@/hooks/getUserData";
-import { userId, userUidAssetData } from "@/atoms/atom";
+import useExchange from "@/hooks/useExchange";
 
 const page: React.FC = () => {
-  const setUserAssetData = useSetRecoilState(userUidAssetData);
-  const userUid = useRecoilValue(userId);
-
-  const searchParams = useSearchParams();
-
-  const market_code = searchParams.get("market_code");
-
-  const { data } = useQuery({
-    queryKey: ["currentPrice"],
-    queryFn: () =>
-      axios(`https://api.upbit.com/v1/ticker?markets=${market_code}`),
-  });
-
-  const currentPrice = data?.data[0].trade_price;
-
-  useEffect(() => {
-    getUserData(userUid, setUserAssetData);
-  }, []);
+  const { currentPrice } = useExchange();
 
   return (
     <main className="bg-yellow-100 w-screen h-screen flex justify-center items-center">
