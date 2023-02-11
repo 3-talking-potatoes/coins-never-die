@@ -1,17 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
+import axios from "axios";
 
 import {
   userUidAssetData,
   myAssetIsCoinListClick,
   myAssetClickedCoinListId,
 } from "@/atoms/atom";
-import { IcurrentPrice } from "@/interface/interface";
 
 import { RiBitCoinFill } from "react-icons/ri";
 
-const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
+const MyAssetCoinList = () => {
   const userAssetData = useRecoilValue(userUidAssetData);
   const [isCoinListClick, setIsCoinListClick] = useRecoilState(
     myAssetIsCoinListClick,
@@ -20,15 +21,53 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     myAssetClickedCoinListId,
   );
 
+  interface IDetailInfo {
+    [index: string]: string | number;
+  }
+
+  const [myAssetCoin, setMyAssetCoin] = useState<IDetailInfo[]>([]);
+
+  let currentPrice: number = 0;
+  let coinsListNameArray = [];
+
+  for (let coin in userAssetData.asset?.data) {
+    coinsListNameArray.push(`KRW-${coin}`);
+  }
+
+  let coinListName = coinsListNameArray.join(",");
+
+  const handleMyAssetCoin = async () => {
+    if (coinListName) {
+      try {
+        const response = await axios.get(
+          `https://api.upbit.com/v1/ticker?markets=${coinListName}`,
+        );
+        setMyAssetCoin([...response.data]);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const handleCoinListClick = (id: number) => {
     setIsCoinListClick(prev => !prev);
     setClickedCoinListId(id);
   };
 
+  useEffect(() => {
+    handleMyAssetCoin();
+  }, [coinListName]);
+
   return (
     <div>
       {userAssetData.asset?.data &&
         Object.entries(userAssetData.asset.data).map(([name, value], index) => {
+          const filteredCoin = myAssetCoin.filter(
+            el => el.market === `KRW-${name}`,
+          );
+
+          currentPrice = +filteredCoin[0]?.trade_price;
+
           const averagePurchasePrice = Math.round(
             value.buyAmount / value.numberOfShares,
           );
@@ -65,7 +104,9 @@ const MyAssetCoinList = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
                       <p>보유수량</p>
                     </div>
                     <div className="w-1/2 flex flex-col items-end px-2.5">
-                      <p>{`${averagePurchasePrice} KRW`}</p>
+                      <p>{`${new Intl.NumberFormat("ko-KR").format(
+                        averagePurchasePrice,
+                      )} KRW`}</p>
                       <p>매수평균가</p>
                     </div>
                   </div>

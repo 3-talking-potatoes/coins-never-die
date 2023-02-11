@@ -24,7 +24,7 @@ const page: React.FC = () => {
 
       <div className="bg-yellow-100 m-auto flex justify-center items-center">
         <Trading currentPrice={currentPrice}></Trading>
-        <MyAssets currentPrice={currentPrice}></MyAssets>
+        <MyAssets />
       </div>
     </div>
   );
