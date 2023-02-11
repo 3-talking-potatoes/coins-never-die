@@ -15,10 +15,10 @@ const Search = () => {
   } = useSearch();
 
   return (
-    <div className="mb-2 sm:w-[38rem] md:w-[40rem] lg:w-[54rem] xl:w-[68rem] flex-none">
-      <div className="sm:h-[2.5rem] md:h-[2.5rem] lg:h-[2.5rem] xl:h-[3rem] flex border-2 px-4 border-yellow-200 rounded-lg bg-white ">
+    <div className="mb-1 w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] flex-none">
+      <div className="h-[44px] flex border-2 sm:px-2 lg:px-4 border-yellow-200 rounded-lg bg-white ">
         <input
-          className="focus:outline-none ml-6 w-full"
+          className="focus:outline-none sm:ml-px md:ml-1 lg:ml-6 w-full"
           placeholder="찾고 싶은 코인을 입력하세요"
           onChange={handleInputChange}
           value={inputValue}
@@ -28,7 +28,7 @@ const Search = () => {
         ></input>
       </div>
       {hasText ? (
-        <ul className="z-10 absolute sm:w-[38rem] md:w-[40rem] lg:w-[54rem] xl:w-[68rem] items-center justify-start border-2 border-yellow-200 rounded-lg bg-white">
+        <ul className="z-10 absolute w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] items-center justify-start border-2 border-yellow-200 rounded-lg bg-white">
           {coinResult.map((el, index) => (
             <li
               id={index.toString()}
