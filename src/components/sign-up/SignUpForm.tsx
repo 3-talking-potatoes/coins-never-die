@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { RiBitCoinFill } from "react-icons/ri";
 import Link from "next/link";
 
-import { auth, db } from "../../Firebase";
-import { errorAlert } from "../../hooks/useAuthorization";
+import { errorAlert } from "../../utils/logIn&SignUp/useAuthorization";
+import setUserData from "@/utils/logIn&SignUp/setUserData";
+import createUserWithEmail from "@/utils/logIn&SignUp/createUserWithEmail";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -72,36 +71,20 @@ export default function SignUpForm() {
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = await createUserWithEmailAndPassword(
-        auth,
-        form.email,
-        form.password,
-      );
-
-      await setForm({
-        email: "",
-        password: "",
-        verifyPassword: "",
-      });
+      const data = await createUserWithEmail(form);
 
       if (data.operationType === "signIn") {
-        const setUsers = async () => {
-          const assetData = {
-            asset: {
-              cash: 100000,
-            },
-          };
-          await setDoc(doc(db, "user", data.user.uid), assetData);
-        };
+        await setUserData(data.user.uid);
 
-        await setUsers();
         router.push("/log-in");
       }
     } catch (error) {
       if (typeof error === "object" && error !== null && "code" in error) {
         const errorMessage = errorAlert(String(error.code));
+
         alert(errorMessage);
       }
+    } finally {
       setForm({
         email: "",
         password: "",

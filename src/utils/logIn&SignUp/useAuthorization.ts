@@ -1,3 +1,5 @@
+import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
+
 export const errorAlert = (code: string) => {
   switch (code) {
     case "auth/user-not-found" || "auth/wrong-password":
@@ -17,4 +19,23 @@ export const errorAlert = (code: string) => {
     default:
       return "로그인에 실패 하였습니다.";
   }
+};
+
+export const assetData = {
+  asset: {
+    cash: 100000,
+  },
+};
+
+export const providerName = (name: string) => {
+  let provider: GoogleAuthProvider | GithubAuthProvider =
+    new GoogleAuthProvider();
+
+  if (name === "google") {
+    provider = new GoogleAuthProvider();
+  }
+  if (name === "github") {
+    provider = new GithubAuthProvider();
+  }
+  return provider;
 };
