@@ -58,8 +58,8 @@ const MyAssets = () => {
           <article className="bg-white h-[20.9rem] rounded-xl border-black-100 border-[3px] flex-col justify-center overflow-scroll scrollbar-hide">
             <figure className="h-full w-full">
               <div className="h-full w-full flex justify-center items-center">
-                <p className="flex justify-center">
-                  로그인이 필요한 서비스입니다.
+                <p className="flex justify-center text-lg">
+                  로그인이 필요한 서비스입니다
                 </p>
               </div>
             </figure>
