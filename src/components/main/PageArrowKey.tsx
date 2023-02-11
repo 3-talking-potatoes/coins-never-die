@@ -12,7 +12,7 @@ const PageArrowKey = (props: {
 
   return (
     <button
-      className="sm:mx-4 md:mx-8 lg:mx-12 text-3xl text-white font-outline-2"
+      className="mx-4 md:mx-8 lg:mx-12 text-3xl text-white font-outline-2"
       onClick={() => setPage(page + props.setPage)}
       disabled={page === props.disabled}
     >
