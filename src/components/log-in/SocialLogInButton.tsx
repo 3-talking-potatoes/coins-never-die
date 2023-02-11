@@ -1,6 +1,6 @@
 import React from "react";
 
-import useSocialLogInProvider from "@/utils/useSocialLogInProvider";
+import useSocialLogInProvider from "@/hooks/useSocialLogInProvider";
 
 const SocialLogInButton = ({
   name,
