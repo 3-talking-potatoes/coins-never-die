@@ -57,7 +57,7 @@ const CoinList = () => {
                 }}
                 key={coin.market}
               >
-                <div className="bg-white my-1 h-[44px] flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group">
+                <div className="bg-white my-1 h-10 flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group">
                   <p className="w-16 flex items-center justify-center group-hover:font-bold">
                     {searchedCoinList.indexOf(coin) + 1}
                   </p>
