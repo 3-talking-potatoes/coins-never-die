@@ -5,10 +5,10 @@ const Search = () => {
   const {
     handleInputChange,
     inputValue,
-    searchFunction,
+    searchEnter,
     hasText,
     coinResult,
-    nameClick,
+    searchClick,
     mouseOut,
     state,
     dispatch,
@@ -16,14 +16,14 @@ const Search = () => {
 
   return (
     <div className="mb-1 w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] flex-none">
-      <div className="h-[44px] flex border-2 sm:px-2 lg:px-4 border-yellow-200 rounded-lg bg-white ">
+      <div className="h-[44px] flex border-2 px-2 sm:px-2 lg:px-4 border-yellow-200 rounded-lg bg-white ">
         <input
           className="focus:outline-none sm:ml-px md:ml-1 lg:ml-6 w-full"
           placeholder="찾고 싶은 코인을 입력하세요"
           onChange={handleInputChange}
           value={inputValue}
           onKeyDown={e => {
-            searchFunction(e);
+            searchEnter(e);
           }}
         ></input>
       </div>
@@ -37,7 +37,7 @@ const Search = () => {
               } `}
               role="presentation"
               onClick={() => {
-                nameClick(el);
+                searchClick(el);
                 mouseOut();
               }}
               onMouseOver={() => dispatch({ type: "select", payload: index })}

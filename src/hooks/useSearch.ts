@@ -18,7 +18,7 @@ const useSearch = () => {
   const [coinResult, setCoinResult] = useRecoilState(coinResultAtom);
   const [coinListArr, setCoinListArr] = useRecoilState(coinListArrAtom);
   const setSearchedCoinList = useSetRecoilState(searchedList);
-  const [page, setPage] = useRecoilState(pageAtom);
+  const setPage = useSetRecoilState(pageAtom);
 
   const initialState = { selectedIndex: 0 };
 
@@ -130,39 +130,39 @@ const useSearch = () => {
     callCoinListAPI();
   }, []);
 
-  const handleInputChange = async (e: { target: { value: string } }) => {
+  const handleInputChange = (e: { target: { value: string } }) => {
     setInputValue(e.target.value);
     setHasText(true);
-    setCoinResult(coinListArr.filter(el => el.includes(e.target.value)));
+    setCoinResult(coinListArr.filter(coin => coin.includes(e.target.value)));
   };
 
-  const nameClick = (clickedOption: string) => {
-    setInputValue(clickedOption); // 검색어 나타내주는것
-    setHasText(false); // 아래 렌더링
-    setCoinResult(coinListArr.filter(el => el.includes(clickedOption))); // 검색 결과 렌더링
-    coinListSort();
+  const searchClick = async (clickedOption: string) => {
+    setInputValue(clickedOption);
+    setHasText(false);
+    coinListSort(clickedOption);
     setPage(1);
   };
 
-  const searchFunction = (e: { key: string }) => {
+  const searchEnter = (e: { key: string }) => {
     if (e.key === "Enter") {
-      nameClick(inputValue);
+      searchClick(inputValue);
       mouseOut();
     }
   };
 
-  const coinListSort = async () => {
+  const coinListSort = async (clickedOption: string) => {
     let data = await getCoinData();
-    data = data?.filter(el => coinResult.includes(el.korean_name));
+    data = data?.filter(el => el.korean_name.includes(clickedOption));
     setSearchedCoinList(data);
   };
+
   return {
     handleInputChange,
     inputValue,
-    searchFunction,
+    searchEnter,
     hasText,
     coinResult,
-    nameClick,
+    searchClick,
     mouseOut,
     state,
     dispatch,
