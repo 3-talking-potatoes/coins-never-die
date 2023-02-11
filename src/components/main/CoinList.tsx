@@ -9,11 +9,11 @@ const CoinList = () => {
 
   return (
     <>
-      <div className="sm:w-[38rem] md:w-[40rem] lg:w-[54rem] xl:w-[68rem] flex-none">
+      <div className="w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] flex-none">
         <Search />
         <div>
-          <div className="bg-white mb-2 sm:h-[2.5rem] md:h-[2.5rem] lg:h-[2.5rem] xl:h-[3rem] flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg">
-            <p className="w-20 flex items-center justify-center text-xl font-semibold">
+          <div className="bg-white mb-1 h-[44px] flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg">
+            <p className="w-16 flex items-center justify-center text-xl font-semibold">
               순위
             </p>
             <p
@@ -24,21 +24,21 @@ const CoinList = () => {
               코인이름
             </p>
             <p
-              className="w-32 flex items-center justify-center text-xl font-semibold cursor-pointer"
+              className="w-28 flex items-center justify-center text-xl font-semibold cursor-pointer"
               id="trade_price"
               onClick={e => listSort(e)}
             >
               현재가
             </p>
             <p
-              className="w-32 flex items-center justify-center text-xl font-semibold cursor-pointer"
+              className="w-24 flex items-center justify-center text-xl font-semibold cursor-pointer"
               id="signed_change_rate"
               onClick={e => listSort(e)}
             >
               변동률
             </p>
             <p
-              className="w-40 flex items-center justify-center text-xl font-semibold cursor-pointer"
+              className="w-28 flex items-center justify-center text-xl font-semibold cursor-pointer"
               id="acc_trade_price_24h"
               onClick={e => listSort(e)}
             >
@@ -57,18 +57,18 @@ const CoinList = () => {
                 }}
                 key={coin.market}
               >
-                <div className="bg-white my-2 sm:h-[2.5rem] md:h-[2.5rem] lg:h-[2.5rem] xl:h-[3rem] flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group">
-                  <p className="w-20 flex items-center justify-center group-hover:font-bold">
+                <div className="bg-white my-1 h-[44px] flex flex-row border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group">
+                  <p className="w-16 flex items-center justify-center group-hover:font-bold">
                     {searchedCoinList.indexOf(coin) + 1}
                   </p>
                   <p className="w-44 flex items-center justify-center group-hover:font-bold">
                     {coin.korean_name}
                   </p>
-                  <p className="w-32 flex items-center justify-center group-hover:font-bold">
+                  <p className="w-28 flex items-center justify-center group-hover:font-bold">
                     {new Intl.NumberFormat("ko-KR").format(coin.trade_price)}
                   </p>
                   <p
-                    className={`w-32 flex items-center justify-center group-hover:font-bold ${
+                    className={`w-24 flex items-center justify-center group-hover:font-bold ${
                       coin.signed_change_rate * 100 > 0
                         ? `text-red`
                         : `text-blue`
@@ -76,7 +76,7 @@ const CoinList = () => {
                   >
                     {(coin.signed_change_rate * 100).toFixed(2)}%
                   </p>
-                  <p className="w-40 flex items-center justify-center group-hover:font-bold">
+                  <p className="w-28 flex items-center justify-center group-hover:font-bold">
                     {new Intl.NumberFormat("ko-KR").format(
                       parseInt((coin.acc_trade_price_24h / 1000000).toString()),
                     )}
