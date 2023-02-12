@@ -75,9 +75,10 @@ const MyAssetCoinList = () => {
             +currentPrice * value.numberOfShares,
           );
           const equitiesProfitOrLoss: number = equitiesValue - value.buyAmount;
-          const earningRate = (equitiesProfitOrLoss / value.buyAmount).toFixed(
-            2,
-          );
+          const earningRate = (
+            (equitiesProfitOrLoss / value.buyAmount) *
+            100
+          ).toFixed(2);
 
           return (
             <div key={name}>

@@ -13,7 +13,12 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     currentPriceFormat,
     orderQuantity,
     totalOrderAmount,
+    isBuy,
+    isSell,
     handleBuy,
+    handleSell,
+    handleIsSell,
+    handleIsBuy,
     handlePurchasePrice,
     handleOrderQuantity,
     handleTotalOrderAmount,
@@ -21,13 +26,26 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     initialization,
   } = useTrading({ currentPrice });
 
+  const isButtonClicked =
+    "bg-yellow-200 w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold";
+  const isButtonUnClicked =
+    "bg-grey w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-100 text-lg font-semibold";
+
   return (
     <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center">
       <article className="border-black-100 flex items-center justify-between mb-4">
-        <button className="bg-yellow-200 w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold">
+        <button
+          className={`${isBuy ? `${isButtonClicked}` : `${isButtonUnClicked}`}`}
+          onClick={handleIsBuy}
+        >
           매수
         </button>
-        <button className="bg-grey w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-100 text-lg font-semibold">
+        <button
+          className={`${
+            isSell ? `${isButtonClicked}` : `${isButtonUnClicked}`
+          }`}
+          onClick={handleIsSell}
+        >
           매도
         </button>
       </article>
@@ -85,12 +103,21 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
         >
           초기화
         </button>
-        <button
-          className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
-          onClick={handleBuy}
-        >
-          매수
-        </button>
+        {isBuy ? (
+          <button
+            className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
+            onClick={handleBuy}
+          >
+            매수
+          </button>
+        ) : (
+          <button
+            className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
+            onClick={handleSell}
+          >
+            매도
+          </button>
+        )}
       </article>
     </section>
   );

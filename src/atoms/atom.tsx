@@ -20,13 +20,13 @@ export const coinListArrAtom = atom<string[]>({
   default: [],
 });
 
-export const searchInputValue = atom<string>({
-  key: "searchInputValue",
+export const inputValueAtom = atom<string>({
+  key: "inputValueAtom",
   default: "",
 });
 
-export const searchedList = atom<IsearchedList[] | undefined>({
-  key: "searchedList",
+export const searchedListAtom = atom<IsearchedList[] | undefined>({
+  key: "searchedListAtom",
   default: [],
 });
 
@@ -79,4 +79,14 @@ export const myAssetIsCoinListClick = atom({
 export const myAssetClickedCoinListId = atom({
   key: "myAssetClickedCoinListId",
   default: 0,
+});
+
+export const tradingIsBuy = atom({
+  key: "tradingIsBuy",
+  default: true,
+});
+
+export const tradingIsSell = atom({
+  key: "tradingIsSell",
+  default: false,
 });
