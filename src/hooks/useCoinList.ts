@@ -3,13 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 
 import { getCoinData } from "@/api/getCoinData";
-import { searchedList, pageAtom } from "@/atoms/atom";
+import { searchedListAtom, pageAtom } from "@/atoms/atom";
 
 const useCoinList = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useRecoilState(pageAtom);
   const [sort, setSort] = useState(true);
-  const [searchedCoinList, setSearchedCoinList] = useRecoilState(searchedList);
+  const [searchedCoinList, setSearchedCoinList] =
+    useRecoilState(searchedListAtom);
 
   const { data } = useQuery({
     queryKey: ["coins"],

@@ -7,17 +7,17 @@ import { getCoinData } from "@/api/getCoinData";
 import {
   coinResultAtom,
   coinListArrAtom,
-  searchInputValue,
-  searchedList,
+  inputValueAtom,
+  searchedListAtom,
   pageAtom,
 } from "@/atoms/atom";
 
 const useSearch = () => {
   const [hasText, setHasText] = useState(false);
-  const [inputValue, setInputValue] = useRecoilState(searchInputValue);
+  const [inputValue, setInputValue] = useRecoilState(inputValueAtom);
   const [coinResult, setCoinResult] = useRecoilState(coinResultAtom);
   const [coinListArr, setCoinListArr] = useRecoilState(coinListArrAtom);
-  const setSearchedCoinList = useSetRecoilState(searchedList);
+  const setSearchedList = useSetRecoilState(searchedListAtom);
   const setPage = useSetRecoilState(pageAtom);
 
   const initialState = { selectedIndex: 0 };
@@ -153,7 +153,7 @@ const useSearch = () => {
   const coinListSort = async (clickedOption: string) => {
     let data = await getCoinData();
     data = data?.filter(el => el.korean_name.includes(clickedOption));
-    setSearchedCoinList(data);
+    setSearchedList(data);
   };
 
   return {
