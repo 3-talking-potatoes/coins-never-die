@@ -20,15 +20,17 @@ export default function SignUpForm() {
   return (
     <div className="bg-yellow-100 h-screen flex flex-col items-center justify-center justify-items-center ">
       <div className="bg-white form-wrapper w-[30rem] h-[35rem] overflow-x-hidden border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
+        <div>
+          <RiBitCoinFill className="w-[4rem] h-[4rem] mt-8 text-yellow-200" />
+        </div>
+        <div className="w-80 h-12 mb-6 text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
+          Sign up
+        </div>
         <form
           onSubmit={onSubmitSignUp}
           autoComplete="off"
           className="w-[30rem] h-[26rem] flex flex-col justify-items-center items-center"
         >
-          <RiBitCoinFill className="w-[4rem] h-[4rem] mt-8 text-yellow-200" />
-          <div className="w-80 h-12 mb-6 text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
-            Sign up
-          </div>
           <input
             name="email"
             value={form.email}
