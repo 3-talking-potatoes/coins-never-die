@@ -48,7 +48,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   )} KRW`;
 
   const numberOfShares =
-    userAssetData.asset?.data[abbreviatedEnglishName].numberOfShares;
+    userAssetData.asset?.data?.abbreviatedEnglishName?.numberOfShares;
   const equitiesValue = Math.round(+currentPrice * numberOfShares);
 
   setPurchasePrice(currentPrice?.toString());
@@ -121,7 +121,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     const isSellWithCoin = isSell && isUserHaveCoin;
 
     if (!userUid) return;
-    if (!isUserHaveCoin) return;
+    if (isSell && !isUserHaveCoin) return;
 
     if (isBuy && percent10) setTotalOrderAmount((myCash * 0.1).toString());
     if (isBuy && percent25) setTotalOrderAmount((myCash * 0.25).toString());
@@ -164,12 +164,6 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       updateUserData(userUid, data);
     } else alert("주문가능 금액이 부족합니다");
   };
-
-  console.log(
-    totalOrderAmount,
-    equitiesValue,
-    +totalOrderAmount <= equitiesValue,
-  );
 
   const handleSell = () => {
     const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
