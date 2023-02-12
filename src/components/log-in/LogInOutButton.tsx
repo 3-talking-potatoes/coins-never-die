@@ -15,6 +15,8 @@ const LogInOutButton = ({ className }: { className: string }) => {
   const resetList = useResetRecoilState(userUidAssetData);
 
   const onClickSignOutButton = () => {
+    alert("로그아웃 되었습니다.");
+
     signOut(auth)
       .then(() => {
         setUserUid("");

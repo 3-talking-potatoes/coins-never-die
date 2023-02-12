@@ -16,7 +16,7 @@ const page = () => {
         <PageArrowKey arrow={"◀"} disabled={1} setPage={-1} />
       </div>
       <div className={`flex flex-col justify-center items-center`}>
-        <Logo className={`pl-3 pt-3 mb-4`} />
+        <Logo className={`pl-3 mt-12 mb-4`} />
         <CoinList />
         <div className="flex mt-1 md:hidden">
           <PageArrowKey arrow={"◀"} disabled={1} setPage={-1} />
