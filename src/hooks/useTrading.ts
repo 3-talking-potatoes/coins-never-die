@@ -48,7 +48,8 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   )} KRW`;
 
   const numberOfShares =
-    userAssetData.asset?.data?.abbreviatedEnglishName?.numberOfShares;
+    userAssetData.asset?.data[abbreviatedEnglishName && abbreviatedEnglishName]
+      .numberOfShares;
   const equitiesValue = Math.round(+currentPrice * numberOfShares);
 
   setPurchasePrice(currentPrice?.toString());
@@ -61,18 +62,21 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     coinsListNameArray.push(`KRW-${coin}`);
   }
 
+  const initialization = () => {
+    setTotalOrderAmount("0");
+    setOrderQuantity("0");
+  };
+
   const handleIsBuy = () => {
     setIsSell(false);
     setIsBuy(true);
-    setOrderQuantity("0");
-    setTotalOrderAmount("0");
+    initialization();
   };
 
   const handleIsSell = () => {
     setIsSell(true);
     setIsBuy(false);
-    setOrderQuantity("0");
-    setTotalOrderAmount("0");
+    initialization();
   };
 
   const handlePurchasePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,11 +107,6 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     setTotalOrderAmount(event.target.value.replace(/[^0-9]/g, ""));
   };
 
-  const initialization = () => {
-    setTotalOrderAmount("0");
-    setOrderQuantity("0");
-  };
-
   const handleTotalOrderAmountPercent = (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {
@@ -120,6 +119,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     const isUserHaveCoin = coinsListNameArray.includes(market_code);
     const isSellWithCoin = isSell && isUserHaveCoin;
 
+    console.log(isSellWithCoin);
     if (!userUid) return;
     if (isSell && !isUserHaveCoin) return;
 
@@ -128,8 +128,13 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     if (isBuy && percent50) setTotalOrderAmount((myCash * 0.5).toString());
     if (isBuy && percent100) setTotalOrderAmount((myCash * 0.9995).toString());
 
-    if (isSellWithCoin && percent10)
+    if (isSellWithCoin && percent10) {
       setTotalOrderAmount((equitiesValue * 0.1).toString());
+      console.log("나오니?");
+      console.log(totalOrderAmount);
+      console.log(equitiesValue);
+    }
+
     if (isSellWithCoin && percent25)
       setTotalOrderAmount((equitiesValue * 0.25).toString());
     if (isSellWithCoin && percent50)
