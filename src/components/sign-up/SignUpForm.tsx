@@ -5,6 +5,7 @@ import { RiBitCoinFill } from "react-icons/ri";
 import Link from "next/link";
 
 import useSignUpForm from "./useSignUpForm";
+import SignUpFormInput from "./SignUpFormInput";
 
 export default function SignUpForm() {
   const {
@@ -23,49 +24,32 @@ export default function SignUpForm() {
         <div>
           <RiBitCoinFill className="w-[4rem] h-[4rem] mt-8 text-yellow-200" />
         </div>
-        <div className="w-80 h-12 mb-6 text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
+        <div className="w-80 h-12 mb-1 text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
           Sign up
         </div>
         <form
           onSubmit={onSubmitSignUp}
           autoComplete="off"
-          className="w-[30rem] h-[26rem] flex flex-col justify-items-center items-center"
+          className="w-[30rem] h-[28rem] flex flex-col justify-items-center items-center"
         >
-          <input
+          <SignUpFormInput
             name="email"
-            value={form.email}
-            onChange={onChangeForm}
-            className="w-80 h-10 p-3  placeholder:text-black-200 text-black text-lg border-solid border-[3px] border-black rounded-lg focus:outline-yellow-200  focus:text-yellow-200"
-            type="text"
-            placeholder="이메일을 입력해주세요."
+            form={form}
+            onChangeForm={onChangeForm}
+            validForm={validForm}
           />
-          <div className="text-[0.7rem] text-red">
-            {validForm.email ? null : "이메일 형식이 유효하지 않습니다."}
-          </div>
-          <input
+          <SignUpFormInput
             name="password"
-            value={form.password}
-            onChange={onChangeForm}
-            className="w-80 h-10 p-3 placeholder:text-black-200 text-lg mt-4 border-solid border-[3px] border-black rounded-lg  focus:outline-yellow-200 focus:text-yellow-200"
-            type="password"
-            placeholder="비밀번호를 입력해주세요."
+            form={form}
+            onChangeForm={onChangeForm}
+            validForm={validForm}
           />
-          <div className="text-[0.7rem] text-red">
-            {validForm.password
-              ? null
-              : "문자와 하나 이상의 숫자를 포함하여 8~10자리여야 합니다."}
-          </div>
-          <input
+          <SignUpFormInput
             name="verifyPassword"
-            value={form.verifyPassword}
-            onChange={onChangeForm}
-            className="w-80 h-10 p-3 placeholder:text-black-200 text-lg mt-4 border-solid border-[3px] border-black rounded-lg  focus:outline-yellow-200 focus:text-yellow-200"
-            type="password"
-            placeholder="비밀번호를 다시 입력해주세요."
+            form={form}
+            onChangeForm={onChangeForm}
+            validForm={validForm}
           />
-          <div className="text-[0.7rem] text-red">
-            {validForm.verifyPassword ? null : "비밀번호가 일치하지 않습니다."}
-          </div>
           <button
             type="submit"
             disabled={disabledButton}
@@ -73,13 +57,13 @@ export default function SignUpForm() {
           >
             Sign Up
           </button>
+          <Link
+            href="/log-in"
+            className="w-fit h-8 mt-12 text-center hover:text-xl"
+          >
+            로그인
+          </Link>
         </form>
-        <Link
-          href="/log-in"
-          className="w-fit h-8 mt-12 text-center hover:text-xl"
-        >
-          로그인
-        </Link>
       </div>
     </div>
   );

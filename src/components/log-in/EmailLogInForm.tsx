@@ -1,6 +1,5 @@
 import React from "react";
 import useLogInForm from "../../hooks/useLogInForm";
-import { RiBitCoinFill } from "react-icons/ri";
 
 export default function EmailLogInForm() {
   const { onSubmitLogIn, form, onChangeForm } = useLogInForm();
@@ -9,12 +8,8 @@ export default function EmailLogInForm() {
     <form
       autoComplete="off"
       onSubmit={onSubmitLogIn}
-      className="w-[30rem] h-[24rem] flex flex-col justify-items-center items-center"
+      className="w-[30rem] h-[16rem] flex flex-col justify-items-center items-center"
     >
-      <RiBitCoinFill className="w-[4rem] h-[4rem] mt-8 text-yellow-200" />
-      <div className="w-80 h-12 mb-6 text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
-        Log In
-      </div>
       <input
         name="email"
         value={form.email}
