@@ -9,7 +9,7 @@ const CoinList = () => {
 
   return (
     <>
-      <div className="w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] mb-12 flex-none">
+      <div className="w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] pb-10 flex-none">
         <Search />
         <div>
           <div className="bg-white mb-1 h-[44px] flex flex-row text-base lg:text-xl font-semibold border-2 justify-around items-center border-yellow-200 rounded-lg">
