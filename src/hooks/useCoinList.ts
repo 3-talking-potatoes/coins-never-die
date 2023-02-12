@@ -6,7 +6,7 @@ import { getCoinData } from "@/api/getCoinData";
 import { searchedListAtom, pageAtom } from "@/atoms/atom";
 
 const useCoinList = () => {
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(9);
   const [page, setPage] = useRecoilState(pageAtom);
   const [sort, setSort] = useState(true);
   const [searchedCoinList, setSearchedCoinList] =
