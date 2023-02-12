@@ -30,8 +30,11 @@ export default function useSignUpForm() {
     }
     if (name === "password") {
       const regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
-      setValidForm({ ...validForm, [name]: regExp.test(value) });
-      testVerifyPassword(value);
+      setValidForm({
+        ...validForm,
+        [name]: regExp.test(value),
+        verifyPassword: testVerifyPassword(value),
+      });
     }
     if (name === "verifyPassword") {
       setValidForm({ ...validForm, [name]: value === form.password });
@@ -39,12 +42,8 @@ export default function useSignUpForm() {
   };
 
   const testVerifyPassword = (value: string) => {
-    if (form.verifyPassword.length !== 0) {
-      setValidForm({
-        ...validForm,
-        verifyPassword: value === form.verifyPassword,
-      });
-    }
+    if (form.verifyPassword.length === 0) return true;
+    return value === form.verifyPassword;
   };
 
   const activeButtonTest = ({
