@@ -3,10 +3,10 @@ import { useRouter } from "next/navigation";
 import { useSetRecoilState } from "recoil";
 
 import { auth } from "../Firebase";
-import { providerName } from "./logIn&SignUp/useAuthorization";
+import { providerName } from "../utils/logIn&SignUp/useAuthorization";
 import { userId } from "@/atoms/atom";
 import isSignUp from "@/utils/logIn&SignUp/isSignUp";
-import { errorAlert } from "./logIn&SignUp/useAuthorization";
+import { errorAlert } from "../utils/logIn&SignUp/useAuthorization";
 
 const useSocialLogInProvider = () => {
   const router = useRouter();
