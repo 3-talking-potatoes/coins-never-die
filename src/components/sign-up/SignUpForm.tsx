@@ -1,102 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { RiBitCoinFill } from "react-icons/ri";
 import Link from "next/link";
 
-import { errorAlert } from "../../utils/logIn&SignUp/useAuthorization";
-import setUserData from "@/utils/logIn&SignUp/setUserData";
-import createUserWithEmail from "@/utils/logIn&SignUp/createUserWithEmail";
+import useSignUpForm from "./useSignUpForm";
 
 export default function SignUpForm() {
-  const router = useRouter();
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-    verifyPassword: "",
-  });
-
-  const [validForm, setValidForm] = useState({
-    email: true,
-    password: true,
-    verifyPassword: true,
-  });
-
-  const [disabledButton, setDisabledButton] = useState(true);
-
-  const validation = (name: string, value: string) => {
-    if (name === "email") {
-      var regExp =
-        /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-      setValidForm({ ...validForm, [name]: regExp.test(value) });
-    }
-    if (name === "password") {
-      var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
-      setValidForm({ ...validForm, [name]: regExp.test(value) });
-    }
-    if (name === "verifyPassword") {
-      setValidForm({ ...validForm, [name]: value === form.password });
-    }
-  };
-
-  const submitButton = () => {
-    if (validForm.email && validForm.password && validForm.verifyPassword) {
-      if (
-        form.email.length !== 0 &&
-        form.password.length !== 0 &&
-        form.verifyPassword.length !== 0
-      ) {
-        return setDisabledButton(false);
-      }
-      return setDisabledButton(true);
-    }
-    return setDisabledButton(true);
-  };
-
-  useEffect(() => {
-    submitButton();
-  }, [form]);
-
-  const onChangeForm = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let { name, value } = event.target;
-    value = value.replace(/\s/gi, "");
-
-    setForm({ ...form, [name]: value });
-
-    const validTest = validation(name, value);
-  };
-
-  const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      const data = await createUserWithEmail(form);
-
-      if (data.operationType === "signIn") {
-        await setUserData(data.user.uid);
-
-        router.push("/log-in");
-      }
-    } catch (error) {
-      if (typeof error === "object" && error !== null && "code" in error) {
-        const errorMessage = errorAlert(String(error.code));
-
-        alert(errorMessage);
-      }
-    } finally {
-      setForm({
-        email: "",
-        password: "",
-        verifyPassword: "",
-      });
-    }
-  };
-
-  const disabledButtonStyle =
-    "w-80 h-20 font-[Galmuri7] text-2xl mt-4 border-solid border-[3px] border-black bg-grey rounded-lg text-slate-100 cursor-not-allowed";
-  const activeButtonStyle =
-    "w-80 h-20 font-[Galmuri7] text-2xl mt-4 border-solid border-[3px] bg-yellow-200 border-black rounded-lg hover:bg-yellow-100 hover:text-3xl";
+  const {
+    onSubmitSignUp,
+    form,
+    onChangeForm,
+    validForm,
+    disabledButton,
+    disabledButtonStyle,
+    activeButtonStyle,
+  } = useSignUpForm();
 
   return (
     <div className="bg-yellow-100 h-screen flex flex-col items-center justify-center justify-items-center ">
