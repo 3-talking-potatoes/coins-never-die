@@ -80,3 +80,13 @@ export const myAssetClickedCoinListId = atom({
   key: "myAssetClickedCoinListId",
   default: 0,
 });
+
+export const tradingIsBuy = atom({
+  key: "tradingIsBuy",
+  default: true,
+});
+
+export const tradingIsSell = atom({
+  key: "tradingIsSell",
+  default: false,
+});
