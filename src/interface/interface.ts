@@ -81,3 +81,7 @@ export interface UserAssetData {
 export interface IcurrentPrice {
   currentPrice: number | bigint;
 }
+
+export interface IUseInterval {
+  (callback: () => void, interval: number): void;
+}

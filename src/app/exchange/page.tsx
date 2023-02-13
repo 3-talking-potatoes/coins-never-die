@@ -16,7 +16,7 @@ const page: React.FC = () => {
   const className = "pr-3 pt-4";
 
   return (
-    <div className="w-screen h-screen bg-yellow-100 justify-center flex items-center flex-col overflow-scroll">
+    <div className="w-screen h-screen bg-yellow-100 justify-center flex items-center flex-col ">
       <div className="flex flex-row w-screen justify-self-start justify-between">
         <Logo className={className2} />
         <LogInOutButton className={className} />

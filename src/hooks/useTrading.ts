@@ -119,22 +119,20 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     const isUserHaveCoin = coinsListNameArray.includes(market_code);
     const isSellWithCoin = isSell && isUserHaveCoin;
 
-    console.log(isSellWithCoin);
     if (!userUid) return;
     if (isSell && !isUserHaveCoin) return;
 
-    if (isBuy && percent10) setTotalOrderAmount((myCash * 0.1).toString());
-    if (isBuy && percent25) setTotalOrderAmount((myCash * 0.25).toString());
-    if (isBuy && percent50) setTotalOrderAmount((myCash * 0.5).toString());
-    if (isBuy && percent100) setTotalOrderAmount((myCash * 0.9995).toString());
+    if (isBuy && percent10)
+      setTotalOrderAmount(Math.ceil(myCash * 0.1).toString());
+    if (isBuy && percent25)
+      setTotalOrderAmount(Math.ceil(myCash * 0.25).toString());
+    if (isBuy && percent50)
+      setTotalOrderAmount(Math.ceil(myCash * 0.5).toString());
+    if (isBuy && percent100)
+      setTotalOrderAmount(Math.ceil(myCash * 0.9995).toString());
 
-    if (isSellWithCoin && percent10) {
+    if (isSellWithCoin && percent10)
       setTotalOrderAmount((equitiesValue * 0.1).toString());
-      console.log("나오니?");
-      console.log(totalOrderAmount);
-      console.log(equitiesValue);
-    }
-
     if (isSellWithCoin && percent25)
       setTotalOrderAmount((equitiesValue * 0.25).toString());
     if (isSellWithCoin && percent50)
@@ -151,9 +149,9 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
     const cash = `asset.cash`;
 
-    const isBuyAvailable = myCash >= +totalOrderAmount * 1.0005;
-    const purchaseAmount = Math.ceil(+currentPrice * +orderQuantity);
-    const commission = Math.ceil(Number(totalOrderAmount) * 0.0005);
+    const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
+    const purchaseAmount = Math.floor(+currentPrice * +orderQuantity);
+    const commission = Math.floor(Number(totalOrderAmount) * 0.0005);
 
     myCash = myCash - Number(totalOrderAmount) - commission;
 
@@ -167,6 +165,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     if (isBuyAvailable) {
       alert("매수 성공!");
       updateUserData(userUid, data);
+      initialization();
     } else alert("주문가능 금액이 부족합니다");
   };
 
@@ -188,9 +187,11 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       [cash]: myCash,
     };
 
+    if (totalOrderAmount === "0") return alert("매도수량을 입력해주세요");
     if (isSaleAvailable) {
       alert("매도 성공!");
       updateUserData(userUid, data);
+      initialization();
     } else alert("주문가능 금액이 부족합니다");
   };
 

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import axios from "axios";
 
+import useInterval from "@/hooks/useInterval";
+
 import {
   userUidAssetData,
   myAssetIsCoinListClick,
@@ -57,6 +59,8 @@ const MyAssetCoinList = () => {
   useEffect(() => {
     handleMyAssetCoin();
   }, [coinListName]);
+
+  useInterval(handleMyAssetCoin, 1000);
 
   return (
     <div>
