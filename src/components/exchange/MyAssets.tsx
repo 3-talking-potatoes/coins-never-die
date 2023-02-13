@@ -2,6 +2,7 @@
 
 import { useRecoilValue } from "recoil";
 import { userUidAssetData, userId } from "@/atoms/atom";
+import { useEffect, useState } from "react";
 
 import MyAssetCoinList from "./MyAssetCoinList";
 
@@ -10,11 +11,16 @@ import { RiBitCoinFill } from "react-icons/ri";
 const MyAssets = () => {
   const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   let myCash: number = 0;
   if (userAssetData.asset) {
     myCash = +userAssetData.asset.cash;
   }
+
+  useEffect(() => {
+    setIsLoggedIn(userUid === "" ? true : false);
+  }, [userUid]);
 
   return (
     <div>
@@ -22,7 +28,17 @@ const MyAssets = () => {
         <article className="bg-white h-[3.1rem] rounded-xl border-black-100 border-[3px] flex justify-around items-center pt-1.5 pb-2 text-black-100 text-lg font-semibold mb-7">
           보유자산
         </article>
-        {userUid.length !== 0 ? (
+        {isLoggedIn ? (
+          <article className="bg-white h-[20.9rem] rounded-xl border-black-100 border-[3px] flex-col justify-center overflow-scroll scrollbar-hide">
+            <figure className="h-full w-full">
+              <div className="h-full w-full flex justify-center items-center">
+                <p className="flex justify-center text-lg">
+                  로그인이 필요한 서비스입니다
+                </p>
+              </div>
+            </figure>
+          </article>
+        ) : (
           <>
             <article className="bg-white h-[6rem] rounded-xl border-black-100 border-[3px] flex-col justify-center mb-4">
               <figure className="h-1/2 px-2.5 pt-1 border-b border-grey">
@@ -54,16 +70,6 @@ const MyAssets = () => {
               <MyAssetCoinList />
             </article>
           </>
-        ) : (
-          <article className="bg-white h-[20.9rem] rounded-xl border-black-100 border-[3px] flex-col justify-center overflow-scroll scrollbar-hide">
-            <figure className="h-full w-full">
-              <div className="h-full w-full flex justify-center items-center">
-                <p className="flex justify-center text-lg">
-                  로그인이 필요한 서비스입니다
-                </p>
-              </div>
-            </figure>
-          </article>
         )}
       </section>
     </div>

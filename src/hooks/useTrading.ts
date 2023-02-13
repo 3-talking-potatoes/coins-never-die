@@ -49,7 +49,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
   const numberOfShares =
     userAssetData.asset?.data[abbreviatedEnglishName && abbreviatedEnglishName]
-      .numberOfShares;
+      ?.numberOfShares;
   const equitiesValue = Math.round(+currentPrice * numberOfShares);
 
   setPurchasePrice(currentPrice?.toString());
