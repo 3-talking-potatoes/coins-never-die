@@ -39,7 +39,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const searchParams = useSearchParams();
 
   const market_code = searchParams.get("market_code");
-  const abbreviatedEnglishName = market_code?.split("-")[1];
+  const abbreviatedEnglishName = market_code?.split("-")[1]!;
   const korean_name = searchParams.get("korean_name");
   const market = `${abbreviatedEnglishName}/KRW`;
 
@@ -48,8 +48,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   )} KRW`;
 
   const numberOfShares =
-    userAssetData.asset?.data[abbreviatedEnglishName && abbreviatedEnglishName]
-      ?.numberOfShares;
+    userAssetData.asset?.data[abbreviatedEnglishName]?.numberOfShares;
   const equitiesValue = Math.round(+currentPrice * numberOfShares);
 
   setPurchasePrice(currentPrice?.toString());
