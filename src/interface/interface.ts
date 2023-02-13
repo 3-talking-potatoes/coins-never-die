@@ -65,19 +65,25 @@ export interface IsearchedList {
   trade_volume: number;
 }
 
-export interface UserAssetData {
-  [key: string]: {
-    [key: string]:
-      | number
-      | {
-          [key: string]:
-            | number
-            | {
-                [key: string]: number;
-              };
-        };
-  };
+export interface ICoinNameData {
+  buyAmount: number;
+  buyPrice: number;
+  numberOfShares: number;
 }
+
+export interface ICoinData {
+  [key: string]: ICoinNameData;
+}
+
+export interface IUserAssetData {
+  cash: number;
+  data: ICoinData;
+}
+
+export interface IUserData {
+  asset: IUserAssetData;
+}
+
 export interface IcurrentPrice {
   currentPrice: number | bigint;
 }
