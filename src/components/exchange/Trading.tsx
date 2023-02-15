@@ -32,7 +32,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     "bg-grey w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-100 text-lg font-semibold";
 
   return (
-    <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center">
+    <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center max-[910px]:mb-8">
       <article className="border-black-100 flex items-center justify-between mb-4">
         <button
           className={`${isBuy ? `${isButtonClicked}` : `${isButtonUnClicked}`}`}
@@ -82,7 +82,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
           />
         </figure>
       </article>
-      <article className="bg-yellow-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-1.5 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
+      <article className="bg-yellow-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-2 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
         <button onClick={handleTotalOrderAmountPercent} id="10">
           10%
         </button>

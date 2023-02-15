@@ -85,7 +85,7 @@ const MyAssetCoinList = () => {
           return (
             <div key={name}>
               <figure
-                className="h-12 px-2.5 pt-1 border-b border-grey"
+                className="h-12 px-2.5 pt-1 border-b border-grey hover:cursor-pointer"
                 onClick={() => handleCoinListClick(index)}
               >
                 <div className="flex items-center">
