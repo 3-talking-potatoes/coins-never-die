@@ -161,6 +161,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       [cash]: myCash,
     };
 
+    if (totalOrderAmount === "0") return alert("매수수량을 입력해주세요");
     if (isBuyAvailable) {
       alert("매수 성공!");
       updateUserData(userUid, data);

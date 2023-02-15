@@ -5,12 +5,12 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import axios from "axios";
 
 import useInterval from "@/hooks/useInterval";
-
 import {
   userUidAssetData,
   myAssetIsCoinListClick,
   myAssetClickedCoinListId,
 } from "@/atoms/atom";
+import { IDetailInfo } from "@/interface/interface";
 
 import { RiBitCoinFill } from "react-icons/ri";
 
@@ -22,10 +22,6 @@ const MyAssetCoinList = () => {
   const [clickedCoinListId, setClickedCoinListId] = useRecoilState(
     myAssetClickedCoinListId,
   );
-
-  interface IDetailInfo {
-    [index: string]: string | number;
-  }
 
   const [myAssetCoin, setMyAssetCoin] = useState<IDetailInfo[]>([]);
 
@@ -78,6 +74,7 @@ const MyAssetCoinList = () => {
           const equitiesValue = Math.round(
             +currentPrice * value.numberOfShares,
           );
+
           const equitiesProfitOrLoss: number = equitiesValue - value.buyAmount;
           const earningRate = (
             (equitiesProfitOrLoss / value.buyAmount) *
