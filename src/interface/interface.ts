@@ -81,7 +81,7 @@ export interface IUserAssetData {
 }
 
 export interface IUserData {
-  asset: IUserAssetData;
+  [key: string]: IUserAssetData;
 }
 
 export interface IcurrentPrice {
@@ -90,4 +90,8 @@ export interface IcurrentPrice {
 
 export interface IUseInterval {
   (callback: () => void, interval: number): void;
+}
+
+export interface IDetailInfo {
+  [index: string]: string | number;
 }
