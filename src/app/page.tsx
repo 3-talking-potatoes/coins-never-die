@@ -17,10 +17,10 @@ const page = () => {
       <div className="max-md:hidden">
         <PageArrowKey arrow={"◀"} disabled={1} setPage={-1} />
       </div>
-      <div className={`flex flex-col justify-center items-center`}>
+      <div className="flex flex-col justify-center items-center">
         <Logo className={`pl-3 mt-10 mb-4`} />
         <CoinList />
-        <div className="flex mt-1 md:hidden">
+        <div className="flex mt-1 md:hidden pb-4">
           <PageArrowKey arrow={"◀"} disabled={1} setPage={-1} />
           <PageArrowKey arrow={"▶"} disabled={numPages!} setPage={1} />
         </div>
