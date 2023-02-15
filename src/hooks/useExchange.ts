@@ -21,7 +21,7 @@ const useExchange = () => {
     queryKey: ["currentPrice"],
     queryFn: () =>
       axios(`https://api.upbit.com/v1/ticker?markets=${market_code}`),
-    refetchInterval: 1000,
+    refetchInterval: 30000,
   });
 
   const currentPrice = data?.data[0].trade_price;
