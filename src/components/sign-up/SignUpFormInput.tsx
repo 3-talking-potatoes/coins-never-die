@@ -17,7 +17,7 @@ export default function SignUpFormInput({
   validForm: IValidForm;
 }) {
   const formMessage = (name: string) => {
-    let Iform = {
+    const Iform = {
       type: "",
       placeholder: "",
     };

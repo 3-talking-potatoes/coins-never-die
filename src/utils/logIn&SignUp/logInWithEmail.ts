@@ -8,7 +8,7 @@ const logInWithEmail = async ({
   email: string;
   password: string;
 }) => {
-  let data = await signInWithEmailAndPassword(auth, email, password);
+  const data = await signInWithEmailAndPassword(auth, email, password);
   return data;
 };
 

@@ -1,7 +1,6 @@
 import { atom } from "recoil";
 import { IsearchedList, IUserData } from "@/interface/interface";
 import { recoilPersist } from "recoil-persist";
-import { AnyNsRecord } from "dns";
 
 const { persistAtom } = recoilPersist();
 

@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prefer-const */
+/* eslint-disable no-useless-escape */
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
