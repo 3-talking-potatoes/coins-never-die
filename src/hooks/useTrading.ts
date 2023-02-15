@@ -40,6 +40,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const [isSell, setIsSell] = useRecoilState(tradingIsSell);
   const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
+  let fullOrderQuantity: number;
 
   const searchParams = useSearchParams();
 
@@ -179,8 +180,8 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
     const cash = `asset.cash`;
 
-    const saleAmount = Math.ceil(+currentPrice * +orderQuantity);
-    const commission = Math.ceil(saleAmount * 0.0005);
+    const saleAmount = Math.round(+currentPrice * +orderQuantity);
+    const commission = Math.round(saleAmount * 0.0005);
 
     const isSaleAvailable = +totalOrderAmount <= equitiesValue;
 
@@ -210,10 +211,12 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   }, [isOrderQuantityChanged]);
 
   useEffect(() => {
-    if (totalOrderAmount !== "") {
-      const orderQuantityString = (+totalOrderAmount / +purchasePrice)
-        .toFixed(8)
-        .toString();
+    if (totalOrderAmount !== "" && isBuy) {
+      fullOrderQuantity = +totalOrderAmount / +purchasePrice;
+      const orderQuantityString = fullOrderQuantity.toFixed(8).toString();
+      setOrderQuantity(orderQuantityString);
+    } else if (totalOrderAmount !== "" && isSell) {
+      const orderQuantityString = numberOfShares.toFixed(8).toString();
       setOrderQuantity(orderQuantityString);
     } else setOrderQuantity("0");
   }, [isTotalOderAmountChanged]);

@@ -63,6 +63,7 @@ const MyAssetCoinList = () => {
     <div>
       {userAssetData.asset?.data &&
         Object.entries(userAssetData.asset.data).map(([name, value], index) => {
+          const quantity = +value.numberOfShares.toFixed(8);
           const filteredCoin = myAssetCoin.filter(
             el => el.market === `KRW-${name}`,
           );
@@ -103,7 +104,7 @@ const MyAssetCoinList = () => {
                 <figure>
                   <div className="flex py-1">
                     <div className="w-1/2 flex flex-col items-end px-2.5">
-                      <p>{`${value.numberOfShares} ${name}`}</p>
+                      <p>{`${quantity} ${name}`}</p>
                       <p>보유수량</p>
                     </div>
                     <div className="w-1/2 flex flex-col items-end px-2.5">

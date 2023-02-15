@@ -59,11 +59,12 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
         </figure>
         <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between">
           <div>매수가격</div>
-          <input
-            className="w-36 px-2 pb-0.5 text-right"
-            value={new Intl.NumberFormat("ko-KR").format(Number(currentPrice))}
+          <div
+            className="w-36 pb-0.5 text-right"
             onChange={handlePurchasePrice}
-          />
+          >
+            {new Intl.NumberFormat("ko-KR").format(Number(currentPrice))}
+          </div>
         </figure>
         <figure className="py-3.5 border-b border-grey px-1 flex justify-between">
           <div className="text-black-200 text-lg">주문수량</div>
