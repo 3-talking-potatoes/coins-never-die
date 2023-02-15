@@ -17,13 +17,13 @@ const page: React.FC = () => {
   const className = "pr-3 pt-4";
 
   return (
-    <div className="w-screen h-screen bg-yellow-100 justify-center flex items-center flex-col ">
+    <div className="w-screen h-screen bg-yellow-100 justify-center flex items-center flex-col max-[910px]:flex-col max-[910px]:h-[1150px]">
       <div className="flex flex-row w-screen justify-self-start justify-between">
         <Logo className={className2} />
         <LogInOutButton className={className} />
       </div>
 
-      <div className="bg-yellow-100 m-auto flex justify-center items-center">
+      <div className="w-screen h-screen bg-yellow-100 m-auto flex justify-center items-center max-[910px]:flex-col">
         <Trading currentPrice={currentPrice}></Trading>
         <MyAssets />
       </div>
