@@ -57,7 +57,7 @@ const MyAssetCoinList = () => {
     handleMyAssetCoin();
   }, [coinListName]);
 
-  useInterval(handleMyAssetCoin, 1000);
+  useInterval(handleMyAssetCoin, 30000);
 
   return (
     <div>
