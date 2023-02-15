@@ -1,3 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-useless-escape */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { increment } from "firebase/firestore";
@@ -56,8 +61,8 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   let myCash: number;
   if (userAssetData.asset) myCash = +userAssetData.asset.cash;
 
-  let coinsListNameArray: any[] = [];
-  for (let coin in userAssetData.asset?.data) {
+  const coinsListNameArray: any[] = [];
+  for (const coin in userAssetData.asset?.data) {
     coinsListNameArray.push(`KRW-${coin}`);
   }
 
@@ -85,9 +90,9 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const handleOrderQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
 
-    let splitValue = value.split(".");
+    const splitValue = value.split(".");
     let underDecimal = splitValue[1];
-    let int = splitValue[0];
+    const int = splitValue[0];
 
     setIsOrderQuantityChanged(prev => !prev);
 

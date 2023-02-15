@@ -16,7 +16,7 @@ const useInterval: IUseInterval = (callback, interval) => {
       }
     }
 
-    let id = setInterval(tick, interval);
+    const id = setInterval(tick, interval);
     return () => clearInterval(id);
   }, [interval]);
 };

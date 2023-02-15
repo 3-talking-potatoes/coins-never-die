@@ -13,7 +13,7 @@ const MyAssets = () => {
   const userUid = useRecoilValue(userId);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  let myCash: number = 0;
+  let myCash = 0;
   if (userAssetData.asset) {
     myCash = +userAssetData.asset.cash;
   }

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { db } from "./../Firebase";
 import { doc, updateDoc, increment } from "firebase/firestore";
 

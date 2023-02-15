@@ -25,7 +25,7 @@ const useLogInForm = () => {
     event.preventDefault();
 
     try {
-      let data = await logInWithEmail(form);
+      const data = await logInWithEmail(form);
 
       setUserUid(data.user.uid);
 

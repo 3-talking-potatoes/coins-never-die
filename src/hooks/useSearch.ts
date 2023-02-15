@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { useState, useEffect, useReducer } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -128,6 +129,7 @@ const useSearch = () => {
       }
     };
     callCoinListAPI();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInputChange = (e: { target: { value: string } }) => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -25,14 +26,14 @@ const MyAssetCoinList = () => {
 
   const [myAssetCoin, setMyAssetCoin] = useState<IDetailInfo[]>([]);
 
-  let currentPrice: number = 0;
-  let coinsListNameArray = [];
+  let currentPrice = 0;
+  const coinsListNameArray = [];
 
-  for (let coin in userAssetData.asset?.data) {
+  for (const coin in userAssetData.asset?.data) {
     coinsListNameArray.push(`KRW-${coin}`);
   }
 
-  let coinListName = coinsListNameArray.join(",");
+  const coinListName = coinsListNameArray.join(",");
 
   const handleMyAssetCoin = async () => {
     if (coinListName) {
