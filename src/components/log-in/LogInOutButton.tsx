@@ -36,17 +36,17 @@ const LogInOutButton = ({ className }: { className: string }) => {
       {isLoggedIn ? (
         <Link
           href="/log-in"
-          className="w-32 h-10 pt-1 flex self-end text-lg rounded-lg text-white bg-yellow-200 justify-center border-[3px] border-solid border-black-100 hover:bg-yellow-100 hover:text-xl"
+          className="w-32 h-10 pt-1 flex self-end text-lg rounded-lg text-white bg-yellow-200 justify-center border-[3px] border-solid border-black-100 hover:bg-yellow-100 hover:text-xl pb-8 max-[910px]:mr-3.5"
         >
-          Log In
+          로그인
         </Link>
       ) : (
         <Link
           href="/"
           onClick={onClickSignOutButton}
-          className="w-32 h-10 pt-1 flex self-end text-lg rounded-lg text-white bg-yellow-200 justify-center border-[3px] border-solid border-black-100 hover:bg-yellow-100 hover:text-xl"
+          className="w-32 h-10 pt-1 flex self-end text-lg rounded-lg text-white bg-yellow-200 justify-center border-[3px] border-solid border-black-100 hover:bg-yellow-100 hover:text-xl pb-8 max-[910px]:mr-3.5"
         >
-          Log Out
+          로그아웃
         </Link>
       )}
     </div>

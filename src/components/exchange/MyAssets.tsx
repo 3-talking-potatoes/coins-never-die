@@ -15,7 +15,7 @@ const MyAssets = () => {
 
   let myCash = 0;
   if (userAssetData.asset) {
-    myCash = +userAssetData.asset.cash;
+    myCash = Math.floor(+userAssetData.asset.cash);
   }
 
   useEffect(() => {
