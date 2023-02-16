@@ -1,10 +1,14 @@
 import React from "react";
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
 
 import Search from "@/components/main/Search";
 import useCoinList from "@/hooks/useCoinList";
+import { sortAtom, sortIdAtom } from "@/atoms/atom";
 
 const CoinList = () => {
+  const sort = useRecoilValue(sortAtom);
+  const sortId = useRecoilValue(sortIdAtom);
   const { listSort, searchedCoinList, offset, limit } = useCoinList();
 
   return (
@@ -12,35 +16,39 @@ const CoinList = () => {
       <Search />
       <div>
         <div className="bg-white mb-1 h-[44px] flex flex-row text-base lg:text-xl font-semibold border-2 justify-around items-center border-yellow-200 rounded-lg">
-          <p className="w-16 flex items-center justify-center ">순위</p>
-          <p
+          <p className="w-16 flex items-center justify-center">순위</p>
+          <div
             className="w-44 flex items-center justify-center  cursor-pointer"
             id="korean_name"
             onClick={e => listSort(e)}
           >
             코인이름
-          </p>
-          <p
+            {sortId === "korean_name" && (sort ? <p>↓</p> : <p>↑</p>)}
+          </div>
+          <div
             className="w-28 flex items-center justify-center  cursor-pointer"
             id="trade_price"
             onClick={e => listSort(e)}
           >
             현재가
-          </p>
-          <p
+            {sortId === "trade_price" && (sort ? <p>↓</p> : <p>↑</p>)}
+          </div>
+          <div
             className="w-24 flex items-center justify-center  cursor-pointer"
             id="signed_change_rate"
             onClick={e => listSort(e)}
           >
             변동률
-          </p>
-          <p
+            {sortId === "signed_change_rate" && (sort ? <p>↓</p> : <p>↑</p>)}
+          </div>
+          <div
             className="max-md:hidden w-28 flex items-center justify-center  cursor-pointer"
             id="acc_trade_price_24h"
             onClick={e => listSort(e)}
           >
             거래대금
-          </p>
+            {sortId === "acc_trade_price_24h" && (sort ? <p>↓</p> : <p>↑</p>)}
+          </div>
         </div>
         {searchedCoinList &&
           searchedCoinList.slice(offset, offset + limit).map(coin => (

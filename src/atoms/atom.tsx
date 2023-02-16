@@ -89,3 +89,13 @@ export const tradingIsSell = atom({
   key: "tradingIsSell",
   default: false,
 });
+
+export const sortAtom = atom({
+  key: "sortAtom",
+  default: true,
+});
+
+export const sortIdAtom = atom({
+  key: "sortIdAtom",
+  default: "",
+});
