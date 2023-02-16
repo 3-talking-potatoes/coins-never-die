@@ -40,7 +40,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const [isSell, setIsSell] = useRecoilState(tradingIsSell);
   const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
-  let fullOrderQuantity: number;
+  let fullOrderQuantity = +totalOrderAmount / +purchasePrice;
 
   const searchParams = useSearchParams();
 
@@ -55,7 +55,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
   const numberOfShares =
     userAssetData.asset?.data[abbreviatedEnglishName]?.numberOfShares;
-  const equitiesValue = Math.round(+currentPrice * numberOfShares);
+  // const equitiesValue = Math.round(+currentPrice * numberOfShares);
 
   setPurchasePrice(currentPrice?.toString());
 
@@ -137,61 +137,52 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       setTotalOrderAmount(Math.ceil(myCash * 0.9995).toString());
 
     if (isSellWithCoin && percent10)
-      setTotalOrderAmount((equitiesValue * 0.1).toString());
+      setTotalOrderAmount(
+        Math.floor(numberOfShares * +currentPrice * 0.1).toString(),
+      );
     if (isSellWithCoin && percent25)
-      setTotalOrderAmount((equitiesValue * 0.25).toString());
+      setTotalOrderAmount(
+        Math.floor(numberOfShares * +currentPrice * 0.25).toString(),
+      );
     if (isSellWithCoin && percent50)
-      setTotalOrderAmount((equitiesValue * 0.5).toString());
-    if (isSellWithCoin && percent100)
-      setTotalOrderAmount((equitiesValue * 1).toString());
+      setTotalOrderAmount(
+        Math.floor(numberOfShares * +currentPrice * 0.5).toString(),
+      );
+    if (isSellWithCoin && percent100) {
+      setTotalOrderAmount(
+        Math.floor(numberOfShares * +currentPrice * 1).toString(),
+      );
+    }
 
     setIsTotalOderAmountChanged(prev => !prev);
   };
 
-  const handleBuy = () => {
-    const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
-    const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
-    const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
-    const cash = `asset.cash`;
-
-    const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
-    const purchaseAmount = Math.floor(+currentPrice * +orderQuantity);
-    const commission = Math.floor(Number(totalOrderAmount) * 0.0005);
-
-    myCash = myCash - Number(totalOrderAmount) - commission;
-
-    const data = {
-      [buyPrice]: currentPrice,
-      [buyAmount]: increment(+purchaseAmount),
-      [numberOfShares]: increment(+orderQuantity),
-      [cash]: myCash,
-    };
-
-    if (totalOrderAmount === "0") return alert("매수수량을 입력해주세요");
-    if (isBuyAvailable) {
-      alert("매수 성공!");
-      updateUserData(userUid, data);
-      initialization();
-    } else alert("주문가능 금액이 부족합니다");
-  };
-
   const handleSell = () => {
-    const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
-    const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
-    const cash = `asset.cash`;
+    const buyAmountKey = `asset.data.${abbreviatedEnglishName}.buyAmount`;
+    const numberOfSharesKey = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
+    const cashKey = `asset.cash`;
 
-    const saleAmount = Math.round(+currentPrice * +orderQuantity);
-    const commission = Math.round(saleAmount * 0.0005);
+    const saleAmount = +currentPrice * +orderQuantity;
+    const commission = Math.ceil(saleAmount * 0.0005);
 
-    const isSaleAvailable = +totalOrderAmount <= equitiesValue;
+    const isSaleAvailable = fullOrderQuantity <= +numberOfShares;
 
     myCash = myCash + saleAmount - commission;
 
-    const data = {
-      [buyAmount]: increment(saleAmount * -1),
-      [numberOfShares]: increment(+orderQuantity * -1),
-      [cash]: myCash,
+    let data = {
+      [buyAmountKey]: increment(saleAmount * -1),
+      [numberOfSharesKey]: increment(+fullOrderQuantity * -1),
+      [cashKey]: myCash,
     };
+
+    if (numberOfShares === fullOrderQuantity) {
+      console.log("먹니??");
+      data = {
+        [buyAmountKey]: 0,
+        [numberOfSharesKey]: increment(+fullOrderQuantity * -1),
+        [cashKey]: myCash,
+      };
+    }
 
     if (totalOrderAmount === "0") return alert("매도수량을 입력해주세요");
     if (isSaleAvailable) {
@@ -226,6 +217,33 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     setIsBuy(true);
     setIsSell(false);
   }, []);
+
+  const handleBuy = () => {
+    const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
+    const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
+    const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
+    const cash = `asset.cash`;
+
+    const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
+    const purchaseAmount = Math.floor(+currentPrice * +fullOrderQuantity);
+    const commission = Math.floor(Number(totalOrderAmount) * 0.0005);
+
+    myCash = myCash - Number(totalOrderAmount) - commission;
+
+    const data = {
+      [buyPrice]: currentPrice,
+      [buyAmount]: increment(+purchaseAmount),
+      [numberOfShares]: increment(fullOrderQuantity),
+      [cash]: myCash,
+    };
+
+    if (totalOrderAmount === "0") return alert("매수수량을 입력해주세요");
+    if (isBuyAvailable) {
+      alert("매수 성공!");
+      updateUserData(userUid, data);
+      initialization();
+    } else alert("주문가능 금액이 부족합니다");
+  };
 
   return {
     korean_name,

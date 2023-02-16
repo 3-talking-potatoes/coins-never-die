@@ -2,10 +2,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
+import { useQuery } from "@tanstack/react-query";
 import { useRecoilValue, useRecoilState } from "recoil";
 import axios from "axios";
 
-import useInterval from "@/hooks/useInterval";
 import {
   userUidAssetData,
   myAssetIsCoinListClick,
@@ -35,18 +36,14 @@ const MyAssetCoinList = () => {
 
   const coinListName = coinsListNameArray.join(",");
 
-  const handleMyAssetCoin = async () => {
-    if (coinListName) {
-      try {
-        const response = await axios.get(
-          `https://api.upbit.com/v1/ticker?markets=${coinListName}`,
-        );
-        setMyAssetCoin([...response.data]);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  const { data } = useQuery({
+    queryKey: ["currentPrice"],
+    queryFn: async () =>
+      await axios(`https://api.upbit.com/v1/ticker?markets=${coinListName}`),
+
+    enabled: !!coinListName,
+    refetchInterval: 30000,
+  });
 
   const handleCoinListClick = (id: number) => {
     setIsCoinListClick(prev => !prev);
@@ -54,10 +51,8 @@ const MyAssetCoinList = () => {
   };
 
   useEffect(() => {
-    handleMyAssetCoin();
-  }, [coinListName]);
-
-  useInterval(handleMyAssetCoin, 30000);
+    if (data) setMyAssetCoin(data.data);
+  }, [data]);
 
   return (
     <div>
@@ -70,10 +65,11 @@ const MyAssetCoinList = () => {
 
           currentPrice = +filteredCoin[0]?.trade_price;
 
-          const averagePurchasePrice = Math.round(
+          const averagePurchasePrice = Math.ceil(
             value.buyAmount / value.numberOfShares,
           );
-          const equitiesValue = Math.round(
+
+          const equitiesValue = Math.floor(
             +currentPrice * value.numberOfShares,
           );
 
@@ -82,56 +78,59 @@ const MyAssetCoinList = () => {
             (equitiesProfitOrLoss / value.buyAmount) *
             100
           ).toFixed(2);
-
-          return (
-            <div key={name}>
-              <figure
-                className="h-12 px-2.5 pt-1 border-b border-grey hover:cursor-pointer"
-                onClick={() => handleCoinListClick(index)}
-              >
-                <div className="flex items-center">
-                  <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
-                  <p className="w-[30%] flex justify-center">{name}</p>
-                  <p className="w-[30%] flex justify-center">
-                    {new Intl.NumberFormat("ko-KR").format(
-                      equitiesProfitOrLoss,
-                    )}
-                  </p>
-                  <p className="w-[30%] flex justify-center">{earningRate}%</p>
-                </div>
-              </figure>
-              {isCoinListClick && clickedCoinListId === index && (
-                <figure>
-                  <div className="flex py-1">
-                    <div className="w-1/2 flex flex-col items-end px-2.5">
-                      <p>{`${quantity} ${name}`}</p>
-                      <p>보유수량</p>
-                    </div>
-                    <div className="w-1/2 flex flex-col items-end px-2.5">
-                      <p>{`${new Intl.NumberFormat("ko-KR").format(
-                        averagePurchasePrice,
-                      )} KRW`}</p>
-                      <p>매수평균가</p>
-                    </div>
-                  </div>
-                  <div className="flex py-1">
-                    <div className="w-1/2 flex flex-col items-end px-2.5">
-                      <p>{`${new Intl.NumberFormat("ko-KR").format(
-                        equitiesValue,
-                      )} KRW`}</p>
-                      <p>평가금액</p>
-                    </div>
-                    <div className="w-1/2 flex flex-col items-end px-2.5">
-                      <p>{`${new Intl.NumberFormat("ko-KR").format(
-                        value.buyAmount,
-                      )} KRW`}</p>
-                      <p>매수금액</p>
-                    </div>
+          if (value.numberOfShares !== 0) {
+            return (
+              <div key={name}>
+                <figure
+                  className="h-12 px-2.5 pt-1 border-b border-grey hover:cursor-pointer"
+                  onClick={() => handleCoinListClick(index)}
+                >
+                  <div className="flex items-center">
+                    <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
+                    <p className="w-[30%] flex justify-center">{name}</p>
+                    <p className="w-[30%] flex justify-center">
+                      {new Intl.NumberFormat("ko-KR").format(
+                        equitiesProfitOrLoss,
+                      )}
+                    </p>
+                    <p className="w-[30%] flex justify-center">
+                      {earningRate}%
+                    </p>
                   </div>
                 </figure>
-              )}
-            </div>
-          );
+                {isCoinListClick && clickedCoinListId === index && (
+                  <figure>
+                    <div className="flex py-1">
+                      <div className="w-1/2 flex flex-col items-end px-2.5">
+                        <p>{`${quantity} ${name}`}</p>
+                        <p>보유수량</p>
+                      </div>
+                      <div className="w-1/2 flex flex-col items-end px-2.5">
+                        <p>{`${new Intl.NumberFormat("ko-KR").format(
+                          averagePurchasePrice,
+                        )} KRW`}</p>
+                        <p>매수평균가</p>
+                      </div>
+                    </div>
+                    <div className="flex py-1">
+                      <div className="w-1/2 flex flex-col items-end px-2.5">
+                        <p>{`${new Intl.NumberFormat("ko-KR").format(
+                          equitiesValue,
+                        )} KRW`}</p>
+                        <p>평가금액</p>
+                      </div>
+                      <div className="w-1/2 flex flex-col items-end px-2.5">
+                        <p>{`${new Intl.NumberFormat("ko-KR").format(
+                          value.buyAmount,
+                        )} KRW`}</p>
+                        <p>매수금액</p>
+                      </div>
+                    </div>
+                  </figure>
+                )}
+              </div>
+            );
+          }
         })}
     </div>
   );
