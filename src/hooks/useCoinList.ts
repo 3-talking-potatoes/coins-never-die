@@ -2,15 +2,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { getCoinData } from "@/api/getCoinData";
-import { searchedListAtom, pageAtom } from "@/atoms/atom";
+import { searchedListAtom, pageAtom, sortAtom, sortIdAtom } from "@/atoms/atom";
 
 const useCoinList = () => {
   const [limit, setLimit] = useState(9);
   const [page, setPage] = useRecoilState(pageAtom);
-  const [sort, setSort] = useState(true);
+  const [sort, setSort] = useRecoilState(sortAtom);
+  const setSortId = useSetRecoilState(sortIdAtom);
   const [searchedCoinList, setSearchedCoinList] =
     useRecoilState(searchedListAtom);
 
@@ -36,6 +37,7 @@ const useCoinList = () => {
     event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
   ) => {
     const { id } = event.currentTarget;
+    setSortId(id);
     let tempArr;
     if (searchedCoinList) tempArr = [...searchedCoinList];
     sort
