@@ -21,7 +21,7 @@ export default function LogInForm() {
         height="120"
         className="ml-[21rem] mb-[-2rem] z-1 relative"
       />
-      <div className="bg-white form-wrapper z-100 relative w-[30rem] h-[35rem] overflow-x-hidden border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
+      <div className="bg-white form-wrapper z-100 relative w-[30rem] h-[35rem] overflow-x-hidden scrollbar-hide border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
         <div>
           <RiBitCoinFill className="w-[4rem] h-[4rem] mt-8 text-yellow-200 dark:text-purple-200" />
         </div>
