@@ -41,11 +41,15 @@ const MyAssets = () => {
         ) : (
           <>
             <article className="bg-white h-[6rem] rounded-xl border-black-100 border-[3px] flex-col justify-center mb-4">
-              <figure className="h-1/2 px-2.5 pt-1 border-b border-grey">
+              <figure className="h-1/2 px-2.5 pt-2 border-b border-grey">
                 <div className="flex items-center">
                   <RiBitCoinFill className="text-4xl text-white w-[10%]" />
-                  <p className="w-[45%] flex justify-center">현금</p>
-                  <p className="w-[45%] flex justify-center">자산</p>
+                  <p className="w-[45%] flex justify-center font-semibold text-[15px]">
+                    현금
+                  </p>
+                  <p className="w-[45%] flex justify-center font-semibold text-[15px]">
+                    자산
+                  </p>
                 </div>
               </figure>
               <figure className="h-1/2 px-2.5 pt-1">
@@ -59,12 +63,18 @@ const MyAssets = () => {
               </figure>
             </article>
             <article className="bg-white h-[13.9rem] rounded-xl border-black-100 border-[3px] flex-col justify-center overflow-scroll scrollbar-hide">
-              <figure className="h-12 px-2.5 pt-1 border-b border-grey">
+              <figure className="h-12 px-2.5 pt-2 border-b border-grey">
                 <div className="flex items-center">
                   <RiBitCoinFill className="text-4xl text-white w-[10%]" />
-                  <p className="w-[30%] flex justify-center">코인</p>
-                  <p className="w-[30%] flex justify-center">평가손익</p>
-                  <p className="w-[30%] flex justify-center">수익률</p>
+                  <p className="w-[30%] flex justify-center font-bold text-[15px]">
+                    코인
+                  </p>
+                  <p className="w-[30%] flex justify-center font-bold text-[15px]">
+                    평가손익
+                  </p>
+                  <p className="w-[30%] flex justify-center font-bold text-[15px]">
+                    수익률
+                  </p>
                 </div>
               </figure>
               <MyAssetCoinList />

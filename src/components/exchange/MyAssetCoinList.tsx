@@ -99,31 +99,31 @@ const MyAssetCoinList = () => {
                   </div>
                 </figure>
                 {isCoinListClick && clickedCoinListId === index && (
-                  <figure>
-                    <div className="flex py-1">
+                  <figure className="text-sm border-b border-grey">
+                    <div className="flex py-2">
                       <div className="w-1/2 flex flex-col items-end px-2.5">
                         <p>{`${quantity} ${name}`}</p>
-                        <p>보유수량</p>
+                        <p className="font-bold pt-1">보유수량</p>
                       </div>
                       <div className="w-1/2 flex flex-col items-end px-2.5">
-                        <p>{`${new Intl.NumberFormat("ko-KR").format(
-                          averagePurchasePrice,
-                        )} KRW`}</p>
-                        <p>매수평균가</p>
+                        <p className="pr-2">{`${new Intl.NumberFormat(
+                          "ko-KR",
+                        ).format(averagePurchasePrice)} KRW`}</p>
+                        <p className="pr-2 font-bold pt-1">매수평균가</p>
                       </div>
                     </div>
-                    <div className="flex py-1">
+                    <div className="flex py-2">
                       <div className="w-1/2 flex flex-col items-end px-2.5">
                         <p>{`${new Intl.NumberFormat("ko-KR").format(
                           equitiesValue,
                         )} KRW`}</p>
-                        <p>평가금액</p>
+                        <p className="font-bold pt-1">평가금액</p>
                       </div>
                       <div className="w-1/2 flex flex-col items-end px-2.5">
-                        <p>{`${new Intl.NumberFormat("ko-KR").format(
-                          value.buyAmount,
-                        )} KRW`}</p>
-                        <p>매수금액</p>
+                        <p className="pr-2">{`${new Intl.NumberFormat(
+                          "ko-KR",
+                        ).format(value.buyAmount)} KRW`}</p>
+                        <p className="pr-2 font-bold pt-1">매수금액</p>
                       </div>
                     </div>
                   </figure>
