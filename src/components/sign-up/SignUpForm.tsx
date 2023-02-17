@@ -20,25 +20,25 @@ export default function SignUpForm() {
   } = useSignUpForm();
 
   return (
-    <div className="bg-yellow-100 h-[80vh] dark:bg-purple-100 flex flex-col items-center justify-center justify-items-center ">
+    <div className="bg-yellow-100 h-[30rem] dark:bg-purple-100 flex flex-col items-center justify-center justify-items-center ">
       <Image
         src="/cndIcon.png"
         alt="icon"
-        width="120"
-        height="120"
-        className="ml-[21rem] mb-[-2rem] z-1 relative"
+        width="100"
+        height="100"
+        className="ml-[16rem] mb-[-2rem] md:ml-[21rem] md:mb-[-2rem]"
       />
-      <div className="bg-white form-wrapper z-100 relative  w-[30rem] h-[35rem] overflow-x-hidden scrollbar-hide border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
+      <div className="bg-white form-wrapper w-[25rem] md:w-[30rem] h-[35rem] overflow-x-hidden scrollbar-hide border-solid border-[3px] border-black rounded-3xl flex flex-col justify-items-center items-center">
         <div>
-          <RiBitCoinFill className="w-[4rem] h-[4rem] mt-8 text-yellow-200 dark:text-purple-200" />
+          <RiBitCoinFill className="w-[3rem] h-[3rem] mt-3 text-yellow-200 dark:text-purple-200" />
         </div>
-        <div className="w-80 h-12 mb-1 text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
+        <div className="w-80 h-10 md:h-12 mb-1 text-2xl md:text-3xl text-blue text-center font-[Galmuri7] rounded-lg">
           Sign up
         </div>
         <form
           onSubmit={onSubmitSignUp}
           autoComplete="off"
-          className="w-[30rem] h-[28rem] flex flex-col justify-items-center items-center"
+          className="w-[30rem] h-[20rem] flex flex-col justify-items-center items-center"
         >
           <SignUpFormInput
             name="email"
@@ -67,7 +67,7 @@ export default function SignUpForm() {
           </button>
           <Link
             href="/log-in"
-            className="w-fit h-8 mt-12 text-center hover:text-xl"
+            className="w-fit h-8 mt-8 text-center hover:text-xl"
           >
             로그인
           </Link>
