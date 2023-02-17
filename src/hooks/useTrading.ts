@@ -56,6 +56,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   if (userAssetData.asset) myCash = +userAssetData.asset.cash;
 
   let actualOrderQuantity: number;
+  if (isBuy) actualOrderQuantity = +totalOrderAmount / +currentPrice;
 
   const coinsListNameArray: any[] = [];
   for (const coin in userAssetData.asset?.data) {
@@ -79,15 +80,17 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     initialization();
   };
 
+  console.log(isOrderQuantityChanged);
+
   const handleOrderQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsOrderQuantityChanged(prev => !prev);
+
     let value = event.target.value;
     value = value.replace(/^(\d+)\.(\d+)\.(.*)$/, "$1.$2$3");
 
     const splitValue = value.split(".");
     let underDecimal = splitValue[1];
     const int = splitValue[0];
-
-    setIsOrderQuantityChanged(prev => !prev);
 
     if (underDecimal && underDecimal.length > 8) {
       underDecimal = underDecimal.slice(0, 8);
@@ -226,7 +229,8 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       const orderQuantityString = actualOrderQuantity?.toFixed(8).toString();
       setFixedOrderQuantity(orderQuantityString);
     } else if (totalOrderAmount !== "" && isSell) {
-      const orderQuantityString = numberOfShares?.toFixed(8).toString();
+      actualOrderQuantity = +totalOrderAmount / +currentPrice;
+      const orderQuantityString = actualOrderQuantity.toFixed(8).toString();
       setFixedOrderQuantity(orderQuantityString);
     } else setFixedOrderQuantity("0");
   }, [isTotalOderAmountChanged]);
