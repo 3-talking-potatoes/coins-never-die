@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { RiBitCoinFill } from "react-icons/ri";
 
 const Logo = ({ className }: { className: string }) => {
   return (
@@ -8,7 +8,13 @@ const Logo = ({ className }: { className: string }) => {
         href="/"
         className={`flex flex-row align-middle justify-center w-fit ${className}`}
       >
-        <RiBitCoinFill className="w-12 h-12 pr-1 text-yellow-coin dark:text-purple-coin" />
+        <Image
+          src="/cndIcon.png"
+          alt="icon"
+          width="38"
+          height="28"
+          className="pr-1 pt-[7px]"
+        />
         <p className="text-3xl mt-1.5 text-blue font-[Galmuri7] font-extrabold text-center rounded-lg">
           Coins Never Die
         </p>
