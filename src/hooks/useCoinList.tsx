@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { getCoinData } from "@/api/getCoinData";
 import { searchedListAtom, pageAtom, sortAtom, sortIdAtom } from "@/atoms/atom";
@@ -11,14 +11,16 @@ const useCoinList = () => {
   const [limit, setLimit] = useState(9);
   const [page, setPage] = useRecoilState(pageAtom);
   const [sort, setSort] = useRecoilState(sortAtom);
-  const setSortId = useSetRecoilState(sortIdAtom);
+  const [sortId, setSortId] = useRecoilState(sortIdAtom);
   const [searchedCoinList, setSearchedCoinList] =
     useRecoilState(searchedListAtom);
+
+  const sortArrow = sort ? <p>↓</p> : <p>↑</p>;
 
   const { data } = useQuery({
     queryKey: ["coins"],
     queryFn: getCoinData,
-    refetchInterval: 60000,
+    refetchInterval: 30000,
   });
 
   useEffect(() => {
@@ -27,6 +29,10 @@ const useCoinList = () => {
 
   useEffect(() => {
     setPage(1);
+  }, []);
+
+  useEffect(() => {
+    setSortId("");
   }, []);
 
   const offset = (page - 1) * limit;
@@ -46,7 +52,17 @@ const useCoinList = () => {
     setSort(!sort);
   };
 
-  return { setPage, page, listSort, searchedCoinList, offset, limit, numPages };
+  return {
+    setPage,
+    page,
+    listSort,
+    searchedCoinList,
+    offset,
+    limit,
+    numPages,
+    sortId,
+    sortArrow,
+  };
 };
 
 export default useCoinList;
