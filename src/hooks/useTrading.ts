@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { increment } from "firebase/firestore";
 
@@ -37,6 +37,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const [isSell, setIsSell] = useRecoilState(tradingIsSell);
   const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
+  const [actualOrderQuantity, setActualOrderQuantity] = useState(0);
 
   const searchParams = useSearchParams();
 
@@ -55,8 +56,8 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   let myCash: number;
   if (userAssetData.asset) myCash = +userAssetData.asset.cash;
 
-  let actualOrderQuantity: number;
-  if (isBuy) actualOrderQuantity = +totalOrderAmount / +currentPrice;
+  // let actualOrderQuantity: number;
+  // if (isBuy) actualOrderQuantity = +totalOrderAmount / +currentPrice;
 
   const coinsListNameArray: any[] = [];
   for (const coin in userAssetData.asset?.data) {
@@ -80,8 +81,6 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     initialization();
   };
 
-  console.log(isOrderQuantityChanged);
-
   const handleOrderQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsOrderQuantityChanged(prev => !prev);
 
@@ -96,10 +95,10 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       underDecimal = underDecimal.slice(0, 8);
       value = `${int}.${underDecimal}`;
       setFixedOrderQuantity(value.replace(/[^0-9.]/g, ""));
-      actualOrderQuantity = +value.replace(/[^0-9.]/g, "");
+      setActualOrderQuantity(+value.replace(/[^0-9.]/g, ""));
     } else {
       setFixedOrderQuantity(value.replace(/[^0-9.]/g, ""));
-      actualOrderQuantity = +value.replace(/[^0-9.]/g, "");
+      setActualOrderQuantity(+value.replace(/[^0-9.]/g, ""));
     }
   };
 
@@ -136,19 +135,19 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
     if (isSell) setIsOrderQuantityChanged(prev => !prev);
     if (isSellWithCoin && percent10) {
-      actualOrderQuantity = numberOfShares * 0.1;
+      setActualOrderQuantity(numberOfShares * 0.1);
       setFixedOrderQuantity((numberOfShares * 0.1).toFixed(8).toString());
     }
     if (isSellWithCoin && percent25) {
-      actualOrderQuantity = numberOfShares * 0.25;
+      setActualOrderQuantity(numberOfShares * 0.1);
       setFixedOrderQuantity((numberOfShares * 0.25).toFixed(8).toString());
     }
     if (isSellWithCoin && percent50) {
-      actualOrderQuantity = numberOfShares * 0.5;
+      setActualOrderQuantity(numberOfShares * 0.1);
       setFixedOrderQuantity((numberOfShares * 0.5).toFixed(8).toString());
     }
     if (isSellWithCoin && percent100) {
-      actualOrderQuantity = numberOfShares * 1;
+      setActualOrderQuantity(numberOfShares * 0.1);
       setFixedOrderQuantity((numberOfShares * 1).toFixed(8).toString());
     }
   };
@@ -221,19 +220,19 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       ).toString();
       setTotalOrderAmount(totalOrderAmountString);
     } else setTotalOrderAmount("0");
-  }, [isOrderQuantityChanged]);
+  }, [isOrderQuantityChanged, actualOrderQuantity]);
 
   useEffect(() => {
     if (totalOrderAmount !== "" && isBuy) {
-      actualOrderQuantity = +totalOrderAmount / +currentPrice;
+      setActualOrderQuantity(+totalOrderAmount / +currentPrice);
       const orderQuantityString = actualOrderQuantity?.toFixed(8).toString();
       setFixedOrderQuantity(orderQuantityString);
     } else if (totalOrderAmount !== "" && isSell) {
-      actualOrderQuantity = +totalOrderAmount / +currentPrice;
+      setActualOrderQuantity(+totalOrderAmount / +currentPrice);
       const orderQuantityString = actualOrderQuantity.toFixed(8).toString();
       setFixedOrderQuantity(orderQuantityString);
     } else setFixedOrderQuantity("0");
-  }, [isTotalOderAmountChanged]);
+  }, [isTotalOderAmountChanged, actualOrderQuantity]);
 
   useEffect(() => {
     initialization();
