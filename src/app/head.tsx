@@ -4,7 +4,7 @@ export default function Head() {
       <title>Coins Never Die</title>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <meta name="description" content="Coins Never Die" />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="shortcut icon" href="/favicon.ico" />
     </>
   );
 }
