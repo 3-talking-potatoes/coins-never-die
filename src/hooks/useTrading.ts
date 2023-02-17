@@ -14,7 +14,6 @@ import {
   tradingIsBuy,
   tradingIsSell,
   tradingOrderQuantity,
-  tradingPurchasePrice,
   tradingTotalOrderAmount,
   tradingIsOrderQuantityChanged,
   tradingIsTotalOderAmountChanged,
@@ -24,9 +23,7 @@ import {
 import { IcurrentPrice } from "@/interface/interface";
 
 const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
-  const [purchasePrice, setPurchasePrice] =
-    useRecoilState(tradingPurchasePrice);
-  const [orderQuantity, setOrderQuantity] =
+  const [fixedOrderQuantity, setFixedOrderQuantity] =
     useRecoilState(tradingOrderQuantity);
   const [totalOrderAmount, setTotalOrderAmount] = useRecoilState(
     tradingTotalOrderAmount,
@@ -40,7 +37,6 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const [isSell, setIsSell] = useRecoilState(tradingIsSell);
   const userAssetData = useRecoilValue(userUidAssetData);
   const userUid = useRecoilValue(userId);
-  let fullOrderQuantity = +totalOrderAmount / +purchasePrice;
 
   const searchParams = useSearchParams();
 
@@ -55,12 +51,11 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
   const numberOfShares =
     userAssetData.asset?.data[abbreviatedEnglishName]?.numberOfShares;
-  // const equitiesValue = Math.round(+currentPrice * numberOfShares);
-
-  setPurchasePrice(currentPrice?.toString());
 
   let myCash: number;
   if (userAssetData.asset) myCash = +userAssetData.asset.cash;
+
+  let actualOrderQuantity: number;
 
   const coinsListNameArray: any[] = [];
   for (const coin in userAssetData.asset?.data) {
@@ -69,7 +64,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
   const initialization = () => {
     setTotalOrderAmount("0");
-    setOrderQuantity("0");
+    setFixedOrderQuantity("0");
   };
 
   const handleIsBuy = () => {
@@ -84,12 +79,9 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     initialization();
   };
 
-  const handlePurchasePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPurchasePrice(event.target.value.replace(/[^-\.0-9]/g, ""));
-  };
-
   const handleOrderQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value = event.target.value;
+    value = value.replace(/^(\d+)\.(\d+)\.(.*)$/, "$1.$2$3");
 
     const splitValue = value.split(".");
     let underDecimal = splitValue[1];
@@ -100,8 +92,12 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     if (underDecimal && underDecimal.length > 8) {
       underDecimal = underDecimal.slice(0, 8);
       value = `${int}.${underDecimal}`;
-      setOrderQuantity(value.replace(/[^0-9.]/g, ""));
-    } else setOrderQuantity(value.replace(/[^0-9.]/g, ""));
+      setFixedOrderQuantity(value.replace(/[^0-9.]/g, ""));
+      actualOrderQuantity = +value.replace(/[^0-9.]/g, "");
+    } else {
+      setFixedOrderQuantity(value.replace(/[^0-9.]/g, ""));
+      actualOrderQuantity = +value.replace(/[^0-9.]/g, "");
+    }
   };
 
   const handleTotalOrderAmount = (
@@ -112,9 +108,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     setTotalOrderAmount(event.target.value.replace(/[^0-9]/g, ""));
   };
 
-  const handleTotalOrderAmountPercent = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
+  const handleButtonPercent = (event: React.MouseEvent<HTMLButtonElement>) => {
     const percent = Number((event.target as HTMLButtonElement).id);
     const percent10 = percent === 10;
     const percent25 = percent === 25;
@@ -127,6 +121,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     if (!userUid) return;
     if (isSell && !isUserHaveCoin) return;
 
+    if (isBuy) setIsTotalOderAmountChanged(prev => !prev);
     if (isBuy && percent10)
       setTotalOrderAmount(Math.ceil(myCash * 0.1).toString());
     if (isBuy && percent25)
@@ -136,25 +131,50 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     if (isBuy && percent100)
       setTotalOrderAmount(Math.ceil(myCash * 0.9995).toString());
 
-    if (isSellWithCoin && percent10)
-      setTotalOrderAmount(
-        Math.floor(numberOfShares * +currentPrice * 0.1).toString(),
-      );
-    if (isSellWithCoin && percent25)
-      setTotalOrderAmount(
-        Math.floor(numberOfShares * +currentPrice * 0.25).toString(),
-      );
-    if (isSellWithCoin && percent50)
-      setTotalOrderAmount(
-        Math.floor(numberOfShares * +currentPrice * 0.5).toString(),
-      );
-    if (isSellWithCoin && percent100) {
-      setTotalOrderAmount(
-        Math.floor(numberOfShares * +currentPrice * 1).toString(),
-      );
+    if (isSell) setIsOrderQuantityChanged(prev => !prev);
+    if (isSellWithCoin && percent10) {
+      actualOrderQuantity = numberOfShares * 0.1;
+      setFixedOrderQuantity((numberOfShares * 0.1).toFixed(8).toString());
     }
+    if (isSellWithCoin && percent25) {
+      actualOrderQuantity = numberOfShares * 0.25;
+      setFixedOrderQuantity((numberOfShares * 0.25).toFixed(8).toString());
+    }
+    if (isSellWithCoin && percent50) {
+      actualOrderQuantity = numberOfShares * 0.5;
+      setFixedOrderQuantity((numberOfShares * 0.5).toFixed(8).toString());
+    }
+    if (isSellWithCoin && percent100) {
+      actualOrderQuantity = numberOfShares * 1;
+      setFixedOrderQuantity((numberOfShares * 1).toFixed(8).toString());
+    }
+  };
 
-    setIsTotalOderAmountChanged(prev => !prev);
+  const handleBuy = () => {
+    const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
+    const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
+    const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
+    const cash = `asset.cash`;
+
+    const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
+    const purchaseAmount = Math.floor(+currentPrice * +actualOrderQuantity);
+    const commission = Math.floor(Number(totalOrderAmount) * 0.0005);
+
+    myCash = myCash - Number(totalOrderAmount) - commission;
+
+    const data = {
+      [buyPrice]: currentPrice,
+      [buyAmount]: increment(+purchaseAmount),
+      [numberOfShares]: increment(actualOrderQuantity),
+      [cash]: myCash,
+    };
+
+    if (totalOrderAmount === "0") return alert("매수수량을 입력해주세요");
+    if (isBuyAvailable) {
+      alert("매수 성공!");
+      updateUserData(userUid, data);
+      initialization();
+    } else alert("주문가능 금액이 부족합니다");
   };
 
   const handleSell = () => {
@@ -162,24 +182,23 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     const numberOfSharesKey = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
     const cashKey = `asset.cash`;
 
-    const saleAmount = +currentPrice * +orderQuantity;
+    const saleAmount = +currentPrice * +actualOrderQuantity;
     const commission = Math.ceil(saleAmount * 0.0005);
 
-    const isSaleAvailable = fullOrderQuantity <= +numberOfShares;
+    const isSaleAvailable = actualOrderQuantity <= +numberOfShares;
 
     myCash = myCash + saleAmount - commission;
 
     let data = {
       [buyAmountKey]: increment(saleAmount * -1),
-      [numberOfSharesKey]: increment(+fullOrderQuantity * -1),
+      [numberOfSharesKey]: increment(+actualOrderQuantity * -1),
       [cashKey]: myCash,
     };
 
-    if (numberOfShares === fullOrderQuantity) {
-      console.log("먹니??");
+    if (numberOfShares === actualOrderQuantity) {
       data = {
         [buyAmountKey]: 0,
-        [numberOfSharesKey]: increment(+fullOrderQuantity * -1),
+        [numberOfSharesKey]: increment(+actualOrderQuantity * -1),
         [cashKey]: myCash,
       };
     }
@@ -193,9 +212,9 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   };
 
   useEffect(() => {
-    if (orderQuantity !== "") {
-      const totalOrderAmountString = Math.ceil(
-        +orderQuantity * +purchasePrice,
+    if (fixedOrderQuantity !== "") {
+      const totalOrderAmountString = Math.floor(
+        actualOrderQuantity * +currentPrice,
       ).toString();
       setTotalOrderAmount(totalOrderAmountString);
     } else setTotalOrderAmount("0");
@@ -203,13 +222,13 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
   useEffect(() => {
     if (totalOrderAmount !== "" && isBuy) {
-      fullOrderQuantity = +totalOrderAmount / +purchasePrice;
-      const orderQuantityString = fullOrderQuantity.toFixed(8).toString();
-      setOrderQuantity(orderQuantityString);
+      actualOrderQuantity = +totalOrderAmount / +currentPrice;
+      const orderQuantityString = actualOrderQuantity?.toFixed(8).toString();
+      setFixedOrderQuantity(orderQuantityString);
     } else if (totalOrderAmount !== "" && isSell) {
-      const orderQuantityString = numberOfShares.toFixed(8).toString();
-      setOrderQuantity(orderQuantityString);
-    } else setOrderQuantity("0");
+      const orderQuantityString = numberOfShares?.toFixed(8).toString();
+      setFixedOrderQuantity(orderQuantityString);
+    } else setFixedOrderQuantity("0");
   }, [isTotalOderAmountChanged]);
 
   useEffect(() => {
@@ -218,38 +237,11 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     setIsSell(false);
   }, []);
 
-  const handleBuy = () => {
-    const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
-    const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
-    const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
-    const cash = `asset.cash`;
-
-    const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
-    const purchaseAmount = Math.floor(+currentPrice * +fullOrderQuantity);
-    const commission = Math.floor(Number(totalOrderAmount) * 0.0005);
-
-    myCash = myCash - Number(totalOrderAmount) - commission;
-
-    const data = {
-      [buyPrice]: currentPrice,
-      [buyAmount]: increment(+purchaseAmount),
-      [numberOfShares]: increment(fullOrderQuantity),
-      [cash]: myCash,
-    };
-
-    if (totalOrderAmount === "0") return alert("매수수량을 입력해주세요");
-    if (isBuyAvailable) {
-      alert("매수 성공!");
-      updateUserData(userUid, data);
-      initialization();
-    } else alert("주문가능 금액이 부족합니다");
-  };
-
   return {
     korean_name,
     market,
     currentPriceFormat,
-    orderQuantity,
+    fixedOrderQuantity,
     totalOrderAmount,
     isBuy,
     isSell,
@@ -257,10 +249,9 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     handleSell,
     handleIsSell,
     handleIsBuy,
-    handlePurchasePrice,
     handleOrderQuantity,
     handleTotalOrderAmount,
-    handleTotalOrderAmountPercent,
+    handleButtonPercent,
     initialization,
   };
 };

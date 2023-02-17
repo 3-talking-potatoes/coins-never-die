@@ -11,7 +11,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     korean_name,
     market,
     currentPriceFormat,
-    orderQuantity,
+    fixedOrderQuantity,
     totalOrderAmount,
     isBuy,
     isSell,
@@ -19,10 +19,9 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     handleSell,
     handleIsSell,
     handleIsBuy,
-    handlePurchasePrice,
     handleOrderQuantity,
     handleTotalOrderAmount,
-    handleTotalOrderAmountPercent,
+    handleButtonPercent,
     initialization,
   } = useTrading({ currentPrice });
 
@@ -59,41 +58,38 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
         </figure>
         <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between">
           <div>매수가격</div>
-          <div
-            className="w-36 pb-0.5 text-right"
-            onChange={handlePurchasePrice}
-          >
+          <div className="w-36 pb-0.5 text-right">
             {new Intl.NumberFormat("ko-KR").format(Number(currentPrice))}
           </div>
         </figure>
         <figure className="py-3.5 border-b border-grey px-1 flex justify-between">
           <div className="text-black-200 text-lg">주문수량</div>
           <input
-            className="w-36 px-2 pb-0.5 text-right"
-            value={handleNumberFormat(orderQuantity)}
+            className="w-40 px-2 pb-0.5 text-right border border-grey"
+            value={handleNumberFormat(fixedOrderQuantity)}
             onChange={handleOrderQuantity}
           />
         </figure>
         <figure className=" py-3.5 border-b border-grey px-1 flex justify-between">
           <div className="text-black-200 text-lg">주문총액</div>
           <input
-            className="w-36 px-2 pb-0.5 text-right"
+            className="w-40 px-2 pb-0.5 text-right border border-grey"
             value={handleNumberFormat(totalOrderAmount)}
             onChange={handleTotalOrderAmount}
           />
         </figure>
       </article>
       <article className="bg-yellow-100 dark:bg-purple-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-2 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
-        <button onClick={handleTotalOrderAmountPercent} id="10">
+        <button onClick={handleButtonPercent} id="10">
           10%
         </button>
-        <button onClick={handleTotalOrderAmountPercent} id="25">
+        <button onClick={handleButtonPercent} id="25">
           25%
         </button>
-        <button onClick={handleTotalOrderAmountPercent} id="50">
+        <button onClick={handleButtonPercent} id="50">
           50%
         </button>
-        <button onClick={handleTotalOrderAmountPercent} id="100">
+        <button onClick={handleButtonPercent} id="100">
           100%
         </button>
       </article>
