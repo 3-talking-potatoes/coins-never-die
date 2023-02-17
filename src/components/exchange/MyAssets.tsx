@@ -24,7 +24,7 @@ const MyAssets = () => {
 
   return (
     <div>
-      <section className="bg-yellow-200 w-[26rem] h-[30rem] rounded-xl border-white border-[3px] px-8 py-8 flex-col items-center ml-14 max-[910px]:ml-0">
+      <section className="bg-yellow-200 dark:bg-purple-200 w-[26rem] h-[30rem] rounded-xl border-white border-[3px] px-8 py-8 flex-col items-center ml-14 max-[910px]:ml-0">
         <article className="bg-white h-[3.1rem] rounded-xl border-black-100 border-[3px] flex justify-around items-center pt-1.5 pb-2 text-black-100 text-lg font-semibold mb-7">
           보유자산
         </article>
@@ -50,7 +50,7 @@ const MyAssets = () => {
               </figure>
               <figure className="h-1/2 px-2.5 pt-1">
                 <div className="flex items-center">
-                  <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
+                  <RiBitCoinFill className="text-4xl text-yellow-coin dark:text-purple-coin w-[10%]" />
                   <p className="w-[45%] flex justify-center">KRW</p>
                   <p className="w-[45%] flex justify-center">
                     {new Intl.NumberFormat("ko-KR").format(myCash)}

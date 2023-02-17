@@ -20,7 +20,7 @@ export default function RootLayout({
           />
         </head>
         <QueryClientProvider client={queryClient}>
-          <body className="bg-yellow-100">{children}</body>
+          <body className="bg-yellow-100 dark:bg-purple-100">{children}</body>
         </QueryClientProvider>
       </html>
     </RecoilRoot>

@@ -27,7 +27,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   } = useTrading({ currentPrice });
 
   const isButtonClicked =
-    "bg-yellow-200 w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold";
+    "bg-yellow-200 dark:bg-purple-200 w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold";
   const isButtonUnClicked =
     "bg-grey w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-100 text-lg font-semibold";
 
@@ -83,7 +83,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
           />
         </figure>
       </article>
-      <article className="bg-yellow-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-2 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
+      <article className="bg-yellow-100 dark:bg-purple-100 rounded-lg border-black-100 border-[3px] flex justify-around items-center mb-4 pt-2 pb-2 text-black-100 text-xs font-[Galmuri11] font-semibold">
         <button onClick={handleTotalOrderAmountPercent} id="10">
           10%
         </button>
@@ -99,21 +99,21 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       </article>
       <article className="border-black flex justify-between">
         <button
-          className="bg-yellow-100 w-[7.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-200 text-base font-[Galmuri11]"
+          className="bg-yellow-100 dark:bg-purple-100 w-[7.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-200 text-base font-[Galmuri11]"
           onClick={initialization}
         >
           초기화
         </button>
         {isBuy ? (
           <button
-            className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
+            className="bg-yellow-200 dark:bg-purple-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
             onClick={handleBuy}
           >
             매수
           </button>
         ) : (
           <button
-            className="bg-yellow-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
+            className="bg-yellow-200 dark:bg-purple-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
             onClick={handleSell}
           >
             매도

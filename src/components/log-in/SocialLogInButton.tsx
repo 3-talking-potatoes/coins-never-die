@@ -16,7 +16,7 @@ const SocialLogInButton = ({
       name={name}
       onClick={onClickSocialLogIn}
       type="button"
-      className="w-fit h-8 flex flex-row items-center hover:text-yellow-200"
+      className="w-fit h-8 flex flex-row items-center hover:text-yellow-200 hover:dark:text-purple-200"
     >
       {children}
     </button>

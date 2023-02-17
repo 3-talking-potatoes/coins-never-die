@@ -12,7 +12,7 @@ const CoinList = () => {
     <div className="w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] pb-4 flex-none">
       <Search />
       <div>
-        <div className="bg-white mb-1 h-[44px] flex flex-row text-base lg:text-xl font-semibold border-2 justify-around items-center border-yellow-200 rounded-lg">
+        <div className="bg-white mb-1 h-[44px] flex flex-row text-base lg:text-xl font-semibold border-2 justify-around items-center border-yellow-200 dark:border-purple-200 rounded-lg">
           <p className="w-16 flex items-center justify-center">순위</p>
           <div
             className="w-44 flex items-center justify-center  cursor-pointer"
@@ -59,7 +59,7 @@ const CoinList = () => {
               }}
               key={coin.market}
             >
-              <div className="bg-white my-1 h-10 flex flex-row text-sm lg:text-base border-2 justify-around items-center border-yellow-200 rounded-lg hover:cursor-pointer group">
+              <div className="bg-white my-1 h-10 flex flex-row text-sm lg:text-base border-2 justify-around items-center border-yellow-200 dark:border-purple-200 rounded-lg hover:cursor-pointer group">
                 <p className="w-16 flex items-center justify-center group-hover:font-bold">
                   {searchedCoinList.indexOf(coin) + 1}
                 </p>
