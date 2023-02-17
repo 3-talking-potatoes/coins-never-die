@@ -1,15 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
 
 import Search from "@/components/main/Search";
 import useCoinList from "@/hooks/useCoinList";
-import { sortAtom, sortIdAtom } from "@/atoms/atom";
 
 const CoinList = () => {
-  const sort = useRecoilValue(sortAtom);
-  const sortId = useRecoilValue(sortIdAtom);
-  const { listSort, searchedCoinList, offset, limit } = useCoinList();
+  const { listSort, searchedCoinList, offset, limit, sortId, sortArrow } =
+    useCoinList();
 
   return (
     <div className="w-[30rem] sm:w-[34rem] md:w-[36rem] lg:w-[50rem] xl:w-[64rem] pb-4 flex-none">
@@ -23,7 +20,7 @@ const CoinList = () => {
             onClick={e => listSort(e)}
           >
             코인이름
-            {sortId === "korean_name" && (sort ? <p>↓</p> : <p>↑</p>)}
+            {sortId === "korean_name" && sortArrow}
           </div>
           <div
             className="w-28 flex items-center justify-center  cursor-pointer"
@@ -31,7 +28,7 @@ const CoinList = () => {
             onClick={e => listSort(e)}
           >
             현재가
-            {sortId === "trade_price" && (sort ? <p>↓</p> : <p>↑</p>)}
+            {sortId === "trade_price" && sortArrow}
           </div>
           <div
             className="w-24 flex items-center justify-center  cursor-pointer"
@@ -39,7 +36,7 @@ const CoinList = () => {
             onClick={e => listSort(e)}
           >
             변동률
-            {sortId === "signed_change_rate" && (sort ? <p>↓</p> : <p>↑</p>)}
+            {sortId === "signed_change_rate" && sortArrow}
           </div>
           <div
             className="max-md:hidden w-28 flex items-center justify-center  cursor-pointer"
@@ -47,7 +44,7 @@ const CoinList = () => {
             onClick={e => listSort(e)}
           >
             거래대금
-            {sortId === "acc_trade_price_24h" && (sort ? <p>↓</p> : <p>↑</p>)}
+            {sortId === "acc_trade_price_24h" && sortArrow}
           </div>
         </div>
         {searchedCoinList &&
