@@ -20,6 +20,11 @@ module.exports = {
         200: "#FECB35",
         coin: "#FFCA49",
       },
+      purple: {
+        100: "#EED9FF",
+        200: "#D7AEFF",
+        coin: "#AF99F3",
+      },
       black: {
         100: "#1b1c1e",
         200: "#000000",

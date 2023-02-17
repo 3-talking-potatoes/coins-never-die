@@ -6,6 +6,9 @@
   .font-outline-2 {
     -webkit-text-stroke: 2px #fecb35;
   }
+  .dark-font-outline-2 {
+    -webkit-text-stroke: 2px #d7aeff;
+  }
   html {
     font-family: "Galmuri9";
   }

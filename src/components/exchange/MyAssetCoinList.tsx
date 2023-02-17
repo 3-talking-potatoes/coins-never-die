@@ -86,7 +86,7 @@ const MyAssetCoinList = () => {
                   onClick={() => handleCoinListClick(index)}
                 >
                   <div className="flex items-center">
-                    <RiBitCoinFill className="text-4xl text-yellow-coin w-[10%]" />
+                    <RiBitCoinFill className="text-4xl text-yellow-coin dark:text-purple-coin w-[10%]" />
                     <p className="w-[30%] flex justify-center">{name}</p>
                     <p className="w-[30%] flex justify-center">
                       {new Intl.NumberFormat("ko-KR").format(

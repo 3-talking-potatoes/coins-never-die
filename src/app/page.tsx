@@ -13,7 +13,7 @@ const page = () => {
   const { numPages } = useCoinList();
 
   return (
-    <main className="bg-yellow-100 w-screen h-screen flex justify-center items-center">
+    <main className="bg-yellow-100 dark:bg-purple-100 w-screen h-screen flex justify-center items-center">
       <div className="max-md:hidden">
         <PageArrowKey arrow={"◀"} disabled={1} setPage={-1} />
       </div>
