@@ -18,7 +18,7 @@ const useExchange = () => {
   const market_code = searchParams.get("market_code");
 
   const { data } = useQuery({
-    queryKey: ["currentPrice"],
+    queryKey: ["TradingCurrentPrice"],
     queryFn: () =>
       axios(`https://api.upbit.com/v1/ticker?markets=${market_code}`),
     refetchInterval: 30000,

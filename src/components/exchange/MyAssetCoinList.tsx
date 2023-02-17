@@ -37,7 +37,7 @@ const MyAssetCoinList = () => {
   const coinListName = coinsListNameArray.join(",");
 
   const { data } = useQuery({
-    queryKey: ["currentPrice"],
+    queryKey: ["MyAssetCurrentPrice"],
     queryFn: async () =>
       await axios(`https://api.upbit.com/v1/ticker?markets=${coinListName}`),
 
