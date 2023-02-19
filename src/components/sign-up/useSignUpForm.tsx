@@ -128,9 +128,9 @@ export default function useSignUpForm() {
   }, [form]);
 
   const disabledButtonStyle =
-    "w-80 h-20 font-[Galmuri7] text-2xl mt-4 border-solid border-[3px] border-black bg-grey rounded-lg text-slate-100 cursor-not-allowed";
+    "w-80 h-12 font-[Galmuri7] text-2xl mt-4 border-solid border-[3px] border-black bg-grey rounded-lg text-slate-100 cursor-not-allowed";
   const activeButtonStyle =
-    "w-80 h-20 font-[Galmuri7] text-2xl mt-4 border-solid border-[3px] bg-yellow-200 dark:bg-purple-200 border-black rounded-lg hover:bg-yellow-100 hover:dark:bg-purple-100 hover:text-3xl";
+    "w-80 h-12 font-[Galmuri7] text-2xl mt-4 border-solid border-[3px] bg-yellow-200 dark:bg-purple-200 border-black rounded-lg hover:bg-yellow-100 hover:dark:bg-purple-100 hover:text-3xl";
 
   return {
     onSubmitSignUp,
