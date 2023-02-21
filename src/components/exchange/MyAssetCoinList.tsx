@@ -58,10 +58,22 @@ const MyAssetCoinList = () => {
                   <div className="flex items-center">
                     <RiBitCoinFill className="text-4xl text-yellow-coin dark:text-purple-coin w-[10%]" />
                     <p className="w-[30%] flex justify-center">{name}</p>
-                    <p className="w-[30%] flex justify-center">
+                    <p
+                      className={`${
+                        equitiesProfitOrLoss > 0
+                          ? "w-[30%] flex justify-center text-red"
+                          : "w-[30%] flex justify-center text-blue"
+                      }`}
+                    >
                       {equitiesProfitOrLossFormat}
                     </p>
-                    <p className="w-[30%] flex justify-center">
+                    <p
+                      className={`${
+                        equitiesProfitOrLoss > 0
+                          ? "w-[30%] flex justify-center text-red"
+                          : "w-[30%] flex justify-center text-blue"
+                      }`}
+                    >
                       {earningRate}%
                     </p>
                   </div>
