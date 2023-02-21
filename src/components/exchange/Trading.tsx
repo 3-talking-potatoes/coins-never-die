@@ -11,6 +11,7 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     korean_name,
     market,
     currentPriceFormat,
+    currentPriceFormatWithKRW,
     fixedOrderQuantity,
     totalOrderAmount,
     isBuy,
@@ -54,13 +55,11 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
             <p>{korean_name}</p>
             <p className="text-black-200 text-xs pl-1">{market}</p>
           </div>
-          <div>{currentPriceFormat}</div>
+          <div>{currentPriceFormatWithKRW}</div>
         </figure>
         <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between">
           <div>매수가격</div>
-          <div className="w-36 pb-0.5 text-right">
-            {new Intl.NumberFormat("ko-KR").format(Number(currentPrice))}
-          </div>
+          <div className="w-36 pb-0.5 text-right">{currentPriceFormat}</div>
         </figure>
         <figure className="py-3.5 border-b border-grey px-1 flex justify-between">
           <div className="text-black-200 text-lg">주문수량</div>

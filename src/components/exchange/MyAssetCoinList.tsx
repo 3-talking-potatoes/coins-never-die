@@ -1,84 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useState } from "react";
-
-import { useQuery } from "@tanstack/react-query";
-import { useRecoilValue, useRecoilState } from "recoil";
-import axios from "axios";
-
-import {
-  userUidAssetData,
-  myAssetIsCoinListClick,
-  myAssetClickedCoinListId,
-} from "@/atoms/atom";
-import { IDetailInfo } from "@/interface/interface";
+import useMyAssetCoinList from "@/hooks/useMyAssetCoinList";
 
 import { RiBitCoinFill } from "react-icons/ri";
 
 const MyAssetCoinList = () => {
-  const userAssetData = useRecoilValue(userUidAssetData);
-  const [isCoinListClick, setIsCoinListClick] = useRecoilState(
-    myAssetIsCoinListClick,
-  );
-  const [clickedCoinListId, setClickedCoinListId] = useRecoilState(
-    myAssetClickedCoinListId,
-  );
-
-  const [myAssetCoin, setMyAssetCoin] = useState<IDetailInfo[]>([]);
-
-  let currentPrice = 0;
-  const coinsListNameArray = [];
-
-  for (const coin in userAssetData.asset?.data) {
-    coinsListNameArray.push(`KRW-${coin}`);
-  }
-
-  const coinListName = coinsListNameArray.join(",");
-
-  const { data } = useQuery({
-    queryKey: ["MyAssetCurrentPrice"],
-    queryFn: async () =>
-      await axios(`https://api.upbit.com/v1/ticker?markets=${coinListName}`),
-
-    enabled: !!coinListName,
-    refetchInterval: 30000,
-  });
-
-  const handleCoinListClick = (id: number) => {
-    setIsCoinListClick(prev => !prev);
-    setClickedCoinListId(id);
-  };
-
-  useEffect(() => {
-    if (data) setMyAssetCoin(data.data);
-  }, [data]);
+  const {
+    userAssetData,
+    clickedCoinListId,
+    myAssetCoin,
+    handleCoinListClick,
+    isCoinListClick,
+  } = useMyAssetCoinList();
 
   return (
     <div>
       {userAssetData.asset?.data &&
         Object.entries(userAssetData.asset.data).map(([name, value], index) => {
-          const quantity = +value.numberOfShares.toFixed(8);
+          const quantity = value.numberOfShares;
+          const purchaseAmount = value.buyAmount;
           const filteredCoin = myAssetCoin.filter(
             el => el.market === `KRW-${name}`,
           );
+          const currentPrice = +filteredCoin[0]?.trade_price;
 
-          currentPrice = +filteredCoin[0]?.trade_price;
-
-          const averagePurchasePrice = Math.ceil(
-            value.buyAmount / value.numberOfShares,
-          );
-
-          const equitiesValue = Math.floor(
-            +currentPrice * value.numberOfShares,
-          );
-
-          const equitiesProfitOrLoss: number = equitiesValue - value.buyAmount;
+          const fixedQuantity = quantity.toFixed(8);
+          const averagePurchasePrice = Math.ceil(purchaseAmount / quantity);
+          const equitiesValue = Math.floor(+currentPrice * quantity);
+          const equitiesProfitOrLoss: number = equitiesValue - purchaseAmount;
           const earningRate = (
-            (equitiesProfitOrLoss / value.buyAmount) *
+            (equitiesProfitOrLoss / purchaseAmount) *
             100
           ).toFixed(2);
-          if (value.numberOfShares !== 0) {
+
+          const purchaseAmountFormat = `${new Intl.NumberFormat("ko-KR").format(
+            purchaseAmount,
+          )} KRW`;
+          const quantityFormat = `${fixedQuantity} ${name}`;
+          const averagePurchasePriceFormat = `${new Intl.NumberFormat(
+            "ko-KR",
+          ).format(averagePurchasePrice)} KRW`;
+          const equitiesValueFormat = `${new Intl.NumberFormat("ko-KR").format(
+            equitiesValue,
+          )} KRW`;
+          const equitiesProfitOrLossFormat = new Intl.NumberFormat(
+            "ko-KR",
+          ).format(equitiesProfitOrLoss);
+
+          if (quantity !== 0) {
             return (
               <div key={name}>
                 <figure
@@ -89,9 +59,7 @@ const MyAssetCoinList = () => {
                     <RiBitCoinFill className="text-4xl text-yellow-coin dark:text-purple-coin w-[10%]" />
                     <p className="w-[30%] flex justify-center">{name}</p>
                     <p className="w-[30%] flex justify-center">
-                      {new Intl.NumberFormat("ko-KR").format(
-                        equitiesProfitOrLoss,
-                      )}
+                      {equitiesProfitOrLossFormat}
                     </p>
                     <p className="w-[30%] flex justify-center">
                       {earningRate}%
@@ -102,27 +70,21 @@ const MyAssetCoinList = () => {
                   <figure className="text-sm border-b border-grey">
                     <div className="flex py-2">
                       <div className="w-1/2 flex flex-col items-end px-2.5">
-                        <p>{`${quantity} ${name}`}</p>
+                        <p>{quantityFormat}</p>
                         <p className="font-bold pt-1">보유수량</p>
                       </div>
                       <div className="w-1/2 flex flex-col items-end px-2.5">
-                        <p className="pr-2">{`${new Intl.NumberFormat(
-                          "ko-KR",
-                        ).format(averagePurchasePrice)} KRW`}</p>
+                        <p className="pr-2">{averagePurchasePriceFormat}</p>
                         <p className="pr-2 font-bold pt-1">매수평균가</p>
                       </div>
                     </div>
                     <div className="flex py-2">
                       <div className="w-1/2 flex flex-col items-end px-2.5">
-                        <p>{`${new Intl.NumberFormat("ko-KR").format(
-                          equitiesValue,
-                        )} KRW`}</p>
+                        <p>{equitiesValueFormat}</p>
                         <p className="font-bold pt-1">평가금액</p>
                       </div>
                       <div className="w-1/2 flex flex-col items-end px-2.5">
-                        <p className="pr-2">{`${new Intl.NumberFormat(
-                          "ko-KR",
-                        ).format(value.buyAmount)} KRW`}</p>
+                        <p className="pr-2">{purchaseAmountFormat}</p>
                         <p className="pr-2 font-bold pt-1">매수금액</p>
                       </div>
                     </div>
