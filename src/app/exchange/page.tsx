@@ -22,7 +22,6 @@ const page: React.FC = () => {
         <Logo className={className2} />
         <LogInOutButton className={className} />
       </div>
-
       <div className="w-screen h-screen bg-yellow-100 dark:bg-purple-100 m-auto flex justify-center items-center max-[910px]:flex-col">
         <Trading currentPrice={currentPrice}></Trading>
         <MyAssets />
