@@ -90,6 +90,9 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     let underDecimal = splitValue[1];
     const int = splitValue[0];
 
+    if (value[value.length - 2] === "." && value[value.length - 1] === ".")
+      value = value.slice(0, -1);
+
     if (underDecimal && underDecimal.length > 8) {
       underDecimal = underDecimal.slice(0, 8);
       value = `${int}.${underDecimal}`;
@@ -162,7 +165,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
     const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
     const purchaseAmount = Math.floor(+currentPrice * +actualOrderQuantity);
-    const commission = Math.floor(Number(totalOrderAmount) * 0.0005);
+    const commission = Math.floor(+totalOrderAmount * 0.0005);
 
     myCash = myCash - Number(totalOrderAmount) - commission;
 
