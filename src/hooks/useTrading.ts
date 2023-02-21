@@ -102,8 +102,6 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     } else {
       setFixedOrderQuantity(value.replace(/[^0-9.]/g, ""));
       actualOrderQuantity = +value.replace(/[^0-9.]/g, "");
-      console.log("8자리", fixedOrderQuantity);
-      console.log("전체", actualOrderQuantity);
     }
   };
 
