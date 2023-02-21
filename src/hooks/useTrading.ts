@@ -47,9 +47,10 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const korean_name = searchParams.get("korean_name");
   const market = `${abbreviatedEnglishName}/KRW`;
 
-  const currentPriceFormat = `${new Intl.NumberFormat("ko-KR").format(
+  const currentPriceFormat = new Intl.NumberFormat("ko-KR").format(
     +currentPrice,
-  )} KRW`;
+  );
+  const currentPriceFormatWithKRW = `${currentPriceFormat} KRW`;
 
   const numberOfShares =
     userAssetData.asset?.data[abbreviatedEnglishName]?.numberOfShares;
@@ -245,6 +246,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     korean_name,
     market,
     currentPriceFormat,
+    currentPriceFormatWithKRW,
     fixedOrderQuantity,
     totalOrderAmount,
     isBuy,
