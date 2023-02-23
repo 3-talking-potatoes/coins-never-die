@@ -23,7 +23,7 @@ export const errorAlert = (code: string) => {
 
 export const assetData = {
   asset: {
-    cash: 100000,
+    cash: 1000000,
     data: {},
   },
 };
