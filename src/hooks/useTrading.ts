@@ -47,9 +47,10 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   const korean_name = searchParams.get("korean_name");
   const market = `${abbreviatedEnglishName}/KRW`;
 
-  const currentPriceFormat = `${new Intl.NumberFormat("ko-KR").format(
+  const currentPriceFormat = new Intl.NumberFormat("ko-KR").format(
     +currentPrice,
-  )} KRW`;
+  );
+  const currentPriceFormatWithKRW = `${currentPriceFormat} KRW`;
 
   const numberOfShares =
     userAssetData.asset?.data[abbreviatedEnglishName]?.numberOfShares;
@@ -89,6 +90,9 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     let underDecimal = splitValue[1];
     const int = splitValue[0];
 
+    if (value[value.length - 2] === "." && value[value.length - 1] === ".")
+      value = value.slice(0, -1);
+
     if (underDecimal && underDecimal.length > 8) {
       underDecimal = underDecimal.slice(0, 8);
       value = `${int}.${underDecimal}`;
@@ -98,8 +102,6 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     } else {
       setFixedOrderQuantity(value.replace(/[^0-9.]/g, ""));
       actualOrderQuantity = +value.replace(/[^0-9.]/g, "");
-      console.log("8자리", fixedOrderQuantity);
-      console.log("전체", actualOrderQuantity);
     }
   };
 
@@ -161,7 +163,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
     const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
     const purchaseAmount = Math.floor(+currentPrice * +actualOrderQuantity);
-    const commission = Math.floor(Number(totalOrderAmount) * 0.0005);
+    const commission = Math.floor(+totalOrderAmount * 0.0005);
 
     myCash = myCash - Number(totalOrderAmount) - commission;
 
@@ -245,6 +247,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     korean_name,
     market,
     currentPriceFormat,
+    currentPriceFormatWithKRW,
     fixedOrderQuantity,
     totalOrderAmount,
     isBuy,
