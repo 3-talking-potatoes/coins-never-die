@@ -128,13 +128,13 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
 
     if (isBuy) setIsTotalOderAmountChanged(prev => !prev);
     if (isBuy && percent10)
-      setTotalOrderAmount(Math.ceil(myCash * 0.1).toString());
+      setTotalOrderAmount(Math.floor(myCash * 0.1).toString());
     if (isBuy && percent25)
-      setTotalOrderAmount(Math.ceil(myCash * 0.25).toString());
+      setTotalOrderAmount(Math.floor(myCash * 0.25).toString());
     if (isBuy && percent50)
-      setTotalOrderAmount(Math.ceil(myCash * 0.5).toString());
+      setTotalOrderAmount(Math.floor(myCash * 0.5).toString());
     if (isBuy && percent100)
-      setTotalOrderAmount(Math.ceil(myCash * 0.9995).toString());
+      setTotalOrderAmount(Math.floor(myCash * 0.9995).toString());
 
     if (isSell) setIsOrderQuantityChanged(prev => !prev);
     if (isSellWithCoin && percent10) {
