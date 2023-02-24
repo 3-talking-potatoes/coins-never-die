@@ -156,10 +156,10 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   };
 
   const handleBuy = () => {
-    const buyPrice = `asset.data.${abbreviatedEnglishName}.buyPrice`;
-    const buyAmount = `asset.data.${abbreviatedEnglishName}.buyAmount`;
-    const numberOfShares = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
-    const cash = `asset.cash`;
+    const buyPriceKey = `asset.data.${abbreviatedEnglishName}.buyPrice`;
+    const buyAmountKey = `asset.data.${abbreviatedEnglishName}.buyAmount`;
+    const numberOfSharesKey = `asset.data.${abbreviatedEnglishName}.numberOfShares`;
+    const cashKey = `asset.cash`;
 
     const isBuyAvailable = myCash >= Math.floor(+totalOrderAmount * 1.0005);
     const purchaseAmount = Math.floor(+currentPrice * +actualOrderQuantity);
@@ -168,10 +168,10 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     myCash = myCash - Number(totalOrderAmount) - commission;
 
     const data = {
-      [buyPrice]: currentPrice,
-      [buyAmount]: increment(+purchaseAmount),
-      [numberOfShares]: increment(actualOrderQuantity),
-      [cash]: myCash,
+      [buyPriceKey]: currentPrice,
+      [buyAmountKey]: increment(+purchaseAmount),
+      [numberOfSharesKey]: increment(actualOrderQuantity),
+      [cashKey]: myCash,
     };
 
     if (totalOrderAmount === "0") return alert("매수수량을 입력해주세요");
@@ -188,7 +188,7 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
     const cashKey = `asset.cash`;
 
     const saleAmount = +currentPrice * +actualOrderQuantity;
-    const commission = Math.ceil(saleAmount * 0.0005);
+    const commission = Math.floor(saleAmount * 0.0005);
 
     const isSaleAvailable = actualOrderQuantity <= +numberOfShares;
 
@@ -221,18 +221,16 @@ const useTrading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
       const totalOrderAmountString = Math.floor(
         actualOrderQuantity * +currentPrice,
       ).toString();
+
       setTotalOrderAmount(totalOrderAmountString);
     } else setTotalOrderAmount("0");
   }, [isOrderQuantityChanged]);
 
   useEffect(() => {
-    if (totalOrderAmount !== "" && isBuy) {
+    if (totalOrderAmount !== "") {
       actualOrderQuantity = +totalOrderAmount / +currentPrice;
       const orderQuantityString = actualOrderQuantity?.toFixed(8).toString();
-      setFixedOrderQuantity(orderQuantityString);
-    } else if (totalOrderAmount !== "" && isSell) {
-      actualOrderQuantity = +totalOrderAmount / +currentPrice;
-      const orderQuantityString = actualOrderQuantity.toFixed(8).toString();
+
       setFixedOrderQuantity(orderQuantityString);
     } else setFixedOrderQuantity("0");
   }, [isTotalOderAmountChanged]);
