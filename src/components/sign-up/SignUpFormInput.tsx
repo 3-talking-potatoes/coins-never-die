@@ -52,7 +52,7 @@ export default function SignUpFormInput({
         name={name}
         value={form[name]}
         onChange={onChangeForm}
-        className="w-80 h-8 p-3 mt-2 placeholder:text-black-200 text-black text-lg border-solid border-[3px] border-black rounded-lg focus:outline-yellow-200 focus:dark:outline-purple-200 focus:text-yellow-200 focus:dark:text-purple-200"
+        className="w-[17rem] md:w-[20rem] h-8 p-3 mt-2 placeholder:text-black-200 text-black text-lg border-solid border-[3px] border-black rounded-lg focus:outline-yellow-200 focus:dark:outline-purple-200 focus:text-yellow-200 focus:dark:text-purple-200"
         type={formMessage(name).type}
         placeholder={formMessage(name).placeholder}
       />
