@@ -19,6 +19,7 @@ export default function LogInForm() {
         alt="icon"
         width={100}
         height={100}
+        style={{ width: 100, height: 100 }}
         priority
         className="ml-[14rem] mb-[-2rem] md:ml-[21rem] md:mb-[-2rem]"
       />

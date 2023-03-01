@@ -25,6 +25,7 @@ export default function EmailLogInForm() {
         className="w-[17rem] md:w-[20rem] h-12 p-3 font-[Galmuri7] placeholder:text-black-200 text-xl mb-4 border-solid border-[3px] border-black rounded-lg  focus:outline-yellow-200 focus:dark:outline-purple-200 focus:text-yellow-200 focus:dark:text-purple-200"
         type="password"
         placeholder="Password"
+        autoComplete="off"
       />
       <button
         type="submit"
