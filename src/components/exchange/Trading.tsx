@@ -29,20 +29,31 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
   } = useTrading({ currentPrice });
 
   const isButtonClicked =
-    "bg-yellow-200 dark:bg-purple-200 w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold";
+    "bg-yellow-200 dark:bg-purple-200 w-[8.3rem] min-[450px]:w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold";
   const isButtonUnClicked =
-    "bg-grey w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-100 text-lg font-semibold";
+    "bg-grey w-[8.3rem] min-[450px]:w-[10.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-black-100 text-lg font-semibold";
+  const isKoreanNameLong =
+    korean_name === "이더리움클래식" ||
+    korean_name === "스테이터스네트워크토큰" ||
+    korean_name === "비트코인에스브이"
+      ? true
+      : false;
+  const longName =
+    "text-black-200 text-lg py-3.5 border-b border-grey px-1 min-[450px]:flex min-[450px]:justify-between";
+  const shortName =
+    "text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between";
 
   return (
-    <div className="mt-[-4.5rem] max-[910px]:mt-8">
+    <div className="mt-[-4.1rem] max-[910px]:mt-8">
       <Image
         src="/cndIcon.png"
         alt="icon"
         width="100"
         height="100"
-        className="ml-72 mb-[-2rem] relative"
+        style={{ width: 100, height: 100 }}
+        className="ml-72 max-[450px]:ml-60 mb-[-2rem] relative"
       />
-      <section className="bg-white w-[26rem] h-[30rem] rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center relative max-[910px]:mb-8">
+      <section className="bg-white w-[22rem] min-[450px]:w-[26rem] h-flex rounded-xl border-black-100 border-[3px] px-8 py-8 flex-col items-center relative max-[910px]:mb-8">
         <article className="border-black-100 flex items-center justify-between mb-4">
           <button
             className={`${
@@ -62,12 +73,14 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
           </button>
         </article>
         <article className="mb-4">
-          <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between">
+          <figure
+            className={`${isKoreanNameLong ? `${longName}` : `${shortName}`}`}
+          >
             <div className="flex items-baseline">
-              <p>{korean_name}</p>
+              <p className="w-auto">{korean_name}</p>
               <p className="text-black-200 text-xs pl-1">{market}</p>
             </div>
-            <div>{currentPriceFormatWithKRW}</div>
+            <div className="flex justify-end">{currentPriceFormatWithKRW}</div>
           </figure>
           <figure className="text-black-200 text-lg py-3.5 border-b border-grey px-1 flex justify-between">
             <div>매수가격</div>
@@ -113,14 +126,14 @@ const Trading = ({ currentPrice }: { currentPrice: IcurrentPrice }) => {
           </button>
           {isBuy ? (
             <button
-              className="bg-yellow-200 dark:bg-purple-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
+              className="bg-yellow-200 dark:bg-purple-200 w-[9.3rem] min-[450px]:w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
               onClick={handleBuy}
             >
               매수
             </button>
           ) : (
             <button
-              className="bg-yellow-200 dark:bg-purple-200 w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
+              className="bg-yellow-200 dark:bg-purple-200 w-[9.3rem] min-[450px]:w-[13.3rem] h-[3rem] rounded-xl border-black-100 border-[3px] text-white text-lg font-semibold"
               onClick={handleSell}
             >
               매도
